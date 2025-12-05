@@ -7,6 +7,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import pageObjectsPages.ActivityPOSLocators;
 import pageObjectsPages.CommonMethodsForActivityPOS;
 import pageObjectsPages.LoginPage;
+import utility.ModuleConfig;
 
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
@@ -45,12 +46,15 @@ public class eCubeActivityPOS {
 	String appPath = "D:\\eCubePOS\\net8.0-windows\\eCubePOS.exe";
 	LocalDate today = LocalDate.now();
 	int dayOfMonth = today.getDayOfMonth();
-	String adminUrl = "http://ecubeadminwebapp.qa.kcspl.in:9090/login";
-	String userName = "Admin";
-	String password = "123";
 	String JSON_FILE_PATH = System.getProperty("user.dir") + "/src/test/java/DataManagment/GateEntry.json";
 	String DATA_JSON_FILE_PATH = System.getProperty("user.dir") + "/src/test/java/DataManagment/data.json";
-	String chromeDriverPath = "D:\\chromedriver\\chromedriver.exe";
+	
+	@BeforeTest
+	public void initConfig() 
+	{
+		 ModuleConfig.loadModule();
+	        System.out.println("Running for Active Module → " + ModuleConfig.clubName);
+	}
 
 	@BeforeMethod
 	public void setUp() throws Exception {
@@ -81,7 +85,7 @@ public class eCubeActivityPOS {
 	@Test
 	public void gateEntryWithMember() throws InterruptedException, IOException, ParseException {
 		String memberCode = commonMethods.getMemberCode(DATA_JSON_FILE_PATH, "memberCode1");
-		loginPage.login("Admin", "123");
+		loginPage.login(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
 
 		Thread.sleep(4000);
 		activityPoslocators.codeEntry().sendKeys(memberCode);
@@ -111,7 +115,7 @@ public class eCubeActivityPOS {
 		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 		Thread.sleep(3000);
 		driver.closeApp();
-		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
 		webDriver = new ChromeDriver(options);
@@ -121,7 +125,7 @@ public class eCubeActivityPOS {
 		String serviceName2 = "Gate Entry For Guest";
 		String subServiceName1 = "Gate Entry For Member";
 		String subServiceName2 = "Gate Entry For Guest";
-		adminTests.verifyReports(adminUrl, userName, password, memberCode, JSON_FILE_PATH, serviceName1, serviceName2,
+		adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, memberCode, JSON_FILE_PATH, serviceName1, serviceName2,
 				subServiceName1, subServiceName2);
 	}
 
@@ -131,7 +135,7 @@ public class eCubeActivityPOS {
 		String guestNameDetails = "CypressGuest";
 		String serviceNameInHealthClub = "Extra Virgin Olive Oil 50ml";
 
-		loginPage.login("Admin", "123");
+		loginPage.login(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
 		Thread.sleep(4000);
 		activityPoslocators.codeEntry().sendKeys(mCode);
 		activityPoslocators.submitCode().click();
@@ -175,7 +179,7 @@ public class eCubeActivityPOS {
 		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 		Thread.sleep(3000);
 		driver.closeApp();
-		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
 		webDriver = new ChromeDriver(options);
@@ -186,7 +190,7 @@ public class eCubeActivityPOS {
 		String subServiceName1 = "DAILY MEMBER’S CHARGES HCG";
 		String subServiceName2 = "EXTRA VIRGIN OLIVE OIL 50ML";
 
-		adminTests.verifyReports(adminUrl, userName, password, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
+		adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
 				subServiceName1, subServiceName2);
 	}
 
@@ -196,7 +200,7 @@ public class eCubeActivityPOS {
 		String guestNameDetails = "SportsUser";
 		String otherServiceNameInBadmintonSports = "Babolat Hybrid Shuttles";
 
-		loginPage.login("Admin", "123");
+		loginPage.login(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
 		Thread.sleep(4000);
 		activityPoslocators.codeEntry().sendKeys(mCode);
 		activityPoslocators.submitCode().click();
@@ -240,7 +244,7 @@ public class eCubeActivityPOS {
 		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 		Thread.sleep(3000);
 		driver.closeApp();
-		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
 		webDriver = new ChromeDriver(options);
@@ -251,7 +255,7 @@ public class eCubeActivityPOS {
 		String subServiceName1 = "Badminton Doubles";
 		String subServiceName2 = "BABOLAT HYBRID SHUTTLES";
 
-		adminTests.verifyReports(adminUrl, userName, password, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
+		adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
 				subServiceName1, subServiceName2);
 	}
 	@Test
@@ -259,7 +263,7 @@ public class eCubeActivityPOS {
 		String mCode = commonMethods.getMemberCode(DATA_JSON_FILE_PATH, "memberCode4");
 		String otherServiceNameInBadmintonSports = "Babolat Hybrid Shuttles";
 
-		loginPage.login("Admin", "123");
+		loginPage.login(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
 		Thread.sleep(4000);
 		activityPoslocators.codeEntry().sendKeys(mCode);
 		activityPoslocators.submitCode().click();
@@ -292,7 +296,7 @@ public class eCubeActivityPOS {
 		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 		Thread.sleep(3000);
 		driver.closeApp();
-		System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
 		webDriver = new ChromeDriver(options);
@@ -303,7 +307,7 @@ public class eCubeActivityPOS {
 		String subServiceName1 = "Badminton Doubles";
 		String subServiceName2 = "BABOLAT HYBRID SHUTTLES";
 
-		adminTests.verifyReports(adminUrl, userName, password, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
+		adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
 				subServiceName1, subServiceName2);
 	}
 }

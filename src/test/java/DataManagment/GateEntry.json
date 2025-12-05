@@ -1,10 +1,10 @@
 {
-  "Debit": "248.5000",
-  "BillNo": "11371",
+  "Debit": "253.2800",
+  "BillNo": "77105",
   "Credit": "0.0000",
-  "Description": "Badminton Sports",
-  "MasterId": "321315",
-  "BillCode": "BDMS/2526/3921",
-  "DebitAmount": "211.1607",
-  "Date": "2025-11-28 00:00:00.0"
+  "Description": "Gate Entry",
+  "MasterId": "321441",
+  "BillCode": "GTEN/2526/6786",
+  "DebitAmount": "220.6949",
+  "Date": "2025-12-05 00:00:00.0"
 }
