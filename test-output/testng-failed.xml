@@ -3,12 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="eCubeUI.eCubeResPOS">
+      <class name="eCubeUI.eCubeActivityPOS">
         <methods>
-          <include name="orderForNormalBillfromManageKOT"/>
+          <include name="initConfig"/>
           <include name="setUp"/>
+          <include name="gateEntryWithMember"/>
         </methods>
-      </class> <!-- eCubeUI.eCubeResPOS -->
+      </class> <!-- eCubeUI.eCubeActivityPOS -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
