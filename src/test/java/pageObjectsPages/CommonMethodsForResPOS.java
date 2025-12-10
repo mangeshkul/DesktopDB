@@ -118,5 +118,31 @@ public class CommonMethodsForResPOS {
         return new WindowsDriver(
             new URL("http://127.0.0.1:4723"), appCap);
     }
+    
+    public void writeJsonSimple(Map<String, String> data, String filePath) {
+		try (FileWriter writer = new FileWriter(filePath)) {
+
+			writer.write("{\n");
+
+			int count = 0;
+			int size = data.size();
+
+			for (Map.Entry<String, String> entry : data.entrySet()) {
+				writer.write("  \"" + entry.getKey() + "\": \"" + entry.getValue() + "\"");
+				count++;
+				if (count < size)
+					writer.write(",");
+				writer.write("\n");
+			}
+
+			writer.write("}");
+			//System.out.println("✅ JSON written to: " + filePath);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("❌ Failed to write JSON!");
+		}
+	}
+
 
 }
