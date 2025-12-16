@@ -1,0 +1,35 @@
+{
+  "NSCI": {
+    "Gate Entry": {
+      "service": "Gate Entry For Member",
+      "subservice": "Gate Entry For Guest"
+    },
+    "GateEntryGuest": {
+      "service": "Gate Entry For Guest",
+      "subservice": "Gate Entry For Guest"
+    },
+    "Badminton": {
+      "service": "Badminton Court Booking",
+      "subservice": "Badminton Court Booking"
+    },
+    "Gym": {
+      "service": "Gym Activity",
+      "subservice": "Gym Activity"
+    }
+  },
+
+  "KARNAVATI": {
+    "GateEntry": {
+      "service": "Gate Entry Guest",
+      "subservice": "Gate Entry Guest"
+    },
+    "Badminton": {
+      "service": "Karnavati Badminton",
+      "subservice": "Karnavati Badminton"
+    },
+    "Gym": {
+      "service": "Karnavati Gym Activity",
+      "subservice": "Karnavati Gym Activity"
+    }
+  }
+}

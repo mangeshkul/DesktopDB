@@ -1,9 +1,7 @@
 package pageObjectsPages;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,7 +10,6 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 public class ResPOSLocators {
 	private WindowsDriver driver;
@@ -43,19 +40,12 @@ public class ResPOSLocators {
 	private By manageBillsLocator = By.xpath("//*[contains(@Name,'Manage Bills') and @LocalizedControlType='link']");
 	private By statusDropDownLocator = By.xpath("//*[contains(@AutomationId, 'cmbBillStatus')]");
 	private By settleOption = By.name("Settled");
-	private By allOption = By.name("All");
 	private By billNumberTextBoxLocator = By.xpath("//*[contains(@AutomationId, 'txtwtBillNo')]");
 	private By firstCustomerNameLocator = By.name("Customer Name - Code Row 0");
 	private By billNoLocator = By.name("Bill No Row 0");
 	private By itemNameDropDownLocator = By.xpath("//*[contains(@AutomationId, 'txtItemName')]");
 	private By itemCodeDropDownLocator = By.xpath("//*[contains(@AutomationId, 'txtItemCode')]");
 	private By remarksTextBoxLocator = By.xpath("//*[contains(@AutomationId, 'txtRemarks')]");
-	private By itemGroupContainer = By.xpath("//*[contains(@AutomationId, 'flpItemCategory')]");
-	private By saveButtonLocator = By.name("SAVE");
-	private By manageKOTLocator = By.xpath("//*[contains(@Name,'Manage KOT') and @LocalizedControlType='link']");
-	private By customerNameOrCodeLocator = By.name("C. Name / Code");
-	
-	
 	
 	
 	
@@ -95,8 +85,8 @@ public class ResPOSLocators {
 		return driver.findElement(outletLocator);
 	}
 
-	public WebElement roomNumber(String roomNumber) {
-		return driver.findElement(By.xpath("//*[contains(@Name, '"+roomNumber+"')]"));
+	public WebElement roomNumber() {
+		return driver.findElement(roomNumberLocator);
 	}
 
 	public WebElement optionMemberCode() {
@@ -170,10 +160,6 @@ public class ResPOSLocators {
 	public void manageBills() throws InterruptedException {
 		driver.findElement(manageBillsLocator).click();
 	}
-	
-	public void manageKOT() throws InterruptedException {
-		driver.findElement(manageKOTLocator).click();
-	}
 
 	public WebElement statusDropDown() {
 		return driver.findElement(statusDropDownLocator);
@@ -181,10 +167,6 @@ public class ResPOSLocators {
 
 	public WebElement settleOptionInDropdown() {
 		return driver.findElement(settleOption);
-	}
-	
-	public WebElement allOptionInDropdown() {
-		return driver.findElement(allOption);
 	}
 
 	public WebElement billNumberTextBox() {
@@ -211,155 +193,6 @@ public class ResPOSLocators {
 		return driver.findElement(remarksTextBoxLocator);
 	}
 	
-	public WebElement selectItemGroup(String itemGroupName) {
-		return driver.findElement(By.name(itemGroupName));
-	}
 	
-	public WebElement subIteminItemGroup(String itemName) {
-		return driver.findElement(By.name(itemName));
-	}
-	
-	public WebElement detailsIcon() {
-		return driver.findElement(By.name("Details Row 0"));
-	}
-	
-	public WebElement itemGroup(String itemGroupName) {
-		return driver.findElement(By.name(itemGroupName));
-	}
-	
-	public WebElement itemGroupContainer() {
-		return driver.findElement(itemGroupContainer);
-	}
-	
-	public WebElement saveButton() {
-		return driver.findElement(saveButtonLocator);
-	}
-	
-	public WebElement customerNameOrCodeTextBox() {
-		return driver.findElement(customerNameOrCodeLocator);
-	}
-	
-	public WebElement generateBill(int index) {
-		return driver.findElement(By.name("Generate Bill Row "+index));
-	}
-	
-	public WebElement generateButton() {
-		return driver.findElement(By.name("Generate"));
-	}
-	
-	public WebElement paymentOption() {
-		return driver.findElement(By.name("Payment Row 0"));
-	}
-	
-	public void paymentThroughMemberAccount() throws InterruptedException {
-		Thread.sleep(2000);
-		WebElement paymentDropDown = driver.findElement(By.xpath("//*[contains(@AutomationId, 'cmbPaymentType')]"));
-		paymentDropDown.click();
-		Thread.sleep(5000);
-		paymentDropDown.sendKeys(Keys.DOWN);
-		paymentDropDown.sendKeys(Keys.DOWN);
-		paymentDropDown.sendKeys(Keys.DOWN);
-		paymentDropDown.sendKeys(Keys.DOWN);
-		paymentDropDown.sendKeys(Keys.ENTER);
-		//System.out.println("Payment option Member Account selected");
-		driver.findElement(By.name("Settle")).click();
-		List<WebElement> buttons = driver.findElements(By.name("OK"));
-		
-		if (!buttons.isEmpty() && buttons.get(0).isDisplayed()) {
-	        buttons.get(0).click();
-	        //System.out.println("OK button clicked.");
-		}else {
-	        System.out.println("OK button not visible. Continuing...");
-	    }		
-		String successMessage = this.successMessage().getText();
-		String billNumberDetails = successMessage.split(" ")[2];
-		driver.findElement(By.name("No")).click();
-	}
-	
-	public String generateBillAndGetNumber(int orderIndex) {
-		this.generateBill(orderIndex).click();
-	    this.generateButton().click();
-	    
-	    String message = this.successMessage().getText();
-	    Assert.assertTrue(message.contains("has been generated"));
 
-	    String billNoFromKOT = message.split(" ")[2];
-	    this.yesButton().click();
-	    this.pressEscButton();
-	    
-	    return billNoFromKOT;
-	}
-	
-	public void switchToBillDetailsWindow() {
-	    Set<String> windows = driver.getWindowHandles();
-
-	    for (String win : windows) {
-	        driver.switchTo().window(win);
-	        String windowName = "";
-
-	        try {
-	            windowName = driver.findElement(By.xpath("//Window")).getAttribute("Name");
-	        } catch (Exception ignored) {}
-
-	        if (windowName.contains("Bill Details")) {
-	            System.out.println("✅ Switched to Bill Details window");
-	            return;
-	        }
-	    }
-
-	    throw new RuntimeException("❌ Bill Details window not found!");
-	}
-	
-	public WebElement findPopupFor(WebElement element) {
-
-	    WebElement current = element;
-
-	    for (int i = 0; i < 10; i++) {
-	        try {
-	            current = current.findElement(By.xpath(".."));
-
-	            List<By> closeLocators = Arrays.asList(
-	                By.name("Close"),
-	                By.xpath(".//Button[@Name='Close']"),
-	                By.xpath(".//Button[contains(@Name,'Close')]"),
-	                By.xpath(".//Button")
-	            );
-
-	            for (By locator : closeLocators) {
-	                List<WebElement> found = current.findElements(locator);
-	                if (!found.isEmpty()) {
-	                    System.out.println("Popup detected at level " + i);
-	                    return current;
-	                }
-	            }
-
-	        } catch (Exception e) {
-	            break;
-	        }
-	    }
-
-	    throw new RuntimeException("❌ Could not find popup root via ancestors");
-	}
-
-
-
-	
-	public String[] verifyDetailsInManageBills(String billNo) throws InterruptedException {
-		this.billNumberTextBox().clear();
-		this.billNumberTextBox().sendKeys(billNo);
-		this.detailsIcon().click();
-		Thread.sleep(3000);
-		WebElement foodLabel = driver.findElement(By.xpath("//*[contains(@Name, 'Bill No')]"));
-		WebElement fetchTotalAmount = driver.findElement(By.xpath("//*[contains(@Name, 'Total Amount')]"));
-		String fullText = foodLabel.getAttribute("Name");
-		String totalAmountText = fetchTotalAmount.getAttribute("Name");
-		String foodBillNo = fullText.replace("Food Bill No:", "").trim();
-		String totalAmount = totalAmountText.replace("Food Bill No:", "").trim();
-		//System.out.println(foodBillNo);
-		WebElement popup = driver.findElement(By.xpath(("//*[contains(@AutomationId, 'FrmBillDetails')]")));
-	    popup.sendKeys(Keys.chord(Keys.ALT, Keys.F4));
-		return new String[] {foodBillNo, totalAmount};
-	}
-	
-	
 }

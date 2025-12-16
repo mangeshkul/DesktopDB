@@ -1,0 +1,4 @@
+
+# ===== Credentials =====
+src/test/resources/envCreds.properties
+/target/

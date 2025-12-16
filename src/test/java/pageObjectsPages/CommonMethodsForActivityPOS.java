@@ -24,6 +24,7 @@ import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
 public class CommonMethodsForActivityPOS {
 	private WindowsDriver driver;
@@ -145,6 +146,83 @@ public class CommonMethodsForActivityPOS {
 		}
 
 		return guestData;
+	}
+	
+	public Map<String, String> getKarnavatiDataFromDataBase(String mCodeWithPrefix) {
+
+	    Map<String, String> guestData = new HashMap<>();
+
+	    String query =
+	            "SELECT TOP 1 "
+	            + "   CD.MasterId, "
+	            + "   TM.BillNo, "
+	            + "   CD.Date, "
+	            + "   CD.MemberId, "
+	            + "   CD.ServiceId, "
+	            + "   CD.Debit, "
+	            + "   CD.Credit, "
+	            + "   CD.Type, "
+	            + "   CD.PaymentType, "
+	            + "   CD.InvoiceId, "
+	            + "   CD.Description, "
+	            + "   CD.CreatedBy, "
+	            + "   CD.CreatedOn, "
+	            + "   CD.TransactionTypeId, "
+	            + "   CD.TransactionSequenceNo, "
+	            + "   CD.ReceiptNo_Old, "
+	            + "   CD.UpdatedBy, "
+	            + "   CD.DebitAmount, "
+	            + "   CD.DebitTaxAmount, "
+	            + "   CD.IsGusetPayment, "
+	            + "   CD.CreditAmount, "
+	            + "   CD.CreditTaxAmount, "
+	            + "   CD.DailyInvoiceNo, "
+	            + "   CD.PackageId, "
+	            + "   CD.PrepaidCardId "
+	            + "FROM CRMTransactionMaster TM WITH (NOLOCK) "
+	            + "INNER JOIN CRMMember CM WITH (NOLOCK) ON TM.MemberId = CM.Id "
+	            + "INNER JOIN CRMTransactionDetail TD WITH (NOLOCK) "
+	            + "       ON TM.Id = TD.MasterId AND TD.IsDeleted = 0 AND TM.IsDeleted = 0 "
+	            + "INNER JOIN CRMSubServices SS WITH (NOLOCK) ON SS.Id = TD.SubServiceId "
+	            + "LEFT JOIN CRMMember M WITH (NOLOCK) ON M.Id = TD.MemberId "
+	            + "LEFT JOIN CRMSubMember SM WITH (NOLOCK) ON SM.Id = TD.SubMemberId "
+	            + "LEFT JOIN CRMMemberDebitCredit CD WITH (NOLOCK) "
+	            + "       ON CD.MasterId = TM.Id AND CD.IsDeleted = 0 "
+	            + "LEFT JOIN CRMMemberInvoice CI WITH (NOLOCK) ON CI.Id = CD.InvoiceId "
+	            + "WHERE CM.MCodeWithPrefix = ? "
+	            + "ORDER BY CD.MasterId DESC;";
+
+	    try (Connection conn = DriverManager.getConnection(url, user, pass);
+	         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+	        pstmt.setString(1, mCodeWithPrefix);
+	        System.out.println("Executing SQL = " + pstmt);
+
+	        try (ResultSet rs = pstmt.executeQuery()) {
+
+	            if (rs.next()) {
+
+	                // Store only the fields YOU need in JSON
+	                guestData.put("MasterId", rs.getString("MasterId"));
+	                guestData.put("BillNo", rs.getString("BillNo"));
+	                guestData.put("Date", rs.getString("Date"));
+	                guestData.put("MemberId", rs.getString("MemberId"));
+	                guestData.put("ServiceId", rs.getString("ServiceId"));
+	                guestData.put("Debit", rs.getString("Debit"));
+	                guestData.put("Credit", rs.getString("Credit"));
+	                guestData.put("DebitAmount", rs.getString("DebitAmount"));
+	                guestData.put("CreditAmount", rs.getString("CreditAmount"));
+	                guestData.put("Description", rs.getString("Description"));
+	                guestData.put("PaymentType", rs.getString("PaymentType"));
+	                guestData.put("InvoiceId", rs.getString("InvoiceId"));
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return guestData;
 	}
 
 	public void writeJsonSimple(Map<String, String> data, String filePath) {
