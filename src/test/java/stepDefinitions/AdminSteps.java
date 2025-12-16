@@ -46,7 +46,7 @@ public class AdminSteps {
     }
 
 	
-	  @Then("User navigate and log in to web Admin portal to view the Reports")
+	  @Then("user navigate and log in to web Admin portal to view the Reports")
 	    public void User_verify_the_Reports_on_Webadmin_portal() {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	
@@ -54,13 +54,13 @@ public class AdminSteps {
 	    	
 	    
 	    }
-	    @Then("User Navigate to the Report section")
+	    @Then("user Navigate to the Report section")
 	    public void User_Navigate_to_the_report_section() {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	admin.navigateToReportSection(wait, ModuleConfig.reportSection);
 	    }
 	    
-	    @Then("User select the Report Header {string}")
+	    @Then("user select the Report Header {string}")
 	    public void User_Navigate_to_the_report_Header(String reportHeader) {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	admin.navigateToReportHeader(wait,reportHeader);
@@ -68,14 +68,14 @@ public class AdminSteps {
 	    
 	    }
 	    
-	    @Then("User select the report list {string}")
+	    @Then("user select the report list {string}")
 	    public void User_select_the_report_list(String reportList) {
 	    	// check all the list and select as per requirement
 	    	admin.selectReportList(wait,reportList); 	
 	    
 	    }
 	    
-	    @Then("User enters the member code on the admin portal to access the report")
+	    @Then("user enters the member code on the admin portal to access the report")
 	    public void User_enters_the_member_code_on_the_admin_portal_to_access_the_report() throws InterruptedException {
 	    	// check all the list and select as per requirement
 	    	 	admin.enterMemberCode();
@@ -84,7 +84,7 @@ public class AdminSteps {
 	    }
 	    
 
-	    @Then("User opens the new tab and verify the reports header")
+	    @Then("user opens the new tab and verify the reports header")
 	    public void User_opens_the_new_tab_and_verify_the_reports() throws InterruptedException {
 	    	// check all the list and select as per requirement
 	    	common.switchToChildWindow(); 	

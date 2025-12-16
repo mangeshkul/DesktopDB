@@ -70,7 +70,7 @@ public class ActivityPOSSteps {
 
     }
     
-    @Then("User adds a new guest, enters the guest name, and verifies the name successfully")
+    @Then("user adds a new guest, enters the guest name, and verifies the name successfully")
     public void User_adds_guest_and_enters_guest_name() {
     	// user add the guest and fill the guest name
     	locators.addGuest();
@@ -78,7 +78,7 @@ public class ActivityPOSSteps {
         locators.addGuestName();
     }
     
-    @Then("User select the club service")
+    @Then("user select the club service")
     public void User_select_the_club_services() {
     	// select the club services
     	locators.selectService();
@@ -86,14 +86,14 @@ public class ActivityPOSSteps {
     }
     
     
-    @And("User click on Proceed button with user details and completes the member entry")
+    @And("user click on Proceed button with user details and completes the member entry")
     public void user_adds_guest_detail() {
     	// user able to complete gate entry
     	locators.proceedwithdetails();
     
     }
     
-    @Then("User fetch the member data from database")
+    @Then("user fetch the member data from database")
     public void User_fetch_the_member_data_from_database() throws IOException {
     	// User can fetch the data from databse as per club wise 
     	locators.getUserDataFromDataBase();
