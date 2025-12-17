@@ -23,3 +23,5 @@ Feature: Activity POS Tests
     And user enters the member code on the admin portal to access the report
     And user opens the new tab and verify the reports header
     And user verifies the report, service, and sub-service details against the Activity "Gate Entry"
+    
+   
