@@ -99,7 +99,7 @@ public class AdminSteps {
 
 	    }
 	    
-	    @Then("User click on ecube logo icon")
+	    @Then("user click on ecube logo icon")
 	    public void User_click_on_ecube_logo_icon() throws InterruptedException {
 	    	// user click on on ecube logo
 	    	admin.clickOnEcubeLogo();

@@ -11,8 +11,8 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import pageObjectsPages.AdminWeb;
 import eCubeUI.eCubeActivityPOS;
+import pageObjectsPages.AdminWeb;
 import pageObjectsPages.ActivityPOSLocators;
 import pageObjectsPages.CommonMethodsForActivityPOS;
 import pageObjectsPages.LoginPage;
@@ -56,7 +56,7 @@ public class ActivityPOSSteps {
     	activityPos.handleClubGateEntry(ModuleConfig.clubName);
     }
 
-    @When("user logs in to Activity POS")
+    @Given("user logs in to Activity POS")
     public void user_logs_in_to_Activity_POS() {
     	// User can log in as per club name 
     	

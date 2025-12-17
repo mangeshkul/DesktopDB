@@ -42,6 +42,7 @@ public class WebCommonActions {
 			                    .equals("complete")
 			    );
 			}
+		  
 
 	    private long getDefaultTimeout() {
 			// TODO Auto-generated method stub
@@ -120,16 +121,34 @@ public class WebCommonActions {
 	    
 	    public void switchToChildWindow() {
 
-	        String currentWindow = driver.getWindowHandle();
-	        Set<String> allWindows = driver.getWindowHandles();
+	        String parentWindow = driver.getWindowHandle();
 
-	        for (String window : allWindows) {
-	            if (!window.equals(currentWindow)) {
+	        WebDriverWait wait = new WebDriverWait(driver, 30);
+
+	        // 1️⃣ Wait until a new window appears
+	        wait.until(driver -> driver.getWindowHandles().size() > 1);
+
+	        // 2️⃣ Switch to child window
+	        for (String window : driver.getWindowHandles()) {
+	            if (!window.equals(parentWindow)) {
 	                driver.switchTo().window(window);
 	                break;
 	            }
 	        }
+
+	        // 3️⃣ Wait until page is NOT blank
+	        wait.until(driver ->
+	                !driver.getCurrentUrl().equals("about:blank")
+	        );
+
+	        // 4️⃣ Wait for DOM ready
+	        wait.until(driver ->
+	                ((JavascriptExecutor) driver)
+	                        .executeScript("return document.readyState")
+	                        .equals("complete")
+	        );
 	    }
+
 	    
 	    public void locateElement(WebElement ele) 
 	    {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,48 +23,48 @@
 
     <dependencies>
 
-        <!-- Selenium 4 for WEB AUTOMATION -->
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
 
-        <!-- Appium 9 (supports WinAppDriver AND Selenium 4) -->
+        <!-- Appium -->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
             <version>${appium.version}</version>
         </dependency>
-        
-        <dependency>
-  <groupId>com.microsoft.sqlserver</groupId>
-  <artifactId>mssql-jdbc</artifactId>
-  <version>10.2.0.jre11</version>
-</dependency>
 
-        <!-- Cucumber Core -->
+        <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
 
-        <!-- Cucumber JUnit -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-          <!-- Cucumber TestNg -->
-        <dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-testng</artifactId>
-    <version>7.15.0</version>   <!-- use the same version as your cucumber-core -->
-    <scope>test</scope>
-</dependency>
 
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.1.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- JUnit -->
         <dependency>
@@ -80,7 +81,6 @@
             <version>${extent.version}</version>
         </dependency>
 
-        <!-- Extent Cucumber 7 Adapter -->
         <dependency>
             <groupId>tech.grasshopper</groupId>
             <artifactId>extentreports-cucumber7-adapter</artifactId>
@@ -95,19 +95,19 @@
             <version>2.15.2</version>
         </dependency>
 
-        <!-- JSON Simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <!--for JSOn Object-->
-<dependency>
-    <groupId>org.json</groupId>
-    <artifactId>json</artifactId>
-    <version>20231013</version>
-</dependency>
-        <!-- For SQL Server -->
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
+
+        <!-- SQL Server -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
@@ -121,7 +121,7 @@
             <version>5.9.2</version>
         </dependency>
 
-        <!-- JNA for Desktop Keyboard/Mouse -->
+        <!-- JNA -->
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
@@ -134,10 +134,14 @@
             <version>5.13.0</version>
         </dependency>
 
+
+
+
     </dependencies>
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

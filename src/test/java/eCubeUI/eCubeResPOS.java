@@ -1,7 +1,10 @@
 package eCubeUI;
-/*
+
 import io.appium.java_client.windows.WindowsDriver;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.windows.WindowsElement;
+import pageObjectsPages.CommonMethodsForResPOS;
+import pageObjectsPages.LoginPage;
+import pageObjectsPages.ResPOSLocators;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,200 +12,298 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.Window;
+import eCubeUIpageObjetcs.ResPOS.ResPosLocators;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.time.Duration;
+import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class eCubeResPOSWithNovaWindowsDriver {
+public class eCubeResPOS {
 
-    public static WindowsDriver driver = null;
-    String memberCodeDetails = "LB9881";
-    int defaultTimeout = 5; // Increased timeout for reliability
+	private ResPOSLocators resPosLocators;
+	private CommonMethodsForResPOS commonMethods;
 
-    @BeforeClass
-    public void setUp() throws Exception {
-        // Launch the RestaurantPOS application
-        try {
-            new ProcessBuilder("D:\\eHSMResPOSDesktopApp\\RestaurantPOS.exe").start();
-            System.out.println("Launching RestaurantPOS...");
-            Thread.sleep(3000); // small wait for app to initialize
-        } catch (Exception e) {
-            throw new RuntimeException("❌ Could not launch RestaurantPOS.exe", e);
-        }
+	public static WindowsDriver driver = null;
+	String userName = "NSCIIT";
+	String password = "Nsci@54321";
 
-        // Get main window handle in HEX
-        String windowHandleHex = getWindowHandleHex("RestaurantPOS");
-        if (windowHandleHex == null || windowHandleHex.isEmpty()) {
-            throw new RuntimeException("❌ Could not find MainWindowHandle for RestaurantPOS");
-        }
-
-        // Convert HEX to decimal for appTopLevelWindow
-        int windowHandleDecimal = Integer.parseInt(windowHandleHex, 16);
-
-        // Set capabilities for NovaWindows
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("platformName", "Windows");
-        caps.setCapability("automationName", "NovaWindows");  // Use NovaWindows driver
-        caps.setCapability("deviceName", "WindowsPC");
-        caps.setCapability("appTopLevelWindow", windowHandleDecimal);
-
-        // Initialize driver
-        driver = new WindowsDriver(new URL("http://127.0.0.1:4723"), caps);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-        System.out.println("✅ Attached to RestaurantPOS (Handle: " + windowHandleDecimal + ") using NovaWindows");
-    }
-
-    private String getWindowHandleHex(String processName) throws Exception {
-        String command = "powershell -command \"(Get-Process " + processName + " | Where-Object {$_.MainWindowHandle -ne 0}).MainWindowHandle.ToString('X')\"";
-        Process p = Runtime.getRuntime().exec(command);
-        p.waitFor();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        return reader.readLine();
-    }
-    
-    private void waitForWindowAndSwitch() {
-        Set<String> handles = driver.getWindowHandles();
-        for (String handle : handles) {
-            driver.switchTo().window(handle);
-        }
-    }
-    
-    public void switchToLatestWindow(WindowsDriver driver) {
-        Set<String> handles = driver.getWindowHandles();
-        if (!handles.isEmpty()) {
-            String latestHandle = handles.iterator().next();
-            driver.switchTo().window(latestHandle);
-            System.out.println("Switched to window: " + latestHandle);
-        }
-    }
+	String memberCodeDetails = "A2319";
+	String applicationPath = "D:\\eHSMResPOSDesktopApp\\RestaurantPOS.exe";
+	
+	
 
 
-    private WebElement waitForElementClickable(By locator, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
+	@BeforeClass
+	public void setUp() throws Exception {
 
-    private WebElement waitForElementVisible(By locator, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds)),;
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
+		try {
+			new ProcessBuilder(applicationPath).start();
+			System.out.println("Launching RestaurantPOS...");
+			Thread.sleep(5000);
+		} catch (Exception e) {
+			throw new RuntimeException("❌ Could not launch RestaurantPOS.exe", e);
+		}
 
-    // Generic method to switch to a new window
-    private void switchToNewWindow(String parentWindowHandle, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+		CommonMethodsForResPOS temp = new CommonMethodsForResPOS(null);
 
-        wait.until(d -> driver.getWindowHandles().size() > 1);
+		String windowHandle = temp.getWindowHandleHex("RestaurantPOS");
+		if (windowHandle == null || windowHandle.isEmpty()) {
+			throw new RuntimeException("❌ Could not find MainWindowHandle for RestaurantPOS");
+		}
 
-        Set<String> allWindows = driver.getWindowHandles();
-        for (String handle : allWindows) {
-            if (!handle.equals(parentWindowHandle)) {
-                driver.switchTo().window(handle);
-                try {
-                    WebElement windowElement = driver.findElement(AppiumBy.className("Window"));
-                    String windowName = windowElement.getAttribute("Name");
-                    System.out.println("✅ Switched to new window: " + windowName);
-                } catch (Exception e) {
-                    System.out.println("✅ Switched to new window (Name not found)");
-                }
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability("appTopLevelWindow", "0x" + windowHandle);
+		caps.setCapability("platformName", "Windows");
+		caps.setCapability("deviceName", "WindowsPC");
 
-                return;
-            }
-        }
-        throw new RuntimeException("❌ New window did not appear within timeout.");
-    }
+		driver = new WindowsDriver(new URL("http://127.0.0.1:4723"), caps);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		System.out.println("✅ Attached to RestaurantPOS (Handle: 0x" + windowHandle + ")");
 
-    @Test
-    public void RestaurantPOSScenario() throws InterruptedException {
-        // Login
-        driver.findElement(By.xpath("//*[contains(@AutomationId, 'txtUserName')]")).sendKeys("NSCIIT");
-        driver.findElement(By.xpath("//*[contains(@AutomationId, 'txtPassword')]")).sendKeys("Nsci@54321");
-        Thread.sleep(3000);
-        
-        driver.findElement(By.name("Login")).click();
-        
-        Thread.sleep(3000);
-        // Select Outlet
-        Set<String> allWindows = driver.getWindowHandles();
-        //allWindows.remove(handle); // remove main window handle
-        String latestWindow = allWindows.iterator().next(); 
-        
-        driver.switchTo().window(latestWindow);
-        
-        System.out.println(driver.getPageSource());
-        WebElement outletButton = driver.findElement(By.xpath("//*[contains(@AutomationId, 'btnOutlet1014')]"));
-        outletButton.click();
+		resPosLocators = new ResPOSLocators(driver);
+		commonMethods = new CommonMethodsForResPOS(driver);
 
-        // Select Table
-        WebElement tableButton = waitForElementClickable(By.xpath("//*[contains(@Name, '004')]"), defaultTimeout);
-        tableButton.click();
+	}
 
-        // Member code
-        WebElement memberCodeButton = waitForElementClickable(By.name("Member Code"), defaultTimeout);
-        memberCodeButton.click();
+	@Test
+	public void settleOrderThroughSelectionView() throws Exception {
+		Thread.sleep(5000);
 
-        String memberWindow = driver.getWindowHandle();
-        WebElement memberCodeTextBox = driver.findElement(By.xpath("//8[contains(@AutomationId,'txtMemberCodeCard']"));
-        memberCodeTextBox.sendKeys(memberCodeDetails);
-        memberCodeTextBox.sendKeys(Keys.ENTER);
+		resPosLocators.login(userName, password);
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.outlet().click();// btnOutlet1014
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.roomNumber().click();
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.optionMemberCode().click();
 
-        // Switch to Member Card Validation dialog
-        switchToNewWindow(memberWindow, defaultTimeout);
+		String parentWindow = driver.getWindowHandle();
 
-        String actualMemberCode = waitForElementVisible(By.name("MemberCode Row 0"), defaultTimeout).getText();
-        Assert.assertEquals(actualMemberCode, memberCodeDetails, "The memberCode not matched!!!");
+		WebElement memberCodeTextBox = resPosLocators.memberCode();
+		memberCodeTextBox.sendKeys(memberCodeDetails);
+		memberCodeTextBox.sendKeys(Keys.ENTER);
+		Thread.sleep(7000);
 
-        // Select member and add
-        waitForElementClickable(By.name("Check Row 0"), defaultTimeout).click();
-        waitForElementClickable(By.name("Add"), defaultTimeout).click();
+		// Wait for the new dialog window to appear
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(d -> driver.getWindowHandles().size() > 1);
 
-        // Confirm dialog
-        WebElement yesButton = waitForElementClickable(By.name("Yes"), defaultTimeout);
-        yesButton.click();
+		Set<String> allWindows = driver.getWindowHandles();
+		for (String handle : allWindows) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+				// System.out.println("✅ Switched to Member Card Validation dialog");
+				break;
+			}
+		}
 
-        // Add item
-        waitForElementClickable(By.name("Selection View"), defaultTimeout).click();
-        waitForElementClickable(By.name("Beverages"), defaultTimeout).click();
-        waitForElementClickable(By.xpath("//*[contains(@Name, 'Bislery')]"), defaultTimeout).click();
+		String actualMemberCode = resPosLocators.firstmemberInList().getText();
+		// System.out.println("actualMemberCode :- "+actualMemberCode);
+		Assert.assertEquals(actualMemberCode, memberCodeDetails, "The memberCode not matched!!!");
+		driver.findElementByName("Check Row 0").click();
+		resPosLocators.addButton().click();
+		commonMethods.waitForSomeTime();
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.yesButton().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.selectionViewInItemSelection().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.selectItemAsBeverages().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.selectsubItemsUnderBeverages().click();
+		String actualItemName = resPosLocators.itemNameInList().getText();
+		Assert.assertEquals(actualItemName, "Bislery (500 Ml)", "The memberCode not matched!!!");
+		resPosLocators.settleButton().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.paymentTypeDropDown().click();
+		commonMethods.waitForSomeTime();
+		WebDriverWait waitforElement = new WebDriverWait(driver, 5);
+		WebElement cashOption = waitforElement
+				.until(ExpectedConditions.elementToBeClickable(resPosLocators.cashOptionAsPaymentType()));
+		cashOption.click();
+		commonMethods.waitForSomeTime();
+		WebElement settleOption = resPosLocators.settleButton();
+		settleOption.click();
+		String successMessage = resPosLocators.successMessage().getText();
+		Assert.assertTrue(successMessage.contains("Settled Successfully"), "❌ Payment label does not show 'Cash'");
+		// System.out.println("✅ "+ successMessage);
 
-        String actualItemName = waitForElementVisible(By.name("Item Name Row 0"), defaultTimeout).getText();
-        Assert.assertEquals(actualItemName, "Bislery (500 Ml)", "Item name not matched!");
+		String billNumberDetails = successMessage.split(" ")[2];
+		resPosLocators.okayButton().click();
+		commonMethods.waitForSomeTime();
 
-        // Settle payment
-        waitForElementClickable(By.name("SETTLE"), defaultTimeout).click();
-        waitForElementClickable(By.xpath("//*[contains(@AutomationId, 'cmbPaymentType')]"), defaultTimeout).click();
-        waitForElementClickable(By.name("Cash"), defaultTimeout).click();
-        waitForElementClickable(By.name("SETTLE"), defaultTimeout).click();
+		resPosLocators.pressEscButton();
+		resPosLocators.pressEscButton();
+		resPosLocators.noButton().click();
+		commonMethods.waitForSomeTime();
 
-        String successMessage = waitForElementVisible(By.xpath("//*[contains(@AutomationId, 'txtMessage')]"), defaultTimeout)
-                .getText();
-        Assert.assertTrue(successMessage.contains("Settled Successfully"), "❌ Payment not successful");
-        System.out.println("✅ " + successMessage);
+		resPosLocators.roomNumber().click();
+		resPosLocators.yesButton().click();
 
-        waitForElementClickable(By.name("OK"), defaultTimeout).click();
+		commonMethods.waitForSomeTime();
+		commonMethods.waitForWindowAndSwitch();
+		Thread.sleep(7000);
 
-        // Close table dialogs
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        waitForElementClickable(By.name("No"), defaultTimeout).click();
+		WindowsDriver posDriver = commonMethods.attachToMainPOS(parentWindow);
+		resPosLocators.updateDriver(posDriver);
+		// posDriver.findElement(By.xpath("//*[contains(@Name,'Manage Bills') and
+		// @LocalizedControlType='link']")).click();
+		resPosLocators.manageBills();
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		WebElement statusDropDownInManageBills = resPosLocators.statusDropDown();
+		statusDropDownInManageBills.click();
 
-        // Manage bills
-        waitForElementClickable(By.xpath("//*[contains(@Name, '004')]"), defaultTimeout).click();
-        waitForElementClickable(By.name("Yes"), defaultTimeout).click();
+		WebElement settleOptionInDropDown = waitforElement
+				.until(ExpectedConditions.elementToBeClickable(resPosLocators.settleOptionInDropdown()));
+		settleOptionInDropDown.click();
 
-        waitForElementClickable(By.name("Manage Bills"), defaultTimeout).click();
-        waitForElementClickable(By.name("cmbBillStatus"), defaultTimeout).click();
-        waitForElementClickable(By.name("Settled"), defaultTimeout).click();
+		WebElement enterBillNumber = resPosLocators.billNumberTextBox();
+		enterBillNumber.sendKeys(billNumberDetails);
 
-        System.out.println("✅ Test scenario completed successfully!");
-    }
-}*/
+		String customerName = resPosLocators.firstCustomerName().getText();
+		Assert.assertTrue(customerName.contains(memberCodeDetails));
+		System.out.println("✅ Customer name validation passed: " + customerName);
+
+		String billNumber = resPosLocators.firstBillNumber().getText();
+		Assert.assertTrue(billNumber.contains(billNumberDetails));
+		System.out.println("✅ Bill number validation passed: " + billNumber);
+	}
+
+	@Test
+	public void settleOrderThroughEntryView() throws Exception {
+		Thread.sleep(5000);
+
+		resPosLocators.login(userName, password);
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.outlet().click();// btnOutlet1014
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.roomNumber().click();
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.optionMemberCode().click();
+
+		String parentWindow = driver.getWindowHandle();
+
+		WebElement memberCodeTextBox = resPosLocators.memberCode();
+		memberCodeTextBox.sendKeys(memberCodeDetails);
+		memberCodeTextBox.sendKeys(Keys.ENTER);
+		Thread.sleep(7000);
+		
+		// Wait for the new dialog window to appear
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(d -> driver.getWindowHandles().size() > 1);
+
+		Set<String> allWindows = driver.getWindowHandles();
+		for (String handle : allWindows) {
+			if (!handle.equals(parentWindow)) {
+				driver.switchTo().window(handle);
+				// System.out.println("✅ Switched to Member Card Validation dialog");
+				break;
+			}
+		}
+
+		String actualMemberCode = resPosLocators.firstmemberInList().getText();
+		// System.out.println("actualMemberCode :- "+actualMemberCode);
+		Assert.assertEquals(actualMemberCode, memberCodeDetails, "The memberCode not matched!!!");
+		driver.findElementByName("Check Row 0").click();
+		resPosLocators.addButton().click();
+		commonMethods.waitForSomeTime();
+		commonMethods.waitForWindowAndSwitch();
+		resPosLocators.yesButton().click();
+		commonMethods.waitForSomeTime();
+		
+		WebElement itemDropdown = resPosLocators.itemCodeDropdownInEntryView();
+	    itemDropdown.click();
+	    itemDropdown.sendKeys("EX0423");
+	    itemDropdown.sendKeys(Keys.TAB);
+	    Thread.sleep(5000);
+	    String product1 = resPosLocators.itemNameDropdownInEntryView().getText();
+	    resPosLocators.remarksTextBox().sendKeys("product1 is added through ItemCode");
+	    resPosLocators.addButton().click();
+		
+		resPosLocators.itemNameDropdownInEntryView().sendKeys("BISLERI");
+		Thread.sleep(2000);
+		resPosLocators.selectItemfromDropDown("BISLERI");
+		resPosLocators.remarksTextBox().sendKeys("product2 is added through itemName");
+		String product2 = resPosLocators.itemNameDropdownInEntryView().getText();
+		resPosLocators.addButton().click();
+		
+				
+		
+		
+		
+		resPosLocators.selectItemAsBeverages().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.selectsubItemsUnderBeverages().click();
+		String actualItemName = resPosLocators.itemNameInList().getText();
+		Assert.assertEquals(actualItemName, "Bislery (500 Ml)", "The memberCode not matched!!!");
+		resPosLocators.settleButton().click();
+		commonMethods.waitForSomeTime();
+		resPosLocators.paymentTypeDropDown().click();
+		commonMethods.waitForSomeTime();
+		WebDriverWait waitforElement = new WebDriverWait(driver, 5);
+		WebElement cashOption = waitforElement
+				.until(ExpectedConditions.elementToBeClickable(resPosLocators.cashOptionAsPaymentType()));
+		cashOption.click();
+		commonMethods.waitForSomeTime();
+		WebElement settleOption = resPosLocators.settleButton();
+		settleOption.click();
+		String successMessage = resPosLocators.successMessage().getText();
+		Assert.assertTrue(successMessage.contains("Settled Successfully"), "❌ Payment label does not show 'Cash'");
+		// System.out.println("✅ "+ successMessage);
+
+		String billNumberDetails = successMessage.split(" ")[2];
+		resPosLocators.okayButton().click();
+		commonMethods.waitForSomeTime();
+
+		resPosLocators.pressEscButton();
+		resPosLocators.pressEscButton();
+		resPosLocators.noButton().click();
+		commonMethods.waitForSomeTime();
+
+		resPosLocators.roomNumber().click();
+		resPosLocators.yesButton().click();
+
+		commonMethods.waitForSomeTime();
+		commonMethods.waitForWindowAndSwitch();
+		Thread.sleep(7000);
+
+		WindowsDriver posDriver = commonMethods.attachToMainPOS(parentWindow);
+		resPosLocators.updateDriver(posDriver);
+		// posDriver.findElement(By.xpath("//*[contains(@Name,'Manage Bills') and
+		// @LocalizedControlType='link']")).click();
+		resPosLocators.manageBills();
+		Thread.sleep(5000);
+		commonMethods.waitForWindowAndSwitch();
+		WebElement statusDropDownInManageBills = resPosLocators.statusDropDown();
+		statusDropDownInManageBills.click();
+
+		WebElement settleOptionInDropDown = waitforElement
+				.until(ExpectedConditions.elementToBeClickable(resPosLocators.settleOptionInDropdown()));
+		settleOptionInDropDown.click();
+
+		WebElement enterBillNumber = resPosLocators.billNumberTextBox();
+		enterBillNumber.sendKeys(billNumberDetails);
+
+		String customerName = resPosLocators.firstCustomerName().getText();
+		Assert.assertTrue(customerName.contains(memberCodeDetails));
+		System.out.println("✅ Customer name validation passed: " + customerName);
+
+		String billNumber = resPosLocators.firstBillNumber().getText();
+		Assert.assertTrue(billNumber.contains(billNumberDetails));
+		System.out.println("✅ Bill number validation passed: " + billNumber);
+	}
+
+}

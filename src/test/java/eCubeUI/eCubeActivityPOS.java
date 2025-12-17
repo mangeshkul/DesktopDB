@@ -5,6 +5,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.WindowsElement;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pageObjectsPages.ActivityPOSLocators;
+import pageObjectsPages.AdminWeb;
 import pageObjectsPages.CommonMethodsForActivityPOS;
 import pageObjectsPages.LoginPage;
 import utility.ConfigReader;
@@ -13,18 +14,9 @@ import utility.JsonReader;
 import utility.ModuleConfig;
 
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,10 +35,8 @@ public class eCubeActivityPOS {
 	private LoginPage loginPage;
 	private ActivityPOSLocators activityPoslocators;
 	private CommonMethodsForActivityPOS commonMethods;
-//	private AdminWeb adminTests;
+	private AdminWeb adminTests;
 
-	String guestName = "AutoGuest1";
-	String services ="Gate Entry Guest";
 	LocalDate today = LocalDate.now();
 	int dayOfMonth = today.getDayOfMonth();
 	
@@ -99,14 +89,14 @@ public class eCubeActivityPOS {
 	        options.addArguments("start-maximized");
 	        webDriver = new ChromeDriver(options);
 
-//	        adminTests = new AdminWeb(driver);
+	        adminTests = new AdminWeb(driver);
 	        String serviceName1 = "Gate Entry For Member";
 			String serviceName2 = "Gate Entry For Guest";
 			String subServiceName1 = "Gate Entry For Member";
 			String subServiceName2 = "Gate Entry For Guest";
 
-//	        adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, memberCode, JSON_FILE_PATH, serviceName1, serviceName2,
-//					subServiceName1, subServiceName2);
+	        adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, memberCode, JSON_FILE_PATH, serviceName1, serviceName2,
+					subServiceName1, subServiceName2);
 	    }
 
 

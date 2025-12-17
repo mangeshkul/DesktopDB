@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
 # ===== Credentials =====
 src/test/resources/envCreds.properties
+=======
+>>>>>>> origin/Dev
 /target/

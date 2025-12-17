@@ -66,8 +66,6 @@ public class AdminWeb {
 	WebElement ecubeLogo;
 	private String reportlistName ="";
 	
-	@FindBy(xpath = "//section[@id=\"sectionMemberDetail\"]")private
-	WebElement sectionDetails;
 	public AdminWeb(WebDriver driver) {
 		this.driver = driver;
 		 this.wait = new WebDriverWait(driver, 20);
@@ -76,6 +74,42 @@ public class AdminWeb {
 		PageFactory.initElements(driver, this);
 	}
 
+	public void verifyReports(String adminUrl, String userName, String password, String memberCode,
+			String JSON_FILE_PATH, String serviceName1, String serviceName2, String subServiceName1,
+			String subServiceName2) throws InterruptedException, IOException, ParseException {
+
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+
+		// Login
+		driver.get(adminUrl);
+		driver.findElement(By.id("UserName")).sendKeys(userName);
+		driver.findElement(By.id("Password")).sendKeys(password);
+		driver.findElement(By.className("login-btn")).click();
+		Thread.sleep(5000);
+
+//		navigateToReportSection(wait, "/reports", "#finances");
+//		openReport(wait, "Member Statements");
+		fillMemberCodeAndSubmit(wait, memberCode);
+		switchToChildWindow(wait);
+		verifyMemberStatmentReportHeading(wait, "Member Statements");
+//		verifyMemberStatementReport(JSON_FILE_PATH, serviceName1);
+		verifyMemberStatementReport(DataPaths.GATE_ENTRY_JSON, serviceName1);
+		closeThewindow();
+		switchToParentWindow();
+
+		driver.findElement(By.xpath("//a[@class='noprint']/img[@alt='Logo']")).click();
+		Thread.sleep(3000);
+//		navigateToReportSection(wait, "/reports", "#sales");
+
+		// Verify Service Sales Detail report
+//		openReport(wait, "Service Sales Detail");
+		fillMemberCodeAndSubmit(wait, memberCode);
+		switchToChildWindow(wait);
+		verifyServiceSalesDetailsReportHeading(wait, "Service Sales Detail");
+		verifyServiceSalesDetailReport(JSON_FILE_PATH, serviceName1, serviceName2, subServiceName1, subServiceName2);
+		closeThewindow();
+		driver.quit();
+	}
 	
 	public void clickOnEcubeLogo() 
 	{
@@ -143,6 +177,7 @@ public class AdminWeb {
              throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
      } 
 		WebElement memberInput = driver.findElement(By.xpath("//input[@name='MemberCode']"));
+		//System.out.println(memberCode + " Is Assigned");
 		memberInput.sendKeys(memberCode);
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//div[contains(@class,'autoCompleteMenu scrollable')]")).click();
@@ -189,13 +224,23 @@ public class AdminWeb {
 		driver.switchTo().window(parentTab);
 	}
 
+	private void verifyMemberStatmentReportHeading(WebDriverWait wait, String reportName) throws InterruptedException {
+		Thread.sleep(3000);
+		String heading = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"sectionMemberDetail\"]/div[1]/h4/strong"))).getText();
+		Assert.assertTrue(heading.contains(reportName), "❌ Reports Failed");
+	}
 	
 	public void verifyReportHeading() throws InterruptedException {
-		
+	    
 		WebElement headerNameOnStatement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='divSub']//strong[contains(normalize-space(),'"+reportlistName+"')]")));
-		
 		// Assertion fail due to incorrect text of service sale detail
 //		webAction.compareText(headerNameOnStatement, reportlistName);
+	}
+	
+
+	private void verifyServiceSalesDetailsReportHeading(WebDriverWait wait, String reportName) {
+		String heading = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"sectionGSTRegisterData\"]/div[1]/h4/strong"))).getText();
+		Assert.assertTrue(heading.contains(reportName), "❌ Reports Failed");
 	}
 
 	public void verifyMemberStatementReport(String jsonFilePath, String serviceName1) throws IOException, ParseException {
