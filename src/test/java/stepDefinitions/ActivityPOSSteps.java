@@ -1,0 +1,102 @@
+package stepDefinitions;
+
+import io.appium.java_client.windows.WindowsDriver;
+import io.cucumber.java.en.*;
+import hooks.Hooks;
+
+import java.io.IOException;
+
+import org.apache.commons.math3.linear.IllConditionedOperatorException;
+import org.json.simple.parser.ParseException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import eCubeUI.eCubeActivityPOS;
+import pageObjectsPages.AdminWeb;
+import pageObjectsPages.ActivityPOSLocators;
+import pageObjectsPages.CommonMethodsForActivityPOS;
+import pageObjectsPages.LoginPage;
+import utilities.CommonFunctions;
+import utilities.DriverManager;
+import utility.DataPaths;
+import utility.ModuleConfig;
+
+public class ActivityPOSSteps {
+
+	private WindowsDriver driver;
+    private WebDriver webDriver;
+    private CommonMethodsForActivityPOS activity;
+    private eCubeActivityPOS activityPos;
+    private ActivityPOSLocators locators ;
+    private CommonFunctions common;
+    private AdminWeb admin;
+    protected LoginPage loginPage;
+    private WebDriverWait wait;
+
+    public ActivityPOSSteps() {
+    	this.driver = DriverManager.getWindowsDriver();
+       // 🔥 driver from Hooks
+       if(driver==null) 
+       {
+    	   throw new IllegalStateException("Windows Driver is not initialized");
+       }
+       webDriver = driver;
+        // Initialize objects AFTER driver is ready
+        activity = new CommonMethodsForActivityPOS(driver);
+//        activityPos = new eCubeActivityPOS(driver);
+        common = new CommonFunctions(driver);
+        loginPage = new LoginPage(driver);
+        locators = new ActivityPOSLocators(driver);
+        admin = new AdminWeb(driver);
+        
+    }
+
+    @Given("Activity POS application is launched")
+    public void launchActivityPOS() throws Exception {
+    	activityPos.handleClubGateEntry(ModuleConfig.clubName);
+    }
+
+    @Given("user logs in to Activity POS")
+    public void user_logs_in_to_Activity_POS() {
+    	// User can log in as per club name 
+    	
+    	  loginPage.loginBasedOnClub();
+    }
+
+    @Then("user enters member code and submit it")
+    public void user_enters_member_code() {
+    	// user enter the member code as per club and click on submit button
+    	locators.enterMemberCodeAndSubmit();
+
+    }
+    
+    @Then("user adds a new guest, enters the guest name, and verifies the name successfully")
+    public void User_adds_guest_and_enters_guest_name() {
+    	// user add the guest and fill the guest name
+    	locators.addGuest();
+        locators.enterGuestName();
+        locators.addGuestName();
+    }
+    
+    @Then("user select the club service")
+    public void User_select_the_club_services() {
+    	// select the club services
+    	locators.selectService();
+    	
+    }
+    
+    
+    @And("user click on Proceed button with user details and completes the member entry")
+    public void user_adds_guest_detail() {
+    	// user able to complete gate entry
+    	locators.proceedwithdetails();
+    
+    }
+    
+    @Then("user fetch the member data from database")
+    public void User_fetch_the_member_data_from_database() throws IOException {
+    	// User can fetch the data from databse as per club wise 
+    	locators.getUserDataFromDataBase();
+    
+    }
+}

@@ -2,6 +2,9 @@ package pageObjectsPages;
 
 import org.openqa.selenium.By;
 import io.appium.java_client.windows.WindowsDriver;
+import utility.ConfigReader;
+import utility.ModuleConfig;
+
 import org.openqa.selenium.WebElement;
 
 public class LoginPage {
@@ -23,4 +26,26 @@ public class LoginPage {
         driver.findElement(passwordField).sendKeys(password);
         driver.findElement(loginButton).click();
     }
+    
+    //  User should be log in as per Club 
+    
+    public void loginBasedOnClub() {
+       switch  (ModuleConfig.clubName.toLowerCase()) {
+
+            case "nsci":
+            	 login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
+                break;
+
+            case "karnavati":
+            	 login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
+                break;
+
+            default:
+                throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+        }
+
+
+    }
+
+    
 }

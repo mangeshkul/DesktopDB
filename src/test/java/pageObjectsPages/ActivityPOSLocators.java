@@ -1,26 +1,92 @@
 package pageObjectsPages;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 import io.appium.java_client.windows.WindowsDriver;
+import io.appium.java_client.windows.WindowsElement;
+import utilities.CommonFunctions;
+import utilities.DatabaseHelper;
+import utilities.WebCommonActions;
+import utility.ConfigReader;
+import utility.DataPaths;
+import utility.JsonLogWriter;
+import utility.JsonReader;
+import utility.ModuleConfig;
+
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import pageObjectsPages.AdminWeb;
 
 public class ActivityPOSLocators {
-    private WindowsDriver driver;
+
+	    private WindowsDriver driver;
+	    private WebDriver webDriver;
+	    private CommonFunctions activityCommon;
+	    private WebCommonActions webCommon;
+   
+    
+    
+    DatabaseHelper dataBase;
+    AdminWeb admin;
+    CommonFunctions common;
 
     // Locators
-    private By codeEntryField = By.xpath("//*[contains(@AutomationId, 'CodeEntry')]");
-    private By submitCode = By.xpath("//*[contains(@AutomationId, 'SubmitCode')]");
-    private By guestCountLocator = By.name("1"); 
-    private By guestNameTextBox = By.xpath("//*[contains(@AutomationId, 'InnerTextBox')]");
-    private By addButtonLocator = By.name("ADD");
-    private By listBoxLocator = By.className("ListBoxItem");
-    private By selectGateEntryForGuest = By.name("Gate Entry For Guest");
-    private By proceedButtonLocator = By.name("Proceed");
-    private By memberAccountOptionLocator = By.name("Member Account");
-    private By yesOptionLocator = By.name("YES");
-    private By okOptionLocator = By.name("OK");
+    
+    @FindBy(xpath = "//*[contains(@AutomationId, 'CodeEntry')]") private 
+    WebElement codeEntryField;
+   
+
+    @FindBy(xpath = "//*[contains(@AutomationId, 'SubmitCode')]") private 
+    WebElement submitCode;
+    
+
+    @FindBy(name  = "1") private 
+    WebElement guestCountLocator;
+    
+   
+    @FindBy(xpath  = "//*[contains(@AutomationId, 'InnerTextBox')]") private 
+    WebElement guestNameTextBox;
+    
+    @FindBy(name  = "ADD") private 
+    WebElement addButtonLocator;
+    
+    @FindBy(name  = "ListBoxItem") private 
+    WebElement listBoxLocator;
+
+    
+    private By selectGateEntryForGuest2 = By.name("Gate Entry Guest");
+    
+//  Add new locator // 
+    @FindBy(xpath = "(//Button[contains(@Name,'Gate Entry')])[1]")
+    private WebElement selectServices;
+
+    @FindBy(xpath = "//*[@AutomationId='InformationButton']")
+    private WebElement memberAccountOption2;
+    
+	private By serviceNameLocator() {
+	    return By.name(getServiceName());
+	}
+	
+    @FindBy(name = "Proceed")private
+    WebElement proceedButton;
+    
+    @FindBy(name = "Member Account")private
+    WebElement memberAccountOptionLocator;
+    
+
+    @FindBy(name = "YES")private
+    WebElement confirmWithMember;
+    
+    @FindBy(name = "OK")private
+    WebElement confirmMemberEntry;
+    
     private By healthClubForGents = By.name("Health Club Gents");
     private By badmintonSportsLocator = By.name("Badminton Sports");
     private By healthClubForLadies = By.name("Health Club Ladies");
@@ -34,52 +100,249 @@ public class ActivityPOSLocators {
 
     // Constructor
     public ActivityPOSLocators(WindowsDriver driver) {
-        this.driver = driver;
+       this.driver = driver;
+        this.admin = new AdminWeb(driver);
+        common = new CommonFunctions(driver);
+        dataBase = new DatabaseHelper(driver);
+      
+        PageFactory.initElements(driver, this);
+        
+       
+    }
+
+    public ActivityPOSLocators(WebDriver webDriver) {
+        this.webDriver = webDriver;
+         this.admin = new AdminWeb(webDriver);
+         this.webCommon = new WebCommonActions(webDriver);
+         PageFactory.initElements(webDriver, this);
+         
+        
+     }
+
+   
+    // Add the Guest number 
+    public void addGuest() {
+    	common.waitForElement(guestCountLocator, 10);
+    	common.click(guestCountLocator);
+    }
+    
+    
+    
+    // Enter the Guest name
+    public void enterGuestName() 
+    {
+    	common.waitForElement(guestNameTextBox, 10);
+    	guestNameTextBox.sendKeys(ModuleConfig.ecubeGuestName);
+    	
+    }
+    
+    
+    public void addGuestName() 
+    {
+    	common.waitForElement(addButtonLocator, 10);
+    	common.click(addButtonLocator);
+    }
+    
+   public void verifyGuestName() 
+   {
+	   
+//	   common.compareText(listBoxLocator, ModuleConfig.ecubeGuestName);
+   }
+  
+   
+   
+   public String getServiceName() {
+
+	    switch (ModuleConfig.clubName.toLowerCase()) {
+
+	        case "nsci":
+	        	System.out.println("service neame is " + ConfigReader.get("NSCI.serviceName"));
+	            return ConfigReader.get("NSCI.serviceName");
+	           
+		case "karnavati":
+	            return ConfigReader.get("KARNVATI.serviceName");
+	          
+		default:
+	            throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+	    }
+	}
+   
+   public String getAccountType() {
+
+	   
+	  String accountType= ConfigReader.get("NSCI.accountType").toLowerCase();
+	  System.out.println("account type is" + accountType);
+	    switch (accountType) {
+            
+	        case "member account":
+	         common.click(memberAccountOptionLocator);
+	       
+	        confirmWithMemberAccount();
+	        confirmWithMemberEntry();
+	        break;
+	        
+	        case "prepaid account":
+	        break;
+	           
+
+	        default:
+	            throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+	    }
+		return accountType;
+	}
+
+    public void selectService() {
+    	
+        driver.findElement(serviceNameLocator()).click();
+    }
+    
+ public void selectAccountType() {
+	 getAccountType();
+       
+    }
+    
+    
+    public WebElement gateEntryForGuest2() {
+    	return driver.findElement(selectGateEntryForGuest2);
+    	
+    }
+    public void selectgateEntryType() 
+    {
+    	selectServices.click();
+    	System.out.println("Get entry type is " + selectServices.getAttribute("Name"));
     }
 
     
-    public WebElement codeEntry() {
-    	return driver.findElement(codeEntryField);
+    public void proceedwithdetails() 
+    {
+    	 switch (ModuleConfig.clubName.toLowerCase()) {
+
+         case "nsci":
+        		common.waitForElement(proceedButton,5);
+        		common.click(proceedButton);
+            	selectAccountType();
+             break;
+
+         case "karnavati":
+        	 common.waitForElement(proceedButton, 5);
+        	 common.click(proceedButton);
+             break;
+
+         default:
+             throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+     }
+ }
+    
+    public void getUserDataFromDataBase() throws IOException 
+    {
+    	  switch  (ModuleConfig.clubName.toLowerCase()) {
+
+          case "nsci":
+        	  Map<String, String> dbData = dataBase.getDataFromDataBase(ModuleConfig.ecubeMemberCode1);
+          	dataBase.writeJsonSimple(dbData, DataPaths.GATE_ENTRY_JSON);
+              String JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
+              
+              // Storing the data in json file as Log the Records 
+
+            	JsonLogWriter.writeLastFourRecords(
+            	        dbData,
+            	        DataPaths.LOG_DATA_ENTRY
+            	);
+              driver.closeApp();
+              break;
+
+          case "karnavati":
+          	 
+              break;
+
+          default:
+              throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+      }
+    	
+    	
     }
     
-    public WebElement submitCode() {
-    	return driver.findElement(submitCode);
+   public void navigateToWebAdmin() 
+   {
+	   
+	   switch  (ModuleConfig.clubName.toLowerCase()) {
+
+       case "nsci":
+    	   webCommon.launchBrowser();
+    	   webCommon.openURL(ModuleConfig.adminUrl);
+     	admin.loginToAdmin(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
+     	
+           break;
+
+       case "karnavati":
+    	   webCommon.launchBrowser();
+    	   webCommon.openURL(ModuleConfig.adminUrl);
+     	admin.loginToAdmin(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
+           break;
+
+       default:
+           throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+   }
+	   
+   }
+   
+    public void enterMemberCodeAndSubmit() 
+    {
+    	// user enter the member code as per club wise
+    	 switch  (ModuleConfig.clubName.toLowerCase()) {
+
+         case "nsci":
+        	 common.waitForElement(codeEntryField, 5);
+         	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);
+         	common.waitForElement(submitCode, 5);
+         	common.click(submitCode);
+             break;
+
+         case "karnavati":
+        	 common.waitForElement(codeEntryField, 5);
+         	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);
+         	common.waitForElement(submitCode, 5);
+         	common.click(submitCode);
+             break;
+
+         default:
+             throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+     } 
+    	
     }
     
-    public WebElement guestCount() {
-    	return driver.findElement(guestCountLocator);
+    // Click on Proceed button after enter the Member code
+    
+  
+    
+    // add
+    
+    public void clickOnOkButton() {
+    	this.memberAccountOption2.click();
     }
     
-    public WebElement guestName() {
-    	return driver.findElement(guestNameTextBox);
+//    public WebElement yesOption() {
+//    	return driver.findElement(yesOptionLocator);
+//    }
+    
+    // Confirm with member Account pop up
+    public void confirmWithMemberAccount() 
+    {
+    	common.click(confirmWithMember);
     }
     
-    public WebElement addButton() {
-    	return driver.findElement(addButtonLocator);
+    // accept succeeful entry pop up for member
+    public void confirmWithMemberEntry() 
+    {
+    	common.click(confirmMemberEntry);
     }
     
-    public WebElement guestlistBox() {
-    	return driver.findElement(listBoxLocator);
-    }
-    
-    public WebElement gateEntryForGuest() {
-    	return driver.findElement(selectGateEntryForGuest);
-    }
-    
-    public WebElement proceedButton() {
-    	return driver.findElement(proceedButtonLocator);
-    }
-    
-    public WebElement memberAccountOption() {
-    	return driver.findElement(memberAccountOptionLocator);
-    }
-    
-    public WebElement yesOption() {
-    	return driver.findElement(yesOptionLocator);
-    }
-    
-    public WebElement okayOption() {
-    	return driver.findElement(okOptionLocator);
+    public void getDBDataAsPerClub() 
+    {
+    	Map<String, String> dbData = dataBase.getDataFromDataBase(ModuleConfig.ecubeMemberCode1);
+    	dataBase.writeJsonSimple(dbData, DataPaths.GATE_ENTRY_JSON);
+        String JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
+        driver.closeApp();
     }
     
     public WebElement healthClubForGents() {
@@ -91,7 +354,7 @@ public class ActivityPOSLocators {
     }
     
     public void waitForSomeTime() throws InterruptedException {
-        Thread.sleep(3000); 
+       
     }
     
     public List<WebElement> selectOterServicesForHealthClub() {
@@ -152,7 +415,7 @@ public class ActivityPOSLocators {
 	            try {
 	                //System.out.println("   Clicking this member...");
 	                member.click();
-	                Thread.sleep(500); 
+	              
 	             } catch (Exception e) {
 	                System.out.println("   Failed to click member #" + (i + 1) + ": " + e.getMessage());
 	            }
@@ -161,5 +424,7 @@ public class ActivityPOSLocators {
 	        }
 	    }
     }
+
+
     	
  }
