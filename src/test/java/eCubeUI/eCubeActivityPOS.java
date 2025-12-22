@@ -204,20 +204,20 @@ public class eCubeActivityPOS {
 //		activityPoslocators.proceedButton().click();
 //		activityPoslocators.proceedButton().click();
 //		Thread.sleep(2000);	
-////		activityPoslocators.memberAccountOption().click();
+//		activityPoslocators.memberAccountOption().click();
 //		// add  
 //		activityPoslocators.clickOnOkButton();
 //		
-////		activityPoslocators.yesOption().click();
-////		activityPoslocators.okayOption().click();
+//		activityPoslocators.yesOption().click();
+//		activityPoslocators.okayOption().click();
 //		Thread.sleep(3000);
 //		activityPoslocators.waitForSomeTime();
 //		Map<String, String> dbData = commonMethods.getDataFromDataBase(memberCode);
-////		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
+//   	commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 //		commonMethods.writeJsonSimple(dbData, DataPaths.GATE_ENTRY_JSON);
 //		Thread.sleep(3000);
 //		driver.closeApp();
-////		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+// 		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
 //		WebDriverManager.chromedriver().setup();
 //		ChromeOptions options = new ChromeOptions();
 //		options.addArguments("start-maximized");
@@ -281,7 +281,7 @@ public class eCubeActivityPOS {
 //		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 //		Thread.sleep(3000);
 //		driver.closeApp();
-////		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+//		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
 //		WebDriverManager.chromedriver().setup();
 //		ChromeOptions options = new ChromeOptions();
 //		options.addArguments("start-maximized");
@@ -296,7 +296,7 @@ public class eCubeActivityPOS {
 //		adminTests.verifyReports(ModuleConfig.adminUrl, ModuleConfig.ecubeAdminUserName, ModuleConfig.ecubeAdminPassword, mCode, JSON_FILE_PATH, serviceName1, serviceName2,
 //				subServiceName1, subServiceName2);
 //	}
-//
+
 //	public void entryForBadminton() throws InterruptedException, IOException, ParseException {
 //		String mCode = commonMethods.getMemberCode(DATA_JSON_FILE_PATH, "memberCode3");
 //		String guestNameDetails = "SportsUser";

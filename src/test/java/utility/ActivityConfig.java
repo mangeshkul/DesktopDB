@@ -33,4 +33,10 @@ public class ActivityConfig {
                            .getJSONObject(activity)
                            .getString("subservice");
     }
+    
+    public String selectServicesForActivity(String activity,String club) {
+        return activityJson.getJSONObject(club)
+        		           .getJSONObject(activity)
+                           .getString("service");
+    }
 }

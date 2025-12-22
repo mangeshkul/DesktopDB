@@ -46,14 +46,21 @@ public class AdminSteps {
     }
 
 	
-	  @Then("user navigate and log in to web Admin portal to view the Reports")
+	  @Then("user opens the Web Admin URL and logs in successfully")
 	    public void User_verify_the_Reports_on_Webadmin_portal() {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	
-	    	admin.navigateToWebAdmin();
+	    	admin.launchUrlAndLogintoWebAdmin();
 	    	
 	    
 	    }
+	  
+	   @Then("user navigate to web Admin portal")
+	    public void user_navigate_to_web_Admin_portal() {
+	    	// User can verify the report as per DB on WebAdmin portal 
+	    	common.launchBrowser();
+	    }
+	   
 	    @Then("user Navigate to the Report section")
 	    public void User_Navigate_to_the_report_section() {
 	    	// User can verify the report as per DB on WebAdmin portal 

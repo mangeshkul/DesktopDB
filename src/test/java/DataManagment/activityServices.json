@@ -1,0 +1,72 @@
+{
+  "activities": {
+    "Gate Entry": {
+      "services": [
+        "Extra Virgin Olive Oil 50ml",
+       
+      ]
+    },
+
+    "Astroturf": {
+      "services": [
+        "Astroturf Booking",
+        "Astroturf Coaching"
+      ]
+    },
+
+    "Badminton Sports": {
+      "services": [
+        "Badminton Court Booking",
+        "Badminton Coaching"
+      ]
+    },
+
+    "Gym": {
+      "services": [
+        "Personal Training",
+        "Gym Monthly Membership"
+      ]
+    },
+
+    "Health Club General": {
+      "services": [
+        "Dietician - Mona Tanna 1 Hour",
+        "Health Consultation"
+      ]
+    },
+
+    "Health Club Ladies": {
+      "services": [
+        "Ladies Fitness Session",
+        "Diet Consultation"
+      ]
+    },
+
+    "Swimming Pool": {
+      "services": [
+        "Swimming Daily Pass",
+        "Swimming Monthly Pass"
+      ]
+    },
+
+    "Table Tennis": {
+      "services": [
+        "Table Tennis Court Booking",
+        "Table Tennis Coaching"
+      ]
+    },
+
+    "Tennis Sports": {
+      "services": [
+        "Tennis Court Booking",
+        "Tennis Coaching"
+      ]
+    },
+
+    "Volleyball": {
+      "services": [
+        "Volleyball Court Booking"
+      ]
+    }
+  }
+}

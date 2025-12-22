@@ -13,7 +13,7 @@ public class ModuleConfig {
     public static String ecubeActivityPosUserName;
     public static String ecubeActivityPosPassword;
     public static String ecubeMemberCode1;
-    public static String ecubeMemberCode2;
+    public static String memberCodeforHealth;
     public static String ecubeMemberCode3;
     public static String ecubeMemberCode4;
     public static String ecubeGuestName;
@@ -44,7 +44,7 @@ public class ModuleConfig {
          ecubeActivityPosUserName = ConfigReader.get(clubName + ".activityPosUserName");
          ecubeActivityPosPassword = ConfigReader.get(clubName + ".activityPosPassword");
          ecubeMemberCode1 = ConfigReader.get(clubName + ".memberCode1");
-         ecubeMemberCode2 = ConfigReader.get(clubName + ".memberCode2");
+         memberCodeforHealth = ConfigReader.get(clubName + ".memberCode2");
          ecubeMemberCode3 = ConfigReader.get(clubName + ".memberCode3");
          ecubeMemberCode4 = ConfigReader.get(clubName + ".memberCode4");
          ecubeGuestName       = ConfigReader.get(clubName + ".clubGuestName");

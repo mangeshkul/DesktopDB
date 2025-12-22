@@ -3,57 +3,108 @@ package hooks;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import pageObjectsPages.ActivityPOSLocators;
-import pageObjectsPages.CommonMethodsForActivityPOS;
-import pageObjectsPages.LoginPage;
-import utilities.CommonFunctions;
+import com.sun.jna.platform.DesktopWindow;
+import com.sun.jna.platform.WindowUtils;
+
 import utilities.DriverManager;
 import utility.ModuleConfig;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Hooks {
 
-    public static WindowsDriver driver; 
+    public static WindowsDriver driver;
     public static WebDriver webDriver;
 
-    private LoginPage loginPage;
-    private ActivityPOSLocators activityPoslocators;
-    private CommonMethodsForActivityPOS commonMethods;
-    
-    public WindowsDriver getAndroidDriver() {
-        return driver;
-    }
-
-    public WebDriver getWebDriver() {
-        return webDriver;
-    }
-
+    // =========================
+    // CONFIG LOAD
+    // =========================
     @Before(order = 0)
     public void initConfig() {
         ModuleConfig.loadModule();
         System.out.println("Running for Active Module -> " + ModuleConfig.clubName);
     }
 
-    @Before(order = 1)
-    public void setUp(Scenario scenario) throws Exception {
+    // =========================
+    // WINDOWS UTILITIES (UNCHANGED)
+    // =========================
+    public void printAllWindows() {
+        List<DesktopWindow> windows = WindowUtils.getAllWindows(true);
+        for (DesktopWindow w : windows) {
+            if (w.getTitle() != null && !w.getTitle().trim().isEmpty()) {
+                // debug only
+            }
+        }
+    }
 
-        // 1️⃣ Launch POS app first (without driver)
-        commonMethods = new CommonMethodsForActivityPOS(null);
-        commonMethods.launchApplication(ModuleConfig.ecubeAppPath);
+    public String getWindowHandleHex(String processName) throws Exception {
+        String command = "powershell -command \"(Get-Process " + processName +
+                ").MainWindowHandle.ToString('X')\"";
+        Process p = Runtime.getRuntime().exec(command);
+        p.waitFor();
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(p.getInputStream()));
+        return reader.readLine();
+    }
 
+    public void launchApplication(String exePath) throws Exception {
+        File exe = new File(exePath);
+        if (!exe.exists()) {
+            throw new RuntimeException("❌ EXE Not found: " + exePath);
+        }
+
+        ProcessBuilder pb = new ProcessBuilder(exe.getAbsolutePath());
+        pb.directory(exe.getParentFile());
+        pb.start();
+        Thread.sleep(2000);
+        printAllWindows();
+    }
+
+    // =========================
+    // 🔹 WINDOWS DRIVER LAUNCH
+    // =========================
+
+   
+    public void setupDrivers() throws Exception {
+    	if (DriverManager.getWindowsDriver() != null) {
+            return;
+        }
       
+    }
 
-        // 2️⃣ Attach to the opened app
-        String windowHandle = commonMethods.getWindowHandleHex("eCubePOS");
+
+    
+    @Before
+    public void launchWindowsApp() throws Exception {
+        if (DriverManager.getWindowsDriver() != null) {
+            return;
+        }
+
+        launchApplication(ModuleConfig.ecubeAppPath);
+
+        String windowHandle = getWindowHandleHex("eCubePOS");
         if (windowHandle == null || windowHandle.isEmpty()) {
             throw new RuntimeException("Could not get MainWindowHandle for eCubePOS");
         }
@@ -63,47 +114,59 @@ public class Hooks {
         caps.setCapability("platformName", "Windows");
         caps.setCapability("deviceName", "WindowsPC");
 
-        // 3️⃣ Initialize WindowsDriver (FIRST)
-        driver = new WindowsDriver(new URL("http://127.0.0.1:4723"), caps);
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver = new WindowsDriver(
+                new URL("http://127.0.0.1:4723"), caps);
 
-     // ✅ REGISTER DRIVER
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         DriverManager.setWindowsDriver(driver);
 
-        // ✅ Assign webDriver reference safely
-        webDriver = driver;
-        // 4️⃣ Store only WindowsDriver (NOT web driver)
-//        DriverManager.setWindowsDriver(driver);
-
-        // 5️⃣ Initialize POMs
-        loginPage = new LoginPage(driver);
-        activityPoslocators = new ActivityPOSLocators(driver);
-        commonMethods = new CommonMethodsForActivityPOS(driver);
-        CommonFunctions function = new CommonFunctions(driver);
-        System.out.println("Driver initialized successfully.");
+        System.out.println("✅ Windows POS launched");
     }
 
-  @After
+    // =========================
+    // 🔹 WEB DRIVER LAUNCH
+    // =========================
+    
+    public WebDriver launchBrowser() {
+
+        WebDriver driver = DriverManager.getWebDriver();
+
+        if (driver == null) {
+            WebDriverManager.chromedriver().setup();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--start-maximized");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--remote-allow-origins=*");
+
+            driver = new ChromeDriver(options);
+
+            // ✅ REGISTER DRIVER
+            DriverManager.setWebDriver(driver);
+
+            System.out.println("✅ Web browser launched successfully");
+        }
+
+        return driver;
+    }
+
+    // =========================
+    // TEARDOWN
+    // =========================
+  
     public void tearDown(Scenario scenario) {
 
         try {
-            if (scenario.isFailed()) {
-                byte[] src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            if (scenario.isFailed() && driver != null) {
+                byte[] src = ((TakesScreenshot) driver)
+                        .getScreenshotAs(OutputType.BYTES);
                 scenario.attach(src, "image/png", scenario.getName());
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
-            // Quit Windows app
-            if (driver != null) {
-                driver.quit();
-            }
-
-//             Quit Chrome/Web Admin browser
             DriverManager.quitAll();
-
-            System.out.println("All drivers closed successfully.");
+            System.out.println("🧹 All drivers closed");
         }
     }
 }

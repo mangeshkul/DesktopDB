@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.formula.atp.Switch;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,6 +14,7 @@ import io.appium.java_client.windows.WindowsElement;
 import utilities.CommonFunctions;
 import utilities.DatabaseHelper;
 import utilities.WebCommonActions;
+import utility.ActivityConfig;
 import utility.ConfigReader;
 import utility.DataPaths;
 import utility.JsonLogWriter;
@@ -30,8 +33,8 @@ public class ActivityPOSLocators {
 	    private WebDriver webDriver;
 	    private CommonFunctions activityCommon;
 	    private WebCommonActions webCommon;
-   
-    
+	    private ActivityConfig activityConfig;
+        String servicesName ="";
     
     DatabaseHelper dataBase;
     AdminWeb admin;
@@ -59,6 +62,10 @@ public class ActivityPOSLocators {
     
     @FindBy(name  = "ListBoxItem") private 
     WebElement listBoxLocator;
+    
+    //add 
+    @FindBy(className = "ListBoxItem")private
+    WebElement listName;
 
     
     private By selectGateEntryForGuest2 = By.name("Gate Entry Guest");
@@ -104,7 +111,7 @@ public class ActivityPOSLocators {
         this.admin = new AdminWeb(driver);
         common = new CommonFunctions(driver);
         dataBase = new DatabaseHelper(driver);
-      
+        activityConfig = new ActivityConfig();
         PageFactory.initElements(driver, this);
         
        
@@ -143,11 +150,13 @@ public class ActivityPOSLocators {
     	common.click(addButtonLocator);
     }
     
-   public void verifyGuestName() 
-   {
-	   
-//	   common.compareText(listBoxLocator, ModuleConfig.ecubeGuestName);
-   }
+    public void verifyGuestName() 
+    {
+ 	   System.out.println("name is "+ listName.getText());
+ 	   common.compareText(listName, ModuleConfig.ecubeGuestName);
+ 	   
+    }
+   
   
    
    
@@ -361,13 +370,14 @@ public class ActivityPOSLocators {
     	return driver.findElements(otherServicesForHealth);
     }
     
-    public void otherServiceNameInHeathClub(String serviceName) {
+    public void selectServiceNameasPerActivity(String serviceName,String club) {
     	driver.findElement(By.name(serviceName)).click();
     }
     
-    public void addedServiceName(String addedService) {
-    	driver.findElement(By.xpath("//*[contains(@Name, '"+addedService+"')]"));
-    	System.out.println("✅ Service Added Successfully");
+    public void VerifyServiceName(String addedService,String club) {
+    	WebElement service =driver.findElement(By.xpath("//*[contains(@Name, '"+addedService+"')]"));
+    	common.compareText(service, addedService);
+    	
     }
     
     public WebElement listButton() {
@@ -424,6 +434,65 @@ public class ActivityPOSLocators {
 	        }
 	    }
     }
+    
+    // This method we select the Activity from Activity POS Dashboard Page 
+    public void selectActivityForUser(String activity) 
+    {
+    	servicesName = activity;
+    	WebElement activityName = driver.findElement(By.name(activity));
+    	common.click(activityName);
+   
+    }
+    
+    //  Here we have to select and verify the services 
+    public void selectAndVerifyServicesAsPerActivity() {
+
+        String club = ModuleConfig.clubName;
+
+        switch (club.toLowerCase()) {
+
+            case "nsci":
+                selectAndVerifyServicesAsPerActivity(servicesName, club);
+                break;
+
+            case "karnavati":
+                selectAndVerifyServicesAsPerActivity(servicesName, club);
+                break;
+
+            default:
+                throw new RuntimeException("❌ Unsupported club: " + club);
+        }
+    }
+    
+    private void handleHealthClubService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+    
+    private void selectAndVerifyServicesAsPerActivity(String servicesName, String club) {
+
+        switch (servicesName.toLowerCase()) {
+
+            case "health club gents":
+                handleHealthClubService(servicesName,club);
+                break;
+
+            case "gym":
+//                handleGymService(servicesName, club);
+                break;
+
+            case "gate entry":
+//                handleGateEntryService(servicesName, club);
+                break;
+
+            default:
+                throw new RuntimeException("❌ Unsupported service: " + servicesName);
+        }
+    }
+
+    
+
 
 
     	

@@ -32,6 +32,7 @@ public class ActivityPOSSteps {
     private AdminWeb admin;
     protected LoginPage loginPage;
     private WebDriverWait wait;
+    private Hooks hooks;
 
     public ActivityPOSSteps() {
     	this.driver = DriverManager.getWindowsDriver();
@@ -48,12 +49,13 @@ public class ActivityPOSSteps {
         loginPage = new LoginPage(driver);
         locators = new ActivityPOSLocators(driver);
         admin = new AdminWeb(driver);
+        hooks = new Hooks();
         
     }
 
     @Given("Activity POS application is launched")
     public void launchActivityPOS() throws Exception {
-    	activityPos.handleClubGateEntry(ModuleConfig.clubName);
+    	hooks.launchWindowsApp();
     }
 
     @Given("user logs in to Activity POS")
@@ -76,6 +78,7 @@ public class ActivityPOSSteps {
     	locators.addGuest();
         locators.enterGuestName();
         locators.addGuestName();
+        locators.verifyGuestName();
     }
     
     @Then("user select the club service")
@@ -86,7 +89,7 @@ public class ActivityPOSSteps {
     }
     
     
-    @And("user click on Proceed button with user details and completes the member entry")
+    @And("user click on Proceed button with user details and completes the Gate Entry")
     public void user_adds_guest_detail() {
     	// user able to complete gate entry
     	locators.proceedwithdetails();
@@ -99,4 +102,19 @@ public class ActivityPOSSteps {
     	locators.getUserDataFromDataBase();
     
     }
+    
+    @Then("user select the activity {string} on Dashboard page")
+    public void User_select_activity_on_Dashboard(String activityName) throws IOException {
+    	// User can fetch the data from databse as per club wise 
+    	locators.selectActivityForUser(activityName);
+    
+    }
+    @Then("user select and verify the services as per the activity selection")
+    public void user_select_the_services_for_the_activity() throws IOException {
+    	// User can select the services as per activity selection 
+    	locators.selectAndVerifyServicesAsPerActivity();
+    
+    }
+    
+    
 }

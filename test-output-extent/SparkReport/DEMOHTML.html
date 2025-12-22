@@ -35,7 +35,7 @@
 <a href="#"><span class="badge badge-primary">Demo Automation Report</span></a>
 </li>
 <li class="m-r-10">
-<a href="#"><span class="badge badge-primary">Dec 17, 2025 12:47:27 PM</span></a>
+<a href="#"><span class="badge badge-primary">Dec 22, 2025 10:13:29 PM</span></a>
 </li>
 </ul>
 </div>
@@ -66,13 +66,13 @@
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Started</p>
-<h3>Dec 17, 2025 12:47:27 PM</h3>
+<h3>Dec 22, 2025 10:13:29 PM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
 <div class="card"><div class="card-body">
 <p class="m-b-0">Ended</p>
-<h3>Dec 17, 2025 12:48:22 PM</h3>
+<h3>Dec 22, 2025 10:16:59 PM</h3>
 </div></div>
 </div>
 <div class="col-md-3">
@@ -143,7 +143,7 @@
 </div>
 </div>
 <div class="card-footer">
-<div><small data-tooltip='100%'><b>20</b> steps passed</small></div>
+<div><small data-tooltip='100%'><b>27</b> steps passed</small></div>
 <div>
 <small data-tooltip='0%'><b>0</b> steps failed,
 <b>0</b> skipped, <b data-tooltip='%'>0</b> others
@@ -162,7 +162,7 @@
 </div></div>
 <script>
 var timeline = {
-"Activity POS Tests":54.139
+"Activity POS Tests":208.088
 };
 </script>
 <div class="row">
@@ -172,7 +172,7 @@ var timeline = {
 <div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
 <thead><tr class="bg-gray"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Others</th><th>Passed %</th></tr></thead><tbody>
 <tr>
-<td>@test</td>
+<td>@healthTest</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
@@ -225,7 +225,7 @@ warningChild: 0,
 skipChild: 0,
 infoChild: 0,
 grandChildCount: 5,
-passGrandChild: 20,
+passGrandChild: 27,
 failGrandChild: 0,
 warningGrandChild: 0,
 skipGrandChild: 0,
@@ -250,7 +250,7 @@ eventsCount: 5,
 <li class="dropdown">
 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tag"></i></a>
 <ul id="tag-toggle" class="dropdown-menu dropdown-md p-v-0">
-<a class="dropdown-item" href="#">@test</a>
+<a class="dropdown-item" href="#">@healthTest</a>
 </ul>
 </li>
 </ul>
@@ -263,7 +263,7 @@ eventsCount: 5,
           <div class="test-detail">
             <p class="name">Activity POS Tests</p>
             <p class="text-sm">
-              <span>12:47:28 PM</span> / <span>00:00:54:139</span>
+              <span>10:13:31 PM</span> / <span>00:03:28:088</span>
               <span class="badge pass-bg log float-right">Pass</span>
             </p>
           </div>
@@ -272,9 +272,9 @@ eventsCount: 5,
 <div class="p-v-10">
 <div class="info">
 <h5 class="test-status text-pass">Activity POS Tests</h5>
-<span class='badge badge-success'>12.17.2025 12:47:28 PM</span>
-<span class='badge badge-danger'>12.17.2025 12:48:22 PM</span>
-<span class='badge badge-default'>00:00:54:139</span>
+<span class='badge badge-success'>12.22.2025 10:13:31 PM</span>
+<span class='badge badge-danger'>12.22.2025 10:16:59 PM</span>
+<span class='badge badge-default'>00:03:28:088</span>
 &middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
 <span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
 <span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
@@ -289,109 +289,151 @@ eventsCount: 5,
         <div class="node" id="2"><span class="badge log pass-bg mr-2">Pass</span>Open Activity POS and validate queue</div>
       </div>
     </div>
-        <div class="collapse">
-          <div class="card-body">
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.user_logs_in_to_Activity_POS()">
-                <span>Given user logs in to Activity POS</span>
+        <div class="scenario_outline collapse">
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="3"><span class="badge log pass-bg mr-2">Pass</span>Open Activity POS and validate queue</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>Given Activity POS application is launched</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.user_enters_member_code()">
-                <span>And user enters member code and submit it</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When user logs in to Activity POS</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.User_adds_guest_and_enters_guest_name()">
-                <span>And user adds a new guest, enters the guest name, and verifies the name successfully</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user enters member code and submit it</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.User_select_the_club_services()">
-                <span>And user select the club service</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user adds a new guest, enters the guest name, and verifies the name successfully</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.user_adds_guest_detail()">
-                <span>When user click on Proceed button with user details and completes the member entry</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the club service</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.ActivityPOSSteps.User_fetch_the_member_data_from_database()">
-                <span>Then user fetch the member data from database</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user click on Proceed button with user details and completes the Gate Entry</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_verify_the_Reports_on_Webadmin_portal()">
-                <span>When user navigate and log in to web Admin portal to view the Reports</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the activity "Health Club Gents" on Dashboard page</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_Navigate_to_the_report_section()">
-                <span>And user Navigate to the Report section</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user enters member code and submit it</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_Navigate_to_the_report_Header(java.lang.String)">
-                <span>And user select the Report Header "finances"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user adds a new guest, enters the guest name, and verifies the name successfully</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_select_the_report_list(java.lang.String)">
-                <span>And user select the report list "Member Statements"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select and verify the services as per the activity selection</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_enters_the_member_code_on_the_admin_portal_to_access_the_report()">
-                <span>And user enters the member code on the admin portal to access the report</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then user click on Proceed button with user details and completes the Gate Entry</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_opens_the_new_tab_and_verify_the_reports()">
-                <span>And user opens the new tab and verify the reports header</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then user fetch the member data from database</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.user_verifies_the_report_service_and_sub_service_details_against_the_activity(java.lang.String)">
-                <span>Then user verifies the report, service, and sub-service details against the Activity "Gate Entry"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user navigate to web Admin portal</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_click_on_ecube_logo_icon()">
-                <span>When user click on ecube logo icon</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When user opens the Web Admin URL and logs in successfully</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_Navigate_to_the_report_section()">
-                <span>And user Navigate to the Report section</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user Navigate to the Report section</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_Navigate_to_the_report_Header(java.lang.String)">
-                <span>And user select the Report Header "sales"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the Report Header "finances"</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_select_the_report_list(java.lang.String)">
-                <span>And user select the report list "Service Sales Detail"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the report list "Member Statements"</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_enters_the_member_code_on_the_admin_portal_to_access_the_report()">
-                <span>And user enters the member code on the admin portal to access the report</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user enters the member code on the admin portal to access the report</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.User_opens_the_new_tab_and_verify_the_reports()">
-                <span>And user opens the new tab and verify the reports header</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user opens the new tab and verify the reports header</span>
       <div>
       </div>
-              </div>
-              <div class="step pass-bg" title="stepDefinitions.AdminSteps.user_verifies_the_report_service_and_sub_service_details_against_the_activity(java.lang.String)">
-                <span>Then user verifies the report, service, and sub-service details against the Activity "Gate Entry"</span>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then user verifies the report, service, and sub-service details against the Activity "Health Club Gents"</span>
       <div>
       </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>When user click on ecube logo icon</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user Navigate to the Report section</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the Report Header "sales"</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user select the report list "Service Sales Detail"</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user enters the member code on the admin portal to access the report</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>And user opens the new tab and verify the reports header</span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>Then user verifies the report, service, and sub-service details against the Activity "Health Club Gents"</span>
+      <div>
+      </div>
+                  </div>
               </div>
-          </div>
+            </div>
         </div>
   </div>
 </div>
@@ -419,12 +461,12 @@ eventsCount: 5,
 <span class="meta">
 <span class='badge log pass-bg'>1</span>
 </span>
-<p class="name">@test</p>
+<p class="name">@healthTest</p>
 <p class="duration text-sm">1 tests</p>
 </div>
 <div class="test-contents d-none">
 <div class="info">
-<h4>@test</h4>
+<h4>@healthTest</h4>
 <span status="pass" class='badge log pass-bg'>1 passed</span>
 </div>
 <table class='table table-sm mt-4'>
@@ -438,9 +480,9 @@ eventsCount: 5,
 <tbody>
 <tr class="tag-test-status" status="pass">
 <td><span class="badge log pass-bg">Pass</span></td>
-<td>12:47:28 PM</td>
+<td>22:13:31 PM</td>
 <td>
-<a href="#" class="linked" test-id='1' id='2'>Open Activity POS and validate queue</a>
+<a href="#" class="linked" test-id='1' id='3'>Open Activity POS and validate queue</a>
 <div class="">
 <span class="badge badge-default">Activity POS Tests.Open Activity POS and validate queue</span>
 </div>
