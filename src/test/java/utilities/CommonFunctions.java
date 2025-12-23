@@ -1,5 +1,6 @@
 package utilities;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,10 +11,18 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import utility.ConfigReader;
@@ -36,6 +45,30 @@ public class CommonFunctions {
 	        return new WebDriverWait(driver, timeout)
 	                .until(ExpectedConditions.visibilityOf(element));
 	    }
+	  
+	  public boolean isElementDisplayed(WebElement ele) {
+		    return ele.isDisplayed();
+		}
+	  
+	  public void writeNetAmountValueIntoJson(Double amount, String jsonPAth) throws StreamWriteException, DatabindException, IOException 
+	  {
+		  ObjectMapper mapper = new ObjectMapper();
+		  File file= new File(jsonPAth);
+		  Map<String,Double> data = new HashMap<>();
+		  data.put("NetAmount", amount);
+		  mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
+	  }
+	  public double getAmount(WebElement element) {
+
+		    String value = element.getText();
+
+		   if(value==null || value.trim().isEmpty()) 
+		   {
+			   value = element.getAttribute("Name");
+		   }
+		   return Double.parseDouble(value);
+		}
+
 
     public void click(WebElement element) {
     	element.click();

@@ -11,6 +11,9 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+
 import eCubeUI.eCubeActivityPOS;
 import pageObjectsPages.AdminWeb;
 import pageObjectsPages.ActivityPOSLocators;
@@ -87,6 +90,15 @@ public class ActivityPOSSteps {
     	locators.selectService();
     	
     }
+    
+    @And("user get the net amount")
+    public void user_get_the_net_amount() throws StreamWriteException, DatabindException, IOException {
+    	// Get the aount and verify the amount
+    	locators.getAndVerifyNetAmount();
+    	
+    	
+    }
+    
     
     
     @And("user click on Proceed button with user details and completes the Gate Entry")

@@ -241,11 +241,11 @@ public class DatabaseHelper {
 			}
 
 			writer.write("}");
-			System.out.println("✅ JSON written to: " + filePath);
+			System.out.println("JSON written to: " + filePath);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("❌ Failed to write JSON!");
+			System.out.println("Failed to write JSON!");
 		}
 	}
 	
@@ -260,6 +260,7 @@ public class DatabaseHelper {
 	    }
 	    return null;
 	}
+	
 
 
 

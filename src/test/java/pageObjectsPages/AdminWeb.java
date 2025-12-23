@@ -295,8 +295,14 @@ public class AdminWeb {
 
 	    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
 	    System.out.println("billData = " + billData);
-
 	    String billCode = billData.get("BillCode");
+	    
+	    // Get the Debit Amount from Json file which come from POS application
+	    
+        Map<String, String> netAmount = readBillDataFromJSON(DataPaths.Amount_Data);
+	    double debitAmount = Double.parseDouble(netAmount.get("NetAmount"));
+        
+        System.out.println("debitAmount is = " + debitAmount);
 	    String Description =billData.get("Description").toUpperCase();
 	    if (billCode == null || billCode.isEmpty()) {
 	        throw new IllegalArgumentException(
@@ -305,6 +311,7 @@ public class AdminWeb {
 
 	    boolean billFound = false;
 	    boolean serviceFound = false;
+	    
 
 	    for (int i = 0; i < serviceTable.size(); i++) {
 
@@ -326,7 +333,19 @@ public class AdminWeb {
 	                        "' found for BillCode: " + billCode);
 	                break; // BillCode is unique → no need to continue
 	            }
-	        }
+	            // Debit Amount
+	            
+	            WebElement debitCells = driver.findElement(
+	            	    By.xpath(
+	            	        "//tr[td='" + billCode + "']" +
+	            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+	            	    )
+	            	);
+	            double debitValue = Double.parseDouble(debitCells.getText());
+	             
+	            Assert.assertEquals(debitAmount,debitValue,0.01,"Debit amount mismatch. Expected: " + debitAmount+ " but found: " + debitValue
+	            );
+	            }
 	    }
 
 	    //  Final Assertions (AFTER loop)
@@ -340,6 +359,8 @@ public class AdminWeb {
 	                "Service '" + Description +
 	                        "' not found for BillCode: " + billCode);
 	    }
+	    
+	    
 	}
 
 	
@@ -458,8 +479,11 @@ public class AdminWeb {
 	        String subService2) throws IOException, ParseException {
 
 	    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
-
 	    String billNo = billData.get("BillNo");
+	    Map<String, String> netAmount = readBillDataFromJSON(DataPaths.Amount_Data);
+	    double debitAmount = Double.parseDouble(netAmount.get("NetAmount"));
+//        String debitAmount =netAmount.get("NetAmount"); 
+        System.out.println("debitAmount is = " + debitAmount);
 	    if (billNo == null || billNo.isEmpty()) {
 	        throw new IllegalArgumentException("BillNo missing in JSON");
 	    }
@@ -467,6 +491,20 @@ public class AdminWeb {
 	    boolean billFound = false;
 	    boolean subService1Found = false;
 	    boolean subService2Found = false;
+	    boolean debitFound =false;
+	    double totalAmountFromUI = 0.0;
+	 // Get ONLY Amount column for given Bill No
+	    List<WebElement> amountCells = driver.findElements(
+	            By.xpath("//*[@id='tableSummary']/table/tbody/tr[td[4]='"+ billNo + "']/td[12]"));
+
+	    if (amountCells.isEmpty()) {
+	        throw new AssertionError(
+	                "BillNo not found in Service Sales Detail report: " + billNo);
+	    }
+
+	    for (WebElement amountCell : amountCells) {
+	        totalAmountFromUI += Double.parseDouble(amountCell.getText().trim());
+	    }
 
 	    for (WebElement row : serviceTable) {
 
@@ -484,16 +522,23 @@ public class AdminWeb {
 	            if (!normalizedRow.contains(activityName.toUpperCase())) {
 	                continue;
 	            }
-
+	         // Subservice validation
 	            if (normalizedRow.contains(subService1.toUpperCase())) {
 	                subService1Found = true;
 	                System.out.println("Found sub-service: " + subService1);
 	            }
-
+               // Subservice validation
 	            if (normalizedRow.contains(subService2.toUpperCase())) {
 	                subService2Found = true;
 	                System.out.println("Found sub-service: " + subService2);
 	            }
+	            // Amount checking with final amount and combination of same bill code amount as per requirement 
+	            Assert.assertEquals(debitAmount, totalAmountFromUI,0.01);
+	                
+	                System.out.println("Found Amount : " + debitAmount+ "total AMount" +totalAmountFromUI );
+	            
+	            
+	            
 	        }
 	    }
 
@@ -527,8 +572,11 @@ public class AdminWeb {
 		data.put("Debit", (String) jsonObject.get("Debit"));
 		data.put("BillNo", (String) jsonObject.get("BillNo"));
 		data.put("Description", (String) jsonObject.get("Description"));
+		data.put("NetAmount", String.valueOf(jsonObject.get("NetAmount")));
 		return data;
 	}
+	
+	
 
 	public void closeThewindow() {
 		driver.close();

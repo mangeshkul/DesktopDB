@@ -7,6 +7,7 @@ Feature: Activity POS Tests
     And user enters member code and submit it
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select the club service
+    And user get the net amount
     When user click on Proceed button with user details and completes the Gate Entry
     Then user fetch the member data from database
     And user navigate to web Admin portal
@@ -37,6 +38,7 @@ Feature: Activity POS Tests
     And user enters member code and submit it
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select and verify the services as per the activity selection
+    And user get the net amount
     Then user click on Proceed button with user details and completes the Gate Entry
     Then user fetch the member data from database
     And user navigate to web Admin portal
@@ -53,7 +55,7 @@ Feature: Activity POS Tests
     And user select the report list "Service Sales Detail"
     And user enters the member code on the admin portal to access the report
     And user opens the new tab and verify the reports header
-    Then user verifies the report, service, and sub-service details against the Activity "Gate Entry"
+    Then user verifies the report, service, and sub-service details against the Activity "Health Club Gents"
 
     Examples: 
       | Activity_Name     |

@@ -24,6 +24,10 @@ import utility.ModuleConfig;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 import pageObjectsPages.AdminWeb;
 
@@ -93,6 +97,22 @@ public class ActivityPOSLocators {
     
     @FindBy(name = "OK")private
     WebElement confirmMemberEntry;
+    
+    @FindBy(xpath = "//*[@AutomationId='NetAmount']")private
+    WebElement netAmount;
+    
+    @FindBy(xpath = "//*[@AutomationId='TotalTax']")private
+    WebElement totalTaxAmount;
+    
+    @FindBy(xpath = "//*[@AutomationId='TotalDiscount']")private
+    WebElement TotalDiscount;
+    
+    @FindBy(xpath = "//*[@AutomationId='TotalBasic']")private
+    WebElement totalBasicAmount;
+    
+    
+    
+    
     
     private By healthClubForGents = By.name("Health Club Gents");
     private By badmintonSportsLocator = By.name("Badminton Sports");
@@ -200,6 +220,25 @@ public class ActivityPOSLocators {
 		return accountType;
 	}
 
+   public void getAndVerifyNetAmount() throws StreamWriteException, DatabindException, IOException 
+   {
+	   common.waitForElement(netAmount, 10);
+	 
+	   double actualNet = common.getAmount(netAmount);
+	   double totalBasic = common.getAmount(totalBasicAmount);
+	   double discount = common.getAmount(TotalDiscount);
+	   double tax = common.getAmount(totalTaxAmount);
+	// Business formula
+	   double expectedNet = totalBasic - discount + tax;
+	// Round to 2 decimals making Round off 
+//       expectedNet = Math.round(expectedNet*100)/100;
+       Assert.assertEquals(actualNet, expectedNet,
+    	        "Net Amount calculation mismatch");
+       
+       // write value into JSON file 
+       common.writeNetAmountValueIntoJson(expectedNet,DataPaths.Amount_Data);
+   }
+   
     public void selectService() {
     	
         driver.findElement(serviceNameLocator()).click();

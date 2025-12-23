@@ -54,7 +54,7 @@ public class eCubeActivityPOS {
 	
 	 public void gateEntryNSCIWithMember() throws InterruptedException, IOException, ParseException {
 
-		 String memberCode = JsonReader.getValue(DataPaths.DATA_JSON, "memberCode1");
+		 String memberCode = JsonReader.getValue(DataPaths.Amount_Data, "memberCode1");
 	        loginPage.login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
 
 	        Thread.sleep(4000);
