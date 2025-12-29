@@ -399,7 +399,7 @@ public class eCubeActivityPOS {
 //		commonMethods.writeJsonSimple(dbData, JSON_FILE_PATH);
 //		Thread.sleep(3000);
 //		driver.closeApp();
-////		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+//		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
 //		WebDriverManager.chromedriver().setup();
 //		ChromeOptions options = new ChromeOptions();
 //		options.addArguments("start-maximized");

@@ -29,8 +29,6 @@ import org.testng.Assert;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import pageObjectsPages.AdminWeb;
-
 public class ActivityPOSLocators {
 
 	    private WindowsDriver driver;
@@ -48,16 +46,13 @@ public class ActivityPOSLocators {
     
     @FindBy(xpath = "//*[contains(@AutomationId, 'CodeEntry')]") private 
     WebElement codeEntryField;
-   
 
     @FindBy(xpath = "//*[contains(@AutomationId, 'SubmitCode')]") private 
     WebElement submitCode;
-    
-
+   
     @FindBy(name  = "1") private 
     WebElement guestCountLocator;
     
-   
     @FindBy(xpath  = "//*[contains(@AutomationId, 'InnerTextBox')]") private 
     WebElement guestNameTextBox;
     
@@ -110,7 +105,23 @@ public class ActivityPOSLocators {
     @FindBy(xpath = "//*[@AutomationId='TotalBasic']")private
     WebElement totalBasicAmount;
     
+    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]")private
+    WebElement subMemberPan;
     
+    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom//CheckBox")
+    private List<WebElement> subMemberCheckBoxes;
+    
+    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom[contains(@ClassName,'UserBox')]")
+    private List<WebElement> memberContainers;
+    
+    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")
+    private List<WebElement> memberCheckBoxes;
+
+    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")
+    private WebElement sonCheckBox;
+
+
+
     
     
     
@@ -204,6 +215,7 @@ public class ActivityPOSLocators {
 	    switch (accountType) {
             
 	        case "member account":
+	         common.waitForElement(memberAccountOptionLocator, 5);
 	         common.click(memberAccountOptionLocator);
 	       
 	        confirmWithMemberAccount();
@@ -344,6 +356,7 @@ public class ActivityPOSLocators {
          	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);
          	common.waitForElement(submitCode, 5);
          	common.click(submitCode);
+         	
              break;
 
          case "karnavati":
@@ -373,15 +386,18 @@ public class ActivityPOSLocators {
 //    	return driver.findElement(yesOptionLocator);
 //    }
     
-    // Confirm with member Account pop up
+    // Confirm and verify with member Account pop up is displayed
     public void confirmWithMemberAccount() 
     {
+    	common.isElementDisplayed(confirmWithMember);
     	common.click(confirmWithMember);
     }
     
     // accept succeeful entry pop up for member
     public void confirmWithMemberEntry() 
     {
+    	
+    	common.isElementDisplayed(confirmMemberEntry);
     	common.click(confirmMemberEntry);
     }
     
@@ -442,7 +458,9 @@ public class ActivityPOSLocators {
 	    System.out.println("Total members found: " + members.size());
 	    
 	    for (int i = 0; i < members.size(); i++) {
+	    	
 	        WebElement member = members.get(i);
+	        common.locateElement(member);
 	        List<WebElement> texts = member.findElements(By.xpath(".//Text"));
 
 	        String mainName = "";
@@ -473,6 +491,60 @@ public class ActivityPOSLocators {
 	        }
 	    }
     }
+    
+    // This method find the Sub members annd select it except self
+    
+    public void selectAllSubMembersExceptSelf() {
+    	common.waitForElement(sonCheckBox, 10);
+    	
+        Assert.assertFalse(
+        		memberContainers.isEmpty(),
+            "No member entries found in ScrollViewer"
+        );
+
+        boolean subMemberSelected = false;
+        int index = 1;
+
+        for (WebElement checkBox : memberCheckBoxes) {
+            List<WebElement> roleTexts =
+                    checkBox.findElements(By.xpath("./*[@ControlType='Text']"));
+
+            String role = "";
+            if (!roleTexts.isEmpty()) {
+                role = roleTexts.get(1).getText();
+            }
+
+            
+
+            // ✅ Do NOT click if role is Self i.e. Member
+            if (!"Self".equalsIgnoreCase(role)) {
+            	
+                try {
+                    if (!checkBox.isSelected()) {
+                        checkBox.click();
+                        System.out.println("Member #" + index + " Role: " + role);
+                    }
+                    subMemberSelected = true;
+                    System.out.println("Member #" + index + " checkbox selected");
+                } catch (Exception e) {
+                    Assert.fail("Failed to select checkbox for sub member #" + index, e);
+                }
+            } else {
+                System.out.println("Skipping Self member");
+            }
+
+            index++;
+        }
+
+
+        Assert.assertTrue(
+            subMemberSelected,
+            "No sub members were selected (only Self present)"
+        );
+    }
+
+    
+
     
     // This method we select the Activity from Activity POS Dashboard Page 
     public void selectActivityForUser(String activity) 
@@ -509,6 +581,12 @@ public class ActivityPOSLocators {
     	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
     }
     
+    private void handleBadmintonClubService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+    
     private void selectAndVerifyServicesAsPerActivity(String servicesName, String club) {
 
         switch (servicesName.toLowerCase()) {
@@ -517,8 +595,8 @@ public class ActivityPOSLocators {
                 handleHealthClubService(servicesName,club);
                 break;
 
-            case "gym":
-//                handleGymService(servicesName, club);
+            case "badminton sports":
+            	handleBadmintonClubService(servicesName, club);
                 break;
 
             case "gate entry":

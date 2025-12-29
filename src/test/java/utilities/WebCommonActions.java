@@ -94,6 +94,7 @@ public class WebCommonActions {
 	            options.addArguments("start-maximized");
 	            options.addArguments("--disable-notifications");
 	            options.addArguments("--remote-allow-origins=*");
+	            options.addArguments("--incognito");
 	            driver = new ChromeDriver(options);
 	       
 	            

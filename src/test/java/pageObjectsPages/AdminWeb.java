@@ -194,7 +194,8 @@ public class AdminWeb {
 		 switch  (ModuleConfig.clubName.toLowerCase()) {
 
         case "nsci":
-        	webAction.waitForElement(enterMemberCode,10 );
+        	webAction.waitForElement(enterMemberCode,10);
+        	webAction.locateElement(enterMemberCode);
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
        	 
             break;
@@ -664,17 +665,17 @@ public class AdminWeb {
 
 		        case "gate entry":
 
-		            handleGateEntryReports(reportlistName, activity);
+		        	VerifyMemberStatementReportForGateEntry(reportlistName, activity);
 		            break;
 
 		        case "health club gents":
 
-		            handleGateEntryforHealthReports(reportlistName,activity);
+		        	VerifyMemberStatementReportForHealthReports(reportlistName,activity);
 		            break;
 
-		        case "gym":
+		        case "badminton sports":
 
-//		            handleGymReports(reportlistName);
+		        	VerifyMemberStatementReportForBadminton(reportlistName,activity);
 		            break;
 
 		        default:
@@ -683,7 +684,7 @@ public class AdminWeb {
 		}
 
 	 //  Below function for verify report as per Report list as per there Activity
-	 private void handleGateEntryReports(String reportlistName,String activity) throws IOException, ParseException {
+	 private void VerifyMemberStatementReportForGateEntry(String reportlistName,String activity) throws IOException, ParseException {
 
 		    switch (reportlistName.toLowerCase()) {
 
@@ -702,7 +703,7 @@ public class AdminWeb {
 		            );
 		    }
 		}
-	 private void handleGateEntryforHealthReports(String reportlistName,String activity) throws IOException, ParseException {
+	 private void VerifyMemberStatementReportForHealthReports(String reportlistName,String activity) throws IOException, ParseException {
 
 		    switch (reportlistName.toLowerCase()) {
 
@@ -722,6 +723,26 @@ public class AdminWeb {
 		    }
 		}
 	 
+	 
+	 private void VerifyMemberStatementReportForBadminton(String reportlistName,String activity) throws IOException, ParseException {
+
+		    switch (reportlistName.toLowerCase()) {
+
+		        case "member statements":
+		        	verifyMemberStatementDetailsByActivity(activity);
+		            break;
+
+		        case "service sales detail":
+		        	
+		        	verifyServiceSalesDetailByActivity(activity);
+		            break;
+		            
+		        default:
+		            throw new IllegalArgumentException(
+		                "❌ Unsupported Report Header for Gate Entry: " + reportlistName
+		            );
+		    }
+		}
 	 public void verifyMemberStatementDetailsByActivity(String activity) throws IOException, ParseException 
 	 {
 		 String serviceName=getServiceName(activity);

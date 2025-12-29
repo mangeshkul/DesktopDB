@@ -1,10 +1,10 @@
 {
-  "Debit": "309.5966",
-  "BillNo": "11360",
+  "Debit": "130.5000",
+  "BillNo": "11393",
   "Credit": "0.0000",
-  "Description": "Health Club Gents",
-  "MasterId": "321737",
-  "BillCode": "HCBG/2526/3670",
-  "DebitAmount": "262.3700",
-  "Date": "2025-12-23 00:00:00.0"
+  "Description": "Badminton Sports",
+  "MasterId": "321809",
+  "BillCode": "BDMS/2526/3943",
+  "DebitAmount": "111.1607",
+  "Date": "2025-12-24 00:00:00.0"
 }

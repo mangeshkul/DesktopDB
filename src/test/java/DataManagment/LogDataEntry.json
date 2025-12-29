@@ -1,37 +1,37 @@
 [ {
   "Debit" : "309.5966",
-  "BillNo" : "11357",
+  "BillNo" : "11370",
   "Credit" : "0.0000",
   "Description" : "Health Club Gents",
-  "MasterId" : "321731",
-  "BillCode" : "HCBG/2526/3667",
+  "MasterId" : "321803",
+  "BillCode" : "HCBG/2526/3680",
   "DebitAmount" : "262.3700",
-  "Date" : "2025-12-23 00:00:00.0"
+  "Date" : "2025-12-24 00:00:00.0"
 }, {
-  "Debit" : "309.5966",
-  "BillNo" : "11358",
+  "Debit" : "130.5000",
+  "BillNo" : "11392",
   "Credit" : "0.0000",
-  "Description" : "Health Club Gents",
-  "MasterId" : "321733",
-  "BillCode" : "HCBG/2526/3668",
-  "DebitAmount" : "262.3700",
-  "Date" : "2025-12-23 00:00:00.0"
+  "Description" : "Badminton Sports",
+  "MasterId" : "321805",
+  "BillCode" : "BDMS/2526/3942",
+  "DebitAmount" : "111.1607",
+  "Date" : "2025-12-24 00:00:00.0"
 }, {
-  "Debit" : "309.5966",
-  "BillNo" : "11359",
+  "Debit" : "253.2800",
+  "BillNo" : "77258",
   "Credit" : "0.0000",
-  "Description" : "Health Club Gents",
-  "MasterId" : "321735",
-  "BillCode" : "HCBG/2526/3669",
-  "DebitAmount" : "262.3700",
-  "Date" : "2025-12-23 00:00:00.0"
+  "Description" : "Gate Entry",
+  "MasterId" : "321807",
+  "BillCode" : "GTEN/2526/6939",
+  "DebitAmount" : "220.6949",
+  "Date" : "2025-12-24 00:00:00.0"
 }, {
-  "Debit" : "309.5966",
-  "BillNo" : "11360",
+  "Debit" : "130.5000",
+  "BillNo" : "11393",
   "Credit" : "0.0000",
-  "Description" : "Health Club Gents",
-  "MasterId" : "321737",
-  "BillCode" : "HCBG/2526/3670",
-  "DebitAmount" : "262.3700",
-  "Date" : "2025-12-23 00:00:00.0"
+  "Description" : "Badminton Sports",
+  "MasterId" : "321809",
+  "BillCode" : "BDMS/2526/3943",
+  "DebitAmount" : "111.1607",
+  "Date" : "2025-12-24 00:00:00.0"
 } ]

@@ -72,6 +72,7 @@ public class ActivityPOSSteps {
     public void user_enters_member_code() {
     	// user enter the member code as per club and click on submit button
     	locators.enterMemberCodeAndSubmit();
+    	
 
     }
     
@@ -84,35 +85,44 @@ public class ActivityPOSSteps {
         locators.verifyGuestName();
     }
     
-    @Then("user select the club service")
+    @Then("user select the club service for Gate Entry")
     public void User_select_the_club_services() {
     	// select the club services
     	locators.selectService();
     	
     }
     
-    @And("user get the net amount")
+    @And("user verifies and gets the net amount")
     public void user_get_the_net_amount() throws StreamWriteException, DatabindException, IOException {
-    	// Get the aount and verify the amount
+    	// Verify the net amount calculation as per rule and fetch the value
     	locators.getAndVerifyNetAmount();
-    	
-    	
+	
     }
     
     
     
-    @And("user click on Proceed button with user details and completes the Gate Entry")
+    @And("user click on Proceed button with user details and completes the Gate Entry and Verifies it")
     public void user_adds_guest_detail() {
-    	// user able to complete gate entry
+    	// user able to complete gate entry and verify Pop up
     	locators.proceedwithdetails();
     
     }
+    
+    @And("user selects an available sub member")
+    public void user_verifies_for_submember() {
+    	// user verifies member submember is check
+    	locators.selectAllSubMembersExceptSelf();
+    	
+    
+    }
+    
+    
     
     @Then("user fetch the member data from database")
     public void User_fetch_the_member_data_from_database() throws IOException {
     	// User can fetch the data from databse as per club wise 
     	locators.getUserDataFromDataBase();
-    
+     
     }
     
     @Then("user select the activity {string} on Dashboard page")

@@ -2,6 +2,7 @@ package hooks;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
@@ -13,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.sun.jna.platform.DesktopWindow;
 import com.sun.jna.platform.WindowUtils;
@@ -68,7 +70,8 @@ public class Hooks {
                 new BufferedReader(new InputStreamReader(p.getInputStream()));
         return reader.readLine();
     }
-
+    
+    
     public void launchApplication(String exePath) throws Exception {
         File exe = new File(exePath);
         if (!exe.exists()) {
@@ -78,7 +81,9 @@ public class Hooks {
         ProcessBuilder pb = new ProcessBuilder(exe.getAbsolutePath());
         pb.directory(exe.getParentFile());
         pb.start();
-        Thread.sleep(2000);
+        
+
+      Thread.sleep(3000);
         printAllWindows();
     }
 
@@ -122,7 +127,11 @@ public class Hooks {
 
         System.out.println("✅ Windows POS launched");
     }
-
+    
+    private void waitForWindowsToLaunch(int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver,timeoutSeconds);
+        wait.until(driver -> driver.getWindowHandles().size() > 0);
+    }
     // =========================
     // 🔹 WEB DRIVER LAUNCH
     // =========================
@@ -153,7 +162,7 @@ public class Hooks {
     // =========================
     // TEARDOWN
     // =========================
-  
+  @After
     public void tearDown(Scenario scenario) {
 
         try {
@@ -166,7 +175,35 @@ public class Hooks {
             e.printStackTrace();
         } finally {
             DriverManager.quitAll();
-            System.out.println("🧹 All drivers closed");
+            System.out.println("All drivers closed");
         }
     }
+  
+
+@AfterStep
+public void takeScreenshotAfterStep(Scenario scenario) {
+
+    if (!scenario.isFailed()) {
+        return; // ✅ only on failure
+    }
+
+    try {
+        // 🔹 Windows App Screenshot
+        if (driver != null) {
+            byte[] winSS = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.BYTES);
+            scenario.attach(winSS, "image/png", "Windows_Step_Failure");
+        }
+
+        // 🔹 Web Screenshot
+        if (webDriver != null) {
+            byte[] webSS = ((TakesScreenshot) webDriver)
+                    .getScreenshotAs(OutputType.BYTES);
+            scenario.attach(webSS, "image/png", "Web_Step_Failure");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

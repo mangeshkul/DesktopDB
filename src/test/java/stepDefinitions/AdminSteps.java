@@ -54,7 +54,7 @@ public class AdminSteps {
 	    	
 	    
 	    }
-	  
+	   
 	   @Then("user navigate to web Admin portal")
 	    public void user_navigate_to_web_Admin_portal() {
 	    	// User can verify the report as per DB on WebAdmin portal 
@@ -79,7 +79,7 @@ public class AdminSteps {
 	    public void User_select_the_report_list(String reportList) {
 	    	// check all the list and select as per requirement
 	    	admin.selectReportList(wait,reportList); 	
-	    
+	     
 	    }
 	    
 	    @Then("user enters the member code on the admin portal to access the report")
@@ -96,7 +96,6 @@ public class AdminSteps {
 	    	// check all the list and select as per requirement
 	    	common.switchToChildWindow(); 	
 	    	admin.verifyReportHeading();
-	    
 	    }
 	    
 	    @Then("user verifies the report, service, and sub-service details against the Activity {string}")

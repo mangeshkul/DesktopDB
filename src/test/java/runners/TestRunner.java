@@ -5,11 +5,11 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/features",
-    tags="@healthTest",
+    tags="@subMember",
     glue = {"stepDefinitions","hooks","utilities","pageObjectsPages"},
     		plugin = {
     			    "pretty",
-    			    "html:target/cucumber-reports.html",
+    			    "html:target/cucumber-reports.Admin",
     			    "json:target/cucumber.json",
     			    "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
     			},

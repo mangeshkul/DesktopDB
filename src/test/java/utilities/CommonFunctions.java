@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -49,6 +50,13 @@ public class CommonFunctions {
 	  public boolean isElementDisplayed(WebElement ele) {
 		    return ele.isDisplayed();
 		}
+	  
+	  
+	  public void locateElement(WebElement ele) {
+	  Actions actions = new Actions(driver);
+	  actions.moveToElement(ele).perform();  // Moves the mouse to element
+	  ele.click();
+	    }
 	  
 	  public void writeNetAmountValueIntoJson(Double amount, String jsonPAth) throws StreamWriteException, DatabindException, IOException 
 	  {
