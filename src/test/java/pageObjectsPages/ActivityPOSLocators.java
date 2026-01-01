@@ -120,6 +120,14 @@ public class ActivityPOSLocators {
     @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")
     private WebElement sonCheckBox;
 
+    @FindBy(xpath = "//Text[@AutomationId='txtMemberCode']")
+    private WebElement memberCodeText;
+    
+    @FindBy(xpath   = "//*[@AutomationId='HeaderText']")private
+    WebElement headerEntryText;
+
+//    By.xpath("//*[@AutomationId='HeaderText']")
+
 
 
     
@@ -220,6 +228,7 @@ public class ActivityPOSLocators {
 	       
 	        confirmWithMemberAccount();
 	        confirmWithMemberEntry();
+//	        verifyMemberEntryTextAndProceed();
 	        break;
 	        
 	        case "prepaid account":
@@ -372,6 +381,7 @@ public class ActivityPOSLocators {
     	
     }
     
+    
     // Click on Proceed button after enter the Member code
     
   
@@ -395,8 +405,8 @@ public class ActivityPOSLocators {
     
     // accept succeeful entry pop up for member
     public void confirmWithMemberEntry() 
-    {
-    	
+    { 
+    
     	common.isElementDisplayed(confirmMemberEntry);
     	common.click(confirmMemberEntry);
     }
@@ -546,12 +556,32 @@ public class ActivityPOSLocators {
     
 
     
-    // This method we select the Activity from Activity POS Dashboard Page 
+    // This method we select the Activity from Activity POS on Dashboard Page 
     public void selectActivityForUser(String activity) 
     {
     	servicesName = activity;
     	WebElement activityName = driver.findElement(By.name(activity));
     	common.click(activityName);
+    	
+    	// Switch case for future activity-specific handling
+    	
+//    	switch (activity.toLowerCase()) {
+//		case "gate entry":
+//			common.click(activityName);
+//			break;
+//	case "gym":
+//		common.click(activityName);
+//			break;
+//	case "health club gents":
+//		common.click(activityName);
+//		break;
+//	case "tennis sports":
+//		common.click(activityName);
+//		break;
+//
+//		default:
+//			break;
+//		}
    
     }
     
@@ -607,9 +637,25 @@ public class ActivityPOSLocators {
                 throw new RuntimeException("❌ Unsupported service: " + servicesName);
         }
     }
-
     
+    // This function used for verify member code
 
+    public void verifyMemberCode() 
+    {
+    	common.waitForElement(memberCodeText, 10);
+    	common.compareText(memberCodeText, ModuleConfig.ecubeMemberCode1);
+    	
+    }
+    
+    
+ //  This function used for Verify successful entry pop up and proceed
+    public void verifyMemberEntryTextAndProceed() 
+    {
+    	common.waitForElement(headerEntryText, 5);
+    	common.isElementDisplayed(confirmMemberEntry);
+    	common.click(confirmMemberEntry);
+    	
+    }
 
 
     	

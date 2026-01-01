@@ -194,7 +194,7 @@ public class AdminWeb {
 		 switch  (ModuleConfig.clubName.toLowerCase()) {
 
         case "nsci":
-        	webAction.waitForElement(enterMemberCode,10);
+        	webAction.waitForElement(enterMemberCode,30);
         	webAction.locateElement(enterMemberCode);
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
        	 
@@ -494,6 +494,11 @@ public class AdminWeb {
 	    boolean subService2Found = false;
 	    boolean debitFound =false;
 	    double totalAmountFromUI = 0.0;
+	    
+	    WebDriverWait wait = new WebDriverWait(driver, (20));
+	 // wait until at least 1 row is loaded
+	 wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
+	     By.xpath("//*[@id='tableSummary']/table/tbody/tr"), 0));
 	 // Get ONLY Amount column for given Bill No
 	    List<WebElement> amountCells = driver.findElements(
 	            By.xpath("//*[@id='tableSummary']/table/tbody/tr[td[4]='"+ billNo + "']/td[12]"));

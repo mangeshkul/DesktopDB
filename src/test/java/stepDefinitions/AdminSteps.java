@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import pageObjectsPages.AdminWeb;
-import eCubeUI.eCubeActivityPOS;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.en.Then;
 import pageObjectsPages.ActivityPOSLocators;
@@ -24,7 +23,6 @@ public class AdminSteps {
 
     private WebDriver webDriver;
    
-    private eCubeActivityPOS activityPos;
     private ActivityPOSLocators locators ;
     private WebCommonActions common;
     private AdminWeb admin;
@@ -74,7 +72,7 @@ public class AdminSteps {
 	    	
 	    
 	    }
-	    
+	     
 	    @Then("user select the report list {string}")
 	    public void User_select_the_report_list(String reportList) {
 	    	// check all the list and select as per requirement

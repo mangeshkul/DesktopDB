@@ -83,7 +83,7 @@ public class Hooks {
         pb.start();
         
 
-      Thread.sleep(3000);
+      Thread.sleep(4000);
         printAllWindows();
     }
 
@@ -179,31 +179,4 @@ public class Hooks {
         }
     }
   
-
-@AfterStep
-public void takeScreenshotAfterStep(Scenario scenario) {
-
-    if (!scenario.isFailed()) {
-        return; // ✅ only on failure
-    }
-
-    try {
-        // 🔹 Windows App Screenshot
-        if (driver != null) {
-            byte[] winSS = ((TakesScreenshot) driver)
-                    .getScreenshotAs(OutputType.BYTES);
-            scenario.attach(winSS, "image/png", "Windows_Step_Failure");
-        }
-
-        // 🔹 Web Screenshot
-        if (webDriver != null) {
-            byte[] webSS = ((TakesScreenshot) webDriver)
-                    .getScreenshotAs(OutputType.BYTES);
-            scenario.attach(webSS, "image/png", "Web_Step_Failure");
-        }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
 }

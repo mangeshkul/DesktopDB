@@ -48,8 +48,13 @@ public class CommonFunctions {
 	    }
 	  
 	  public boolean isElementDisplayed(WebElement ele) {
+		    Assert.assertTrue(
+		            ele.isDisplayed(),
+		            "Element is NOT displayed on the screen: " + ele
+		    );
 		    return ele.isDisplayed();
 		}
+
 	  
 	  
 	  public void locateElement(WebElement ele) {
@@ -100,8 +105,8 @@ public class CommonFunctions {
     }
     
     public boolean compareText(WebElement el, String expected) {
-        Assert.assertEquals(el.getText(), expected,
-                "Expected: " + expected + " | Actual: " + el.getText());
+    	  Assert.assertEquals(el.getText(),expected,"Text mismatch! Expected: [" + expected + "] but Found: [" + el.getText() + "]"
+    	    );
         return el.getText().equals(expected);
     }
     

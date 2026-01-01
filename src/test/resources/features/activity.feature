@@ -1,6 +1,6 @@
 Feature: Activity POS Tests
 
-  @test1
+  @ecubePoS
   Scenario: Verify Gate entry for Member, Sub-Member(s) and Guest(s) their total Amount and Reports.
     Given Activity POS application is launched
     When user logs in to Activity POS
@@ -26,7 +26,7 @@ Feature: Activity POS Tests
     And user opens the new tab and verify the reports header
     Then user verifies the report, service, and sub-service details against the Activity "Gate Entry"
 
-  @healthTest @test
+  @ecubePoS
   Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports for Helath Club
     Given Activity POS application is launched
     When user logs in to Activity POS
@@ -61,7 +61,7 @@ Feature: Activity POS Tests
       | Activity_Name     |
       | Health Club Gents |
 
-  @Badminton
+  @ecubePoS
   Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports for Badminton
     Given Activity POS application is launched
     When user logs in to Activity POS
@@ -96,7 +96,7 @@ Feature: Activity POS Tests
       | Activity_Name    |
       | Badminton Sports |
 
-  @subMember
+  @ecubePoS
   Scenario Outline: Verify any Badminton for Member, Sub-Member(s) with Discount, their total Amount and Reports.
     Given Activity POS application is launched
     When user logs in to Activity POS

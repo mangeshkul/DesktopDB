@@ -13,8 +13,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
-
-import eCubeUI.eCubeActivityPOS;
 import pageObjectsPages.AdminWeb;
 import pageObjectsPages.ActivityPOSLocators;
 import pageObjectsPages.CommonMethodsForActivityPOS;
@@ -29,7 +27,6 @@ public class ActivityPOSSteps {
 	private WindowsDriver driver;
     private WebDriver webDriver;
     private CommonMethodsForActivityPOS activity;
-    private eCubeActivityPOS activityPos;
     private ActivityPOSLocators locators ;
     private CommonFunctions common;
     private AdminWeb admin;
@@ -72,7 +69,7 @@ public class ActivityPOSSteps {
     public void user_enters_member_code() {
     	// user enter the member code as per club and click on submit button
     	locators.enterMemberCodeAndSubmit();
-    	
+    	locators.verifyMemberCode();
 
     }
     
@@ -105,6 +102,7 @@ public class ActivityPOSSteps {
     public void user_adds_guest_detail() {
     	// user able to complete gate entry and verify Pop up
     	locators.proceedwithdetails();
+    	
     
     }
     
@@ -123,11 +121,11 @@ public class ActivityPOSSteps {
     	// User can fetch the data from databse as per club wise 
     	locators.getUserDataFromDataBase();
      
-    }
+    } 
     
     @Then("user select the activity {string} on Dashboard page")
     public void User_select_activity_on_Dashboard(String activityName) throws IOException {
-    	// User can fetch the data from databse as per club wise 
+    	// user select the required activity 
     	locators.selectActivityForUser(activityName);
     
     }

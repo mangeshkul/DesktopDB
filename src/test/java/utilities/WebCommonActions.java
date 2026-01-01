@@ -1,5 +1,6 @@
 package utilities;
 
+import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -31,6 +32,12 @@ public class WebCommonActions {
 		        return new WebDriverWait(driver, timeout)
 		                .until(ExpectedConditions.visibilityOf(element));
 		    }
+		  
+		  public List<WebElement> waitForElements(By locator, int timeout) {
+			    return new WebDriverWait(driver, (timeout))
+			            .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+			}
+
 		  
 		  public void waitForPageLoad() {
 
@@ -71,6 +78,11 @@ public class WebCommonActions {
 	        waitForElement(element, 10).sendKeys(text);
 	    }
 	    
+	    public WebElement waitForElementToBeClickable(WebElement element, int timeout) {
+	        return new WebDriverWait(driver, (timeout))
+	                .until(ExpectedConditions.elementToBeClickable(element));
+	    }
+	    
 	    public boolean compareText(WebElement el, String expected) {
 	        Assert.assertEquals(el.getText(), expected,
 	                "Expected: " + expected + " | Actual: " + el.getText());
@@ -89,18 +101,19 @@ public class WebCommonActions {
 
 	    public WebDriver launchBrowser() {
 	        if (driver == null) {
+
 	            WebDriverManager.chromedriver().setup();
+
 	            ChromeOptions options = new ChromeOptions();
-	            options.addArguments("start-maximized");
+	            options.addArguments("--start-maximized");
 	            options.addArguments("--disable-notifications");
-	            options.addArguments("--remote-allow-origins=*");
-	            options.addArguments("--incognito");
 	            driver = new ChromeDriver(options);
-	       
-	            
+
+	           
 	        }
 	        return driver;
 	    }
+
 	    
 	    public void enterText(WebElement ele,String name) 
 	    {
