@@ -28,6 +28,8 @@ public class DriverManager {
 //        return windowsDriver;
 //    }
     
+    
+
     public static void setWindowsDriver(WindowsDriver<WindowsElement> driver) {
         windowsDriver.set(driver);
     }
@@ -81,11 +83,7 @@ public class DriverManager {
     // ===== WEB DRIVER =====
     public static WebDriver getWebDriver() {
         if (webDriver.get() == null) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--start-maximized");
-            options.addArguments("--disable-notifications");
-            webDriver.set(new ChromeDriver(options));
+           
         }
         return webDriver.get();
     }

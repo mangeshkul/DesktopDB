@@ -1,7 +1,7 @@
 {
   "NSCI": {
     "Gate Entry": {
-      "service": "Gate Entry For Member",
+      "service": "Gate Entry Guest	",
       "subservice": "Gate Entry For Guest"
     },
     "Health Club Gents": {

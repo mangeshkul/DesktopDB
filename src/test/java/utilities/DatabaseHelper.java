@@ -147,6 +147,48 @@ public class DatabaseHelper {
 		return guestData;
 	}
 	
+	
+	public Map<String, String> getCalicutDataFromDataBase(String mCodeWithPrefix) {
+
+		Map<String, String> guestData = new HashMap<>();
+
+		String query = "SELECT TOP 1 CD.MasterId, TM.BillNo, CI.BillCode, CI.InvoiceNo, CD.Date, CD.MemberId, "
+				+ "CD.Debit, CD.Credit, CD.DebitAmount, CD.Description " + "FROM CRMTransactionMaster TM WITH (NOLOCK) "
+				+ "INNER JOIN CRMMember CM WITH (NOLOCK) ON TM.MemberId = CM.id "
+				+ "INNER JOIN CRMTransactionDetail TD ON TM.Id = TD.MasterId "
+				+ "    AND TD.IsDeleted = 0 AND TM.IsDeleted = 0 "
+				+ "LEFT JOIN CRMMemberDebitCredit CD ON CD.MasterId = TM.Id AND CD.IsDeleted = 0 "
+				+ "LEFT JOIN CRMMemberInvoice CI ON CI.Id = CD.InvoiceId " + "WHERE CM.MCodeWithPrefix = ? "
+				+ "ORDER BY CD.MasterId DESC;";
+
+		try (Connection conn = DriverManager.getConnection(ModuleConfig.dbUrl, ModuleConfig.dbUsername, ModuleConfig.dbPassword);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, mCodeWithPrefix);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+
+				if (rs.next()) {
+					guestData.put("MasterId", rs.getString("MasterId"));
+					guestData.put("BillNo", rs.getString("BillNo"));
+					guestData.put("Date", rs.getString("Date"));
+					guestData.put("BillCode", rs.getString("BillCode"));
+					guestData.put("Debit", rs.getString("Debit"));
+					guestData.put("Credit", rs.getString("Credit"));
+					guestData.put("DebitAmount", rs.getString("DebitAmount"));
+					guestData.put("Description", rs.getString("Description"));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return guestData;
+	}
+	
+	
+	
 	public Map<String, String> getKarnavatiDataFromDataBase(String mCodeWithPrefix) {
 
 	    Map<String, String> guestData = new HashMap<>();

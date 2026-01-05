@@ -3,8 +3,9 @@ package pageObjectsPages;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-import org.apache.poi.ss.formula.atp.Switch;
+//import org.apache.poi.ss.formula.atp.Switch;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +23,7 @@ import utility.JsonReader;
 import utility.ModuleConfig;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -37,6 +39,7 @@ public class ActivityPOSLocators {
 	    private WebCommonActions webCommon;
 	    private ActivityConfig activityConfig;
         String servicesName ="";
+        String JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
     
     DatabaseHelper dataBase;
     AdminWeb admin;
@@ -125,6 +128,9 @@ public class ActivityPOSLocators {
     
     @FindBy(xpath   = "//*[@AutomationId='HeaderText']")private
     WebElement headerEntryText;
+    
+    @FindBy(className = "SubServiceButton")
+    private List<WebElement> serviceList;
 
 //    By.xpath("//*[@AutomationId='HeaderText']")
 
@@ -209,6 +215,9 @@ public class ActivityPOSLocators {
 	           
 		case "karnavati":
 	            return ConfigReader.get("KARNVATI.serviceName");
+	            
+		case "calicut":
+            return ConfigReader.get("Calicut.serviceName");
 	          
 		default:
 	            throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
@@ -219,12 +228,13 @@ public class ActivityPOSLocators {
 
 	   
 	  String accountType= ConfigReader.get("NSCI.accountType").toLowerCase();
-	  System.out.println("account type is" + accountType);
+	 
 	    switch (accountType) {
             
-	        case "member account":
+	        case "member account":	 
 	         common.waitForElement(memberAccountOptionLocator, 5);
 	         common.click(memberAccountOptionLocator);
+	         System.out.println("account type is" + accountType);
 	       
 	        confirmWithMemberAccount();
 	        confirmWithMemberEntry();
@@ -236,7 +246,7 @@ public class ActivityPOSLocators {
 	           
 
 	        default:
-	            throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
+	            throw new RuntimeException("❌ Unsupported Account type: " + accountType);
 	    }
 		return accountType;
 	}
@@ -265,6 +275,24 @@ public class ActivityPOSLocators {
         driver.findElement(serviceNameLocator()).click();
     }
     
+    // 🔹 Select random service
+    public void selectRandomService() {
+        if (serviceList == null || serviceList.isEmpty()) {
+            throw new RuntimeException("❌ No services available to select");
+        }
+
+        int randomIndex = new Random().nextInt(serviceList.size());
+        WebElement selectedService = serviceList.get(randomIndex);
+
+        new Actions(driver)
+                .moveToElement(selectedService)
+                .click()
+                .perform();
+
+        System.out.println("✅ Random service selected: Index = " + selectedService.getAttribute("Name"));
+    }
+
+    
  public void selectAccountType() {
 	 getAccountType();
        
@@ -287,7 +315,7 @@ public class ActivityPOSLocators {
     	 switch (ModuleConfig.clubName.toLowerCase()) {
 
          case "nsci":
-        		common.waitForElement(proceedButton,5);
+        		common.waitForElement(proceedButton,2);
         		common.click(proceedButton);
             	selectAccountType();
              break;
@@ -297,6 +325,11 @@ public class ActivityPOSLocators {
         	 common.click(proceedButton);
              break;
 
+         case "calicut":
+        	 common.waitForElement(proceedButton, 5);
+        	 common.click(proceedButton);
+        	 verifyMemberEntryTextAndProceed();
+             break;
          default:
              throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
      }
@@ -307,14 +340,14 @@ public class ActivityPOSLocators {
     	  switch  (ModuleConfig.clubName.toLowerCase()) {
 
           case "nsci":
-        	  Map<String, String> dbData = dataBase.getDataFromDataBase(ModuleConfig.ecubeMemberCode1);
-          	dataBase.writeJsonSimple(dbData, DataPaths.GATE_ENTRY_JSON);
-              String JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
+        	  Map<String, String> getNSCIdbData = dataBase.getDataFromDataBase(ModuleConfig.ecubeMemberCode1);
+          	dataBase.writeJsonSimple(getNSCIdbData, DataPaths.GATE_ENTRY_JSON);
+              JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
               
               // Storing the data in json file as Log the Records 
 
             	JsonLogWriter.writeLastFourRecords(
-            	        dbData,
+            			getNSCIdbData,
             	        DataPaths.LOG_DATA_ENTRY
             	);
               driver.closeApp();
@@ -322,6 +355,20 @@ public class ActivityPOSLocators {
 
           case "karnavati":
           	 
+              break;
+              
+          case "calicut":
+        	  Map<String, String> getCalicutdbData = dataBase.getCalicutDataFromDataBase(ModuleConfig.ecubeMemberCode1);
+            	dataBase.writeJsonSimple(getCalicutdbData, DataPaths.GATE_ENTRY_JSON);
+                JSON_FILE_PATH = DataPaths.GATE_ENTRY_JSON;
+                
+                // Storing the data in json file as Log the Records 
+
+              	JsonLogWriter.writeLastFourRecords(
+              			getCalicutdbData,
+              	        DataPaths.LOG_DATA_ENTRY
+              	);
+                driver.closeApp();
               break;
 
           default:
@@ -372,6 +419,13 @@ public class ActivityPOSLocators {
         	 common.waitForElement(codeEntryField, 5);
          	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);
          	common.waitForElement(submitCode, 5);
+         	common.click(submitCode);
+             break;
+             
+         case "calicut":
+        	 common.waitForElement(codeEntryField, 30);
+         	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);
+         	common.waitForElement(submitCode, 30);
          	common.click(submitCode);
              break;
 
@@ -617,6 +671,12 @@ public class ActivityPOSLocators {
     	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
     }
     
+    private void handleGateEntryService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+    
     private void selectAndVerifyServicesAsPerActivity(String servicesName, String club) {
 
         switch (servicesName.toLowerCase()) {
@@ -630,7 +690,7 @@ public class ActivityPOSLocators {
                 break;
 
             case "gate entry":
-//                handleGateEntryService(servicesName, club);
+                handleGateEntryService(servicesName, club);
                 break;
 
             default:
@@ -642,7 +702,7 @@ public class ActivityPOSLocators {
 
     public void verifyMemberCode() 
     {
-    	common.waitForElement(memberCodeText, 10);
+    	common.waitForElement(memberCodeText, 20);
     	common.compareText(memberCodeText, ModuleConfig.ecubeMemberCode1);
     	
     }

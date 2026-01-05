@@ -40,6 +40,10 @@ public class LoginPage {
             	 login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
                 break;
 
+            case "calicut":
+           	 login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
+               break;
+
             default:
                 throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
         }

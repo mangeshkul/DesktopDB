@@ -205,6 +205,11 @@ public class AdminWeb {
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
        	
             break;
+        case "calicut":
+        	webAction.waitForElement(enterMemberCode,10 );
+       	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
+       	
+            break;
 
         default:
             throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
@@ -655,6 +660,13 @@ public class AdminWeb {
 	    	  
 	    	   webAction.openURL(ModuleConfig.adminUrl);
 	     	this.loginToAdmin(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
+	           break;
+	           
+	       case "calicut":
+		    	  
+	    	   webAction.openURL(ModuleConfig.adminUrl);
+	     	this.loginToAdmin(ModuleConfig.ecubeAdminUserName,ModuleConfig.ecubeAdminPassword);
+	     	
 	           break;
 
 	       default:

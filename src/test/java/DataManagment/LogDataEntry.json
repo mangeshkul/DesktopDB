@@ -1,37 +1,28 @@
-[ {
-  "Debit" : "253.2800",
-  "BillNo" : "77335",
+[ { }, {
+  "Debit" : "35.4000",
+  "BillNo" : "49",
   "Credit" : "0.0000",
   "Description" : "Gate Entry",
-  "MasterId" : "321909",
-  "BillCode" : "GTEN/2526/6993",
-  "DebitAmount" : "220.6949",
-  "Date" : "2026-01-01 00:00:00.0"
+  "MasterId" : "229",
+  "BillCode" : null,
+  "DebitAmount" : "30.0000",
+  "Date" : "2026-01-05 00:00:00.0"
 }, {
-  "Debit" : "253.2800",
-  "BillNo" : "77336",
+  "Debit" : "35.4000",
+  "BillNo" : "50",
   "Credit" : "0.0000",
   "Description" : "Gate Entry",
-  "MasterId" : "321910",
-  "BillCode" : "GTEN/2526/6994",
-  "DebitAmount" : "220.6949",
-  "Date" : "2026-01-01 00:00:00.0"
+  "MasterId" : "230",
+  "BillCode" : null,
+  "DebitAmount" : "30.0000",
+  "Date" : "2026-01-05 00:00:00.0"
 }, {
-  "Debit" : "253.2800",
-  "BillNo" : "77337",
+  "Debit" : "35.4000",
+  "BillNo" : "51",
   "Credit" : "0.0000",
   "Description" : "Gate Entry",
-  "MasterId" : "321911",
-  "BillCode" : "GTEN/2526/6995",
-  "DebitAmount" : "220.6949",
-  "Date" : "2026-01-01 00:00:00.0"
-}, {
-  "Debit" : "253.2800",
-  "BillNo" : "77338",
-  "Credit" : "0.0000",
-  "Description" : "Gate Entry",
-  "MasterId" : "321912",
-  "BillCode" : "GTEN/2526/6996",
-  "DebitAmount" : "220.6949",
-  "Date" : "2026-01-01 00:00:00.0"
+  "MasterId" : "231",
+  "BillCode" : null,
+  "DebitAmount" : "30.0000",
+  "Date" : "2026-01-05 00:00:00.0"
 } ]

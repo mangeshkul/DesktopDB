@@ -58,7 +58,7 @@ public class AdminSteps {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	common.launchBrowser();
 	    }
-	   
+	     
 	    @Then("user Navigate to the Report section")
 	    public void User_Navigate_to_the_report_section() {
 	    	// User can verify the report as per DB on WebAdmin portal 

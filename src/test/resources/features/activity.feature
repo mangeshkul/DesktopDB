@@ -1,12 +1,14 @@
 Feature: Activity POS Tests
 
-  @ecubePoS
-  Scenario: Verify Gate entry for Member, Sub-Member(s) and Guest(s) their total Amount and Reports.
+  @ecubePoS1
+  Scenario Outline: Verify Gate entry for Member, Sub-Member(s) and Guest(s) their total Amount and Reports.
     Given Activity POS application is launched
     When user logs in to Activity POS
+    #And user select the activity "<Activity_Name>" on Dashboard page
     And user enters member code and submit it
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select the club service for Gate Entry
+    #And user select and verify the services as per the activity selection
     And user verifies and gets the net amount
     When user click on Proceed button with user details and completes the Gate Entry and Verifies it
     Then user fetch the member data from database
@@ -25,7 +27,9 @@ Feature: Activity POS Tests
     And user enters the member code on the admin portal to access the report
     And user opens the new tab and verify the reports header
     Then user verifies the report, service, and sub-service details against the Activity "Gate Entry"
-
+ Examples: 
+      | Activity_Name     |
+      | Health Club Gents |
   @ecubePoS
   Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports for Helath Club
     Given Activity POS application is launched

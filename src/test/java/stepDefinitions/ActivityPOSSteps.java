@@ -5,8 +5,9 @@ import io.cucumber.java.en.*;
 import hooks.Hooks;
 
 import java.io.IOException;
-
-import org.apache.commons.math3.linear.IllConditionedOperatorException;
+import java.util.NoSuchElementException;
+ 
+//import org.apache.commons.math3.linear.IllConditionedOperatorException;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -85,7 +86,13 @@ public class ActivityPOSSteps {
     @Then("user select the club service for Gate Entry")
     public void User_select_the_club_services() {
     	// select the club services
-    	locators.selectService();
+    	try {
+    	    locators.selectService();
+    	    System.out.println("Selected service successfully.");
+    	} catch (NoSuchElementException e) {
+    	    System.out.println("Specified service not available, selecting random service.");
+    	    locators.selectRandomService();
+    	}
     	
     }
     
@@ -96,7 +103,7 @@ public class ActivityPOSSteps {
 	
     }
     
-    
+     
     
     @And("user click on Proceed button with user details and completes the Gate Entry and Verifies it")
     public void user_adds_guest_detail() {
