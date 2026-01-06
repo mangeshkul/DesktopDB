@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hooks.Hooks;
 import pageObjectsPages.AdminWeb;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.en.Then;
@@ -29,34 +30,32 @@ public class AdminSteps {
     protected LoginPage loginPage;
     private WebDriverWait wait;
 
-    public AdminSteps() {
-    	this.webDriver = DriverManager.getWebDriver();
-       // 🔥 driver from Hooks
-       if(webDriver==null) 
-       {
-    	   throw new IllegalStateException("Windows Driver is not initialized");
-       }
-       this.wait = new WebDriverWait(webDriver, 20);
-//        locators = new ActivityPOSLocators(webDriver);
-        admin = new AdminWeb(webDriver);
-        common = new WebCommonActions(webDriver);
-        ActivityConfig act = new ActivityConfig();
+    
+   // Initializes WebDriver lazily and sets up web utilities/pages before first web interaction
+ 
+    private void initWeb() {
+        if (DriverManager.getWebDriver() == null) {
+            WebDriver driver = new Hooks().launchBrowser(); // or BrowserFactory
+            DriverManager.setWebDriver(driver);
+        }
+
+        this.webDriver = DriverManager.getWebDriver();
+        this.wait = new WebDriverWait(webDriver, 20);
+        this.common = new WebCommonActions(webDriver);
+        this.admin = new AdminWeb(webDriver);
     }
 
 	
 	  @Then("user opens the Web Admin URL and logs in successfully")
 	    public void User_verify_the_Reports_on_Webadmin_portal() {
 	    	// User can verify the report as per DB on WebAdmin portal 
-	    	
 	    	admin.launchUrlAndLogintoWebAdmin();
-	    	
-	    
 	    }
 	   
 	   @Then("user navigate to web Admin portal")
 	    public void user_navigate_to_web_Admin_portal() {
 	    	// User can verify the report as per DB on WebAdmin portal 
-	    	common.launchBrowser();
+		   this.initWeb();
 	    }
 	     
 	    @Then("user Navigate to the Report section")
@@ -84,7 +83,9 @@ public class AdminSteps {
 	    public void User_enters_the_member_code_on_the_admin_portal_to_access_the_report() throws InterruptedException {
 	    	// check all the list and select as per requirement
 	    	 	admin.enterMemberCode();
-	    	 	admin.selectMemberCodeAndProcced();
+	    	 	
+	    	 	
+	    	 	
 	    
 	    }
 	    
@@ -99,7 +100,7 @@ public class AdminSteps {
 	    @Then("user verifies the report, service, and sub-service details against the Activity {string}")
 	    public void user_verifies_the_report_service_and_sub_service_details_against_the_activity(String activity) throws InterruptedException, IOException, ParseException {
 	    	// check all the list and select as per requirement
-				admin.verifyReportsByActivityAndreportHeader(activity);
+				admin.verifyReportsByActivityAndReportHeader(activity);
 
 	    }
 	    

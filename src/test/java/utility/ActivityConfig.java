@@ -12,7 +12,7 @@ public class ActivityConfig {
     // Load JSON once
     static {
         try {
-            String path = System.getProperty("user.dir") + "/src/test/resources/activities.json";
+            String path = DataPaths.CLUB_DATA;
             String content = new String(Files.readAllBytes(Paths.get(path)));
             activityJson = new JSONObject(content);
         } catch (Exception e) {
@@ -22,6 +22,12 @@ public class ActivityConfig {
 
     // Get service dynamically
     public String getService(String club, String activity) {
+        return activityJson.getJSONObject(club)
+                           .getJSONObject(activity)
+                           .getString("service");
+    }
+    
+    public String getServiceForCalicut(String club, String activity) {
         return activityJson.getJSONObject(club)
                            .getJSONObject(activity)
                            .getString("service");

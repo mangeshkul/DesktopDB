@@ -127,6 +127,7 @@ public class ActivityPOSSteps {
     public void User_fetch_the_member_data_from_database() throws IOException {
     	// User can fetch the data from databse as per club wise 
     	locators.getUserDataFromDataBase();
+    	
      
     } 
     

@@ -31,5 +31,20 @@
       "service": "Karnavati Gym Activity",
       "subservice": "Karnavati Gym Activity"
     }
+  },
+
+  "CALICUT": {
+    "Gate Entry": {
+      "service": "Gate Entry Guest",
+      "subservice": "Gate Entry Member"
+    },
+    "Badminton": {
+      "service": "Karnavati Badminton",
+      "subservice": "Karnavati Badminton"
+    },
+    "Gym": {
+      "service": "Karnavati Gym Activity",
+      "subservice": "Karnavati Gym Activity"
+    }
   }
 }

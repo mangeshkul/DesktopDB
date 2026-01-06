@@ -10,4 +10,8 @@ public class DataPaths {
     
     public static final String LOG_DATA_ENTRY =
             System.getProperty("user.dir") + "/src/test/java/DataManagment/LogDataEntry.json";
+    
+    public static final String CLUB_DATA =
+            System.getProperty("user.dir") + "/src/test/resources/activities.json";
+    
 }

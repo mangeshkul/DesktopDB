@@ -6,25 +6,38 @@ import utility.ConfigReader;
 import utility.ModuleConfig;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
     private WindowsDriver driver;
 
     // Locators
-    private By usernameField = By.xpath("//*[contains(@HelpText, 'Username')]");
-    private By passwordField = By.className("PasswordBox");
-    private By loginButton = By.name("LOGIN");
+//    private By usernameField = By.xpath("//*[contains(@HelpText, 'Username')]");
+//    private By passwordField = By.className("PasswordBox");
+//    private By loginButton = By.name("LOGIN");
+    
+    @FindBy(xpath = "//*[contains(@HelpText, 'Username')]")private 
+    WebElement usernameField;
+    
+    @FindBy(className  = "PasswordBox")private 
+    WebElement passwordField;
+    
+    @FindBy(name = "LOGIN")private 
+    WebElement loginButton;
 
     // Constructor
     public LoginPage(WindowsDriver driver) {
+    
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     // Methods to perform actions
     public void login(String username, String password) {
-        driver.findElement(usernameField).sendKeys(username);
-        driver.findElement(passwordField).sendKeys(password);
-        driver.findElement(loginButton).click();
+    	usernameField.sendKeys(username);
+    	passwordField.sendKeys(password);
+    	loginButton.click();
     }
     
     //  User should be log in as per Club 

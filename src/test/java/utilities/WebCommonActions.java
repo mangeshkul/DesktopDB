@@ -50,6 +50,21 @@ public class WebCommonActions {
 			    );
 			}
 		  
+		  public void waitForNewTabAndSwitch(int timeoutInSeconds) {
+			    WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+
+			    String currentWindow = driver.getWindowHandle();
+
+			    wait.until(d -> driver.getWindowHandles().size() > 1);
+
+			    for (String window : driver.getWindowHandles()) {
+			        if (!window.equals(currentWindow)) {
+			            driver.switchTo().window(window);
+			            break;
+			        }
+			    }
+			}
+
 
 	    private long getDefaultTimeout() {
 			// TODO Auto-generated method stub
@@ -166,7 +181,7 @@ public class WebCommonActions {
 	    
 	    public void locateElement(WebElement ele) 
 	    {
-	    	waitForElement(ele,10);
+	    	waitForElement(ele,5);
 	    	if(ele.isDisplayed()) {
 	    	JavascriptExecutor js = (JavascriptExecutor) driver;
 	        js.executeScript("arguments[0].style.border='3px solid red'; arguments[0].style.backgroundColor='yellow';", ele);

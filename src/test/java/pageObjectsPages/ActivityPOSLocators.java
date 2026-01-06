@@ -350,6 +350,7 @@ public class ActivityPOSLocators {
             			getNSCIdbData,
             	        DataPaths.LOG_DATA_ENTRY
             	);
+            	common.waitForElement(codeEntryField, 35);
               driver.closeApp();
               break;
 
@@ -368,6 +369,7 @@ public class ActivityPOSLocators {
               			getCalicutdbData,
               	        DataPaths.LOG_DATA_ENTRY
               	);
+              	common.waitForElement(codeEntryField, 35);
                 driver.closeApp();
               break;
 

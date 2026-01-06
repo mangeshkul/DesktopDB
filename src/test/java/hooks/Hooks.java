@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeSuite;
 
 import com.sun.jna.platform.DesktopWindow;
 import com.sun.jna.platform.WindowUtils;
@@ -29,7 +30,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -187,6 +190,16 @@ public class Hooks {
         }
     }
 
+ @BeforeSuite
+ public void setDynamicPdfReportName() {
+     String clubName = ModuleConfig.clubName; // e.g. CALICUT
+     String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+     String pdfPath = "test-output-extent/PdfReport/EcubePOS_"
+             + clubName + "_" + timestamp + ".pdf";
+
+     System.setProperty("extent.reporter.pdf.out", pdfPath);
+ }
 
   
     }

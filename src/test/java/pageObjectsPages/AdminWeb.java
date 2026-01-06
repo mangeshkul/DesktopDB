@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -68,6 +69,8 @@ public class AdminWeb {
 	@FindBy(xpath = "//*[@id='tableSummary']/table/tbody/tr")private
 	List<WebElement> serviceTable;
 	
+	@FindBy(xpath = "//button[normalize-space()='Predicted']")private
+	WebElement predictedReport;
 	private String reportlistName ="";
 	
 	public AdminWeb(WebDriver driver) {
@@ -78,42 +81,6 @@ public class AdminWeb {
 		PageFactory.initElements(driver, this);
 	}
 
-	public void verifyReports(String adminUrl, String userName, String password, String memberCode,
-			String JSON_FILE_PATH, String serviceName1, String serviceName2, String subServiceName1,
-			String subServiceName2) throws InterruptedException, IOException, ParseException {
-
-		WebDriverWait wait = new WebDriverWait(driver, 15);
-
-		// Login
-		driver.get(adminUrl);
-		driver.findElement(By.id("UserName")).sendKeys(userName);
-		driver.findElement(By.id("Password")).sendKeys(password);
-		driver.findElement(By.className("login-btn")).click();
-		Thread.sleep(5000);
-
-//		navigateToReportSection(wait, "/reports", "#finances");
-//		openReport(wait, "Member Statements");
-		fillMemberCodeAndSubmit(wait, memberCode);
-		switchToChildWindow(wait);
-		verifyMemberStatmentReportHeading(wait, "Member Statements");
-//		verifyMemberStatementReport(JSON_FILE_PATH, serviceName1);
-		verifyMemberStatementReport(DataPaths.GATE_ENTRY_JSON, serviceName1);
-		closeThewindow();
-		switchToParentWindow();
-
-		driver.findElement(By.xpath("//a[@class='noprint']/img[@alt='Logo']")).click();
-		Thread.sleep(3000);
-//		navigateToReportSection(wait, "/reports", "#sales");
-
-		// Verify Service Sales Detail report
-//		openReport(wait, "Service Sales Detail");
-		fillMemberCodeAndSubmit(wait, memberCode);
-		switchToChildWindow(wait);
-		verifyServiceSalesDetailsReportHeading(wait, "Service Sales Detail");
-		verifyServiceSalesDetailReport(JSON_FILE_PATH, serviceName1, serviceName2, subServiceName1);
-		closeThewindow();
-		driver.quit();
-	}
 	
 	public void clickOnEcubeLogo() 
 	{
@@ -197,6 +164,7 @@ public class AdminWeb {
         	webAction.waitForElement(enterMemberCode,30);
         	webAction.locateElement(enterMemberCode);
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
+       	this.selectNSCIMemberCodeAndProcced();
        	 
             break;
 
@@ -207,7 +175,10 @@ public class AdminWeb {
             break;
         case "calicut":
         	webAction.waitForElement(enterMemberCode,10 );
+        	webAction.locateElement(enterMemberCode);
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
+       	this.selectCalicutMemberCodeAndProcced();
+       	
        	
             break;
 
@@ -215,10 +186,30 @@ public class AdminWeb {
             throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
     } }
 	
-	public void selectMemberCodeAndProcced() 
+	public void selectNSCIMemberCodeAndProcced() 
 	{
 		webAction.waitForElement(selectMemberCode, 10);
-      	 webAction.click(clickOnGo);
+
+		try {
+			webAction.locateElement(predictedReport);
+	      	 webAction.click(predictedReport);
+		} catch (Exception e) {
+			webAction.locateElement(clickOnGo);
+	      	 webAction.click(clickOnGo);
+		}
+		
+	}
+	
+	public void selectCalicutMemberCodeAndProcced() 
+	{
+		try {
+			webAction.waitForElement(selectMemberCode, 10);
+	      	 webAction.click(predictedReport);
+		} catch (Exception e) {
+			webAction.locateElement(clickOnGo);
+	      	 webAction.click(clickOnGo);
+		}
+		
 	}
 
 	private void switchToChildWindow(WebDriverWait wait) {
@@ -297,7 +288,9 @@ public class AdminWeb {
 //		}
 //	}
 
-	public void verifyMemberStatementReport(String jsonFilePath,String serviceName1) throws IOException, ParseException {
+	
+	// // verify service, Amount, Bill Code number for NSCI
+	public void verifyNSCIMemberStatementReport(String jsonFilePath,String serviceName1) throws IOException, ParseException {
 
 	    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
 	    System.out.println("billData = " + billData);
@@ -352,7 +345,65 @@ public class AdminWeb {
 	            Assert.assertEquals(debitAmount,debitValue,0.01,"Debit amount mismatch. Expected: " + debitAmount+ " but found: " + debitValue
 	            );
 	            }
-	    }
+	    }}
+	    
+	    // verify service, Amount, Bill number for Calicut
+	    public void verifyCalicutMemberStatementReport(String jsonFilePath,String serviceName1) throws IOException, ParseException {
+
+		    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
+		    System.out.println("billData = " + billData);
+		    String billCode = billData.get("BillNo");
+		    
+		    // Get the Debit Amount from Json file which come from POS application
+		    
+	        Map<String, String> netAmount = readBillDataFromJSON(DataPaths.Amount_Data);
+		    double debitAmount = Double.parseDouble(netAmount.get("NetAmount"));
+	        
+	        System.out.println("debitAmount is = " + debitAmount);
+		    String Description =billData.get("Description").toUpperCase();
+		    if (billCode == null || billCode.isEmpty()) {
+		        throw new IllegalArgumentException(
+		                "BillCode is missing or empty in JSON file: " + jsonFilePath);
+		    }
+
+		    boolean billFound = false;
+		    boolean serviceFound = false;
+		    
+
+		    for (int i = 0; i < serviceTable.size(); i++) {
+
+		        String rowText = serviceTable.get(i).getText();
+
+		        if (rowText == null || rowText.isEmpty()) {
+		            System.out.println("Skipping empty row at index: " + i);
+		            continue;
+		        }
+
+		        // BillCode check
+		        if (rowText.contains(billCode)) {
+		            billFound = true;
+
+		            // Service check
+		            if (rowText.contains(Description)) {
+		                serviceFound = true;
+		                System.out.println("Activity '" + Description +
+		                        "' found for BillCode: " + billCode);
+		                break; // BillCode is unique → no need to continue
+		            }
+		            // Debit Amount
+		            
+		            WebElement debitCells = driver.findElement(
+		            	    By.xpath(
+		            	        "//tr[td='" + billCode + "']" +
+		            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+		            	    )
+		            	);
+		            double debitValue = Double.parseDouble(debitCells.getText());
+		             
+		            Assert.assertEquals(debitAmount,debitValue,0.01,"Debit amount mismatch. Expected: " + debitAmount+ " but found: " + debitValue
+		            );
+		            }
+		    }
 
 	    //  Final Assertions (AFTER loop)
 	    if (!billFound) {
@@ -370,113 +421,7 @@ public class AdminWeb {
 	}
 
 	
-//	public void verifyServiceSalesDetailReport(String jsonFilePath, String serviceName1, String serviceName2,
-//			String subServiceName1, String subServiceName2) throws IOException, ParseException {
-//		// Read JSON
-//		Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
-//		//System.out.println("Debug: billData = " + billData); [Database response]
-//
-//		String billNo = billData.get("BillNo");
-//		if (billNo == null || billNo.isEmpty()) {
-//			throw new IllegalArgumentException("BillNo is missing or empty in JSON file: " + jsonFilePath);
-//		}
-//		boolean billFound = false;
-//		boolean serviceFound = false;
-//		int matchCount = 0;
-//
-//		for (int i = 0; i < serviceTable.size(); i++) {
-//			String rowText = serviceTable.get(i).getText();
-//
-//			if (rowText == null) {
-//				System.out.println("⚠ Skipping row " + i + " (text is null)");
-//				continue;
-//			}
-//			// BillCode validation
-//			
-//			if (rowText.contains(billNo)) {
-//				billFound =true;
-//				matchCount++;
-//				// System.out.println("➡ Row #" + matchCount + ": " + rowText);
-//
-//				// Service validation
-//				if (rowText.contains(serviceName1) && rowText.contains(subServiceName1)) {
-//					serviceFound = true;
-//					System.out.println("✔ " + serviceName1 + " And " + subServiceName1 + " found for BillNo: " + billNo);
-//
-//				} if (rowText.contains(serviceName2) && rowText.contains(subServiceName2)) {
-//					serviceFound = true;
-//					System.out.println("✔ " + serviceName2 + " And " + subServiceName2 + " found For BillNo: " + billNo);
-//				}
-//			}
-//		}
-//
-//		if (matchCount==0) {
-//		    throw new AssertionError("No matching rows found for BillNo: " + billNo);
-//		}
-//	}
-	
-//	public void verifyServiceSalesDetailReport(
-//	        String jsonFilePath,
-//	        String activityName,
-//	        String subService1,
-//	        String subService2) throws IOException, ParseException {
-//
-//	    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
-//
-//	    String billNo = billData.get("BillNo");
-//	    if (billNo == null || billNo.isEmpty()) {
-//	        throw new IllegalArgumentException("BillNo missing in JSON");
-//	    }
-//
-//	    boolean billFound = false;
-//	    boolean subService1Found = false;
-//	    boolean subService2Found = false;
-//
-//	    for (WebElement row : serviceTable) {
-//
-//	        String rowText = row.getText();
-//	        if (rowText == null || rowText.isBlank()) {
-//	            continue;
-//	        }
-//
-//	        String normalizedRow = rowText.toUpperCase();
-//
-//	        if (normalizedRow.contains(billNo)) {
-//	            billFound = true;
-//
-//	            // Validate activity
-//	            if (!normalizedRow.contains(activityName.toUpperCase())) {
-//	                continue;
-//	            }
-//
-//	            // Validate sub-services independently
-//	            if (normalizedRow.contains(subService1.toUpperCase())) {
-//	                subService1Found = true;
-//	                System.out.println("✔ Found sub-service: " + subService1);
-//	            }
-//
-//	            if (normalizedRow.contains(subService2.toUpperCase())) {
-//	                subService2Found = true;
-//	                System.out.println("✔ Found sub-service: " + subService2);
-//	            }
-//	        }
-//	    }
-//
-//	    // 🔥 Final Assertions
-//	    if (!billFound) {
-//	        throw new AssertionError("BillNo not found in Service Sales Detail report: " + billNo);
-//	    }
-//
-//	    if (!subService1Found) {
-//	        throw new AssertionError("Sub-service not found: " + subService1 + " for BillNo: " + billNo);
-//	    }
-//
-//	    if (!subService2Found) {
-//	        throw new AssertionError("Sub-service not found: " + subService2 + " for BillNo: " + billNo);
-//	    }
-//
-//	    System.out.println("✅ All validations passed for BillNo: " + billNo);
-//	}
+
 
 	public void verifyServiceSalesDetailReport(
 	        String jsonFilePath,
@@ -617,6 +562,10 @@ public class AdminWeb {
 	        case "KARNAVATI":
 	            // You can add KARNAVATI-specific logic here
 	            return activityConfig.getService(club, activity);
+	
+	        case "CALICUT":
+	            // You can add CALICUT-specific logic here
+	            return activityConfig.getServiceForCalicut(club, activity);
 
 	        default:
 	            throw new RuntimeException("❌ Unsupported club: " + club);
@@ -638,6 +587,15 @@ public class AdminWeb {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+            
+        case "CALICUT":
+            try {
+				return activityConfig.getSubService(club, activity);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
 
         default:
             throw new RuntimeException("❌ Unsupported club: " + club);
@@ -676,13 +634,13 @@ public class AdminWeb {
 	   }
 	 
 	 //  Below function for verify report as per Activity 
-	 public void verifyReportsByActivityAndreportHeader(String activity) throws IOException, ParseException {
+	 public void verifyNSCIReportsByActivity(String activity) throws IOException, ParseException {
 
 		    switch (activity.toLowerCase()) {
 
 		        case "gate entry":
 
-		        	VerifyMemberStatementReportForGateEntry(reportlistName, activity);
+		        	VerifyNSCIMemberStatementReportForGateEntry(reportlistName, activity);
 		            break;
 
 		        case "health club gents":
@@ -699,14 +657,81 @@ public class AdminWeb {
 		            throw new IllegalArgumentException("❌ Unsupported Activity: " + activity);
 		    }
 		}
+	 
+	 
+	 public void verifyCalicutReportsByActivity(String activity) throws IOException, ParseException {
 
-	 //  Below function for verify report as per Report list as per there Activity
-	 private void VerifyMemberStatementReportForGateEntry(String reportlistName,String activity) throws IOException, ParseException {
+		    switch (activity.toLowerCase()) {
+
+		        case "gate entry":
+
+		        	VerifyCalicutMemberStatementReportForGateEntry(reportlistName, activity);
+		            break;
+
+		        case "health club gents":
+
+		        	VerifyMemberStatementReportForHealthReports(reportlistName,activity);
+		            break;
+
+		        case "badminton sports":
+
+		        	VerifyMemberStatementReportForBadminton(reportlistName,activity);
+		            break;
+
+		        default:
+		            throw new IllegalArgumentException("❌ Unsupported Activity: " + activity);
+		    }
+		}
+	 
+	 
+	// Club-wise and activity-wise report validation.
+	 
+	 public void verifyReportsByActivityAndReportHeader(String activity)
+		        throws IOException, ParseException {
+
+		    switch (ModuleConfig.clubName.toLowerCase()) {
+
+		        case "nsci":
+		            verifyNSCIReportsByActivity(activity);
+		            break;
+
+		        case "calicut":
+		            verifyCalicutReportsByActivity(activity);
+		            break;
+
+		        default:
+		            throw new IllegalArgumentException("❌ Unsupported Club: " + ModuleConfig.clubName.toLowerCase());
+		    }
+		}
+
+
+	 //  Below is the NSCI function for verify report as per Report list as per there Activity
+	 private void VerifyNSCIMemberStatementReportForGateEntry(String reportlistName,String activity) throws IOException, ParseException {
 
 		    switch (reportlistName.toLowerCase()) {
 
 		        case "member statements":
-		        	verifyMemberStatementDetailsByActivity(activity);
+		        	verifyNSCIMemberStatementDetailsByActivity(activity);
+		            break;
+
+		        case "service sales detail":
+		        	
+		        	verifyServiceSalesDetailByActivity(activity);
+		            break;
+		            
+		        default:
+		            throw new IllegalArgumentException(
+		                "❌ Unsupported Report Header for Gate Entry: " + reportlistName
+		            );
+		    }
+		}
+	 
+	 private void VerifyCalicutMemberStatementReportForGateEntry(String reportlistName,String activity) throws IOException, ParseException {
+
+		    switch (reportlistName.toLowerCase()) {
+
+		        case "member statements":
+		        	verifyCalicutMemberStatementDetailsByActivity(activity);
 		            break;
 
 		        case "service sales detail":
@@ -725,7 +750,7 @@ public class AdminWeb {
 		    switch (reportlistName.toLowerCase()) {
 
 		        case "member statements":
-		        	verifyMemberStatementDetailsByActivity(activity);
+		        	verifyCalicutMemberStatementDetailsByActivity(activity);
 		            break;
 
 		        case "service sales detail":
@@ -746,7 +771,7 @@ public class AdminWeb {
 		    switch (reportlistName.toLowerCase()) {
 
 		        case "member statements":
-		        	verifyMemberStatementDetailsByActivity(activity);
+		        	verifyCalicutMemberStatementDetailsByActivity(activity);
 		            break;
 
 		        case "service sales detail":
@@ -760,39 +785,28 @@ public class AdminWeb {
 		            );
 		    }
 		}
-	 public void verifyMemberStatementDetailsByActivity(String activity) throws IOException, ParseException 
+	 public void verifyNSCIMemberStatementDetailsByActivity(String activity) throws IOException, ParseException 
 	 {
 		 String serviceName=getServiceName(activity);
-		    verifyMemberStatementReport(DataPaths.GATE_ENTRY_JSON, serviceName);
+		    verifyNSCIMemberStatementReport(DataPaths.GATE_ENTRY_JSON, serviceName);
 		    this.closeThewindow();
 			this.switchToParentWindow(); 
 	 }
 	 
-//	 public void verifyServiceSalesDetailByActivity(String activity) throws IOException, ParseException {
-//
-//		    String serviceNameForMember = this.getServiceName(activity);
-//		    String subServiceNameForMember = this.getSubServiceName(activity);
-//
-//		    String serviceNameForGuest = this.getServiceName(activity);
-//		    String subServiceNameForGuest = this.getSubServiceName(activity);
-//
-//		    verifyServiceSalesDetailReport(
-//		            DataPaths.GATE_ENTRY_JSON,
-//		            serviceNameForMember,
-//		            subServiceNameForMember,
-//		            serviceNameForGuest,
-//		            subServiceNameForGuest
-//		    );
-//
-//		   this.closeThewindow();
-//		    this.switchToParentWindow();
-//		}
-
+	 public void verifyCalicutMemberStatementDetailsByActivity(String activity) throws IOException, ParseException 
+	 {
+		 String serviceName=getServiceName(activity);
+		    verifyCalicutMemberStatementReport(DataPaths.GATE_ENTRY_JSON, serviceName);
+		    this.closeThewindow();
+			this.switchToParentWindow(); 
+	 }
+	    
+	 //
 	 public void verifyServiceSalesDetailByActivity(String activity)
 		        throws IOException, ParseException {
 
-		    String subService1 = this.getServiceName(activity);      // EXTRA VIRGIN OLIVE OIL 50ML
-		    String subService2 = this.getSubServiceName(activity);  // DAILY MEMBER’S CHARGES HCG
+		    String subService1 = this.getServiceName(activity);      // club wise 
+		    String subService2 = this.getSubServiceName(activity);  // 
 
 		    verifyServiceSalesDetailReport(
 		            DataPaths.GATE_ENTRY_JSON,
