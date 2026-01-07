@@ -1,50 +1,71 @@
 {
   "NSCI": {
-    "Gate Entry": {
-      "service": "Gate Entry Guest	",
-      "subservice": "Gate Entry For Guest"
-    },
-    "Health Club Gents": {
-      "service": "Extra Virgin Olive Oil 50ml",
-      "subservice": "DAILY MEMBER’S CHARGES HCG"
-    },
-    "Badminton Sports": {
-      "service": "Babolat Hybrid Shuttles",
-      "subservice": "Badminton Doubles"
-    },
-    "Gym": {
-      "service": "Gym Activity",
-      "subservice": "Gym Activity"
-    }
+    "activities": [
+      {
+        "name": "Gate Entry",
+        "service": "Gate Entry Guest",
+        "subservice": "Gate Entry For Guest"
+      },
+      {
+        "name": "Health Club Gents",
+        "service": "Extra Virgin Olive Oil 50ml",
+        "subservice": "DAILY MEMBER’S CHARGES HCG"
+      },
+      {
+        "name": "Badminton Sports",
+        "service": "Babolat Hybrid Shuttles",
+        "subservice": "Badminton Doubles"
+      },
+      {
+        "name": "Gym",
+        "service": "Gym Activity",
+        "subservice": "Gym Activity"
+      }
+    ]
   },
 
   "KARNAVATI": {
-    "GateEntry": {
-      "service": "Gate Entry Guest",
-      "subservice": "Gate Entry Guest"
-    },
-    "Badminton": {
-      "service": "Karnavati Badminton",
-      "subservice": "Karnavati Badminton"
-    },
-    "Gym": {
-      "service": "Karnavati Gym Activity",
-      "subservice": "Karnavati Gym Activity"
-    }
+    "activities": [
+      {
+        "name": "GateEntry",
+        "service": "Gate Entry Guest",
+        "subservice": "Gate Entry Guest"
+      },
+      {
+        "name": "Badminton",
+        "service": "Karnavati Badminton",
+        "subservice": "Karnavati Badminton"
+      },
+      {
+        "name": "Gym",
+        "service": "Karnavati Gym Activity",
+        "subservice": "Karnavati Gym Activity"
+      }
+    ]
   },
 
   "CALICUT": {
-    "Gate Entry": {
-      "service": "Gate Entry Guest",
-      "subservice": "Gate Entry Member"
-    },
-    "Badminton": {
-      "service": "Karnavati Badminton",
-      "subservice": "Karnavati Badminton"
-    },
-    "Gym": {
-      "service": "Karnavati Gym Activity",
-      "subservice": "Karnavati Gym Activity"
-    }
+    "activities": [
+      {
+        "name": "Gate Entry",
+        "service": "Gate Entry Guest",
+        "subservice": "Gate Entry Member"
+      },
+      {
+        "name": "Health Club Gents",
+        "service": "Karnavati Badminton",
+        "subservice": "Karnavati Badminton"
+      },
+      {
+        "name": "Badminton Sports",
+        "service": "Karnavati Gym Activity",
+        "subservice": "Karnavati Gym Activity"
+      },
+	     {
+	      "name": "Gym",
+	      "service": "Gym Activity",
+	       "subservice": "Gym Activity"
+	        }
+    ]
   }
 }

@@ -173,14 +173,14 @@ public class Hooks {
                 byte[] src = ((TakesScreenshot) driver)
                         .getScreenshotAs(OutputType.BYTES);
                 scenario.attach(src, "image/png", scenario.getName());
-                driver.close() ;
+               
             }
   
     if (scenario.isFailed()&&webDriver != null) {
         byte[] src = ((TakesScreenshot) webDriver)
                 .getScreenshotAs(OutputType.BYTES);
         scenario.attach(src, "image/png", "Web - " + scenario.getName());
-        webDriver.close() ;
+        
     }
         } catch (Exception e) {
             e.printStackTrace();

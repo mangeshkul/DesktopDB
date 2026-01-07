@@ -24,6 +24,7 @@ import utilities.WebCommonActions;
 import utility.ActivityConfig;
 import utility.DataPaths;
 import utility.ModuleConfig;
+import utility.ScenarioContext;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -686,8 +687,15 @@ public class AdminWeb {
 	 
 	// Club-wise and activity-wise report validation.
 	 
-	 public void verifyReportsByActivityAndReportHeader(String activity)
+	 public void verifyReportsByActivityAndReportHeader()
 		        throws IOException, ParseException {
+		 
+		 // Get the Activity from 
+		 String clubName = ModuleConfig.clubName;
+	        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+	        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+
+	        String activity = activities.get(scenarioIndex % activities.size());
 
 		    switch (ModuleConfig.clubName.toLowerCase()) {
 
@@ -704,6 +712,23 @@ public class AdminWeb {
 		    }
 		}
 
+	 
+	 public void verifyReportsByActivityAndReportHeader(String activity)
+		        throws IOException, ParseException {
+		    switch (ModuleConfig.clubName.toLowerCase()) {
+
+		        case "nsci":
+		            verifyNSCIReportsByActivity(activity);
+		            break;
+
+		        case "calicut":
+		            verifyCalicutReportsByActivity(activity);
+		            break;
+
+		        default:
+		            throw new IllegalArgumentException("❌ Unsupported Club: " + ModuleConfig.clubName.toLowerCase());
+		    }
+		}
 
 	 //  Below is the NSCI function for verify report as per Report list as per there Activity
 	 private void VerifyNSCIMemberStatementReportForGateEntry(String reportlistName,String activity) throws IOException, ParseException {

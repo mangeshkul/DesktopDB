@@ -1,6 +1,7 @@
 package stepDefinitions;
 
 import io.appium.java_client.windows.WindowsDriver;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import hooks.Hooks;
 
@@ -22,6 +23,7 @@ import utilities.CommonFunctions;
 import utilities.DriverManager;
 import utility.DataPaths;
 import utility.ModuleConfig;
+import utility.ScenarioContext;
 
 public class ActivityPOSSteps {
 
@@ -129,14 +131,20 @@ public class ActivityPOSSteps {
     	locators.getUserDataFromDataBase();
     	
      
-    } 
+    }  
     
     @Then("user select the activity {string} on Dashboard page")
     public void User_select_activity_on_Dashboard(String activityName) throws IOException {
     	// user select the required activity 
     	locators.selectActivityForUser(activityName);
-    
     }
+    
+    @Then("user select the activity on Dashboard page")
+    public void user_select_the_activity_on_Dashboard_page() throws IOException {
+    	// user select the required activity 
+    	locators.selectedActivityForUser();
+    }
+    
     @Then("user select and verify the services as per the activity selection")
     public void user_select_the_services_for_the_activity() throws IOException {
     	// User can select the services as per activity selection 

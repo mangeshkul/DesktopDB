@@ -102,7 +102,7 @@ public class AdminSteps {
 	    	// check all the list and select as per requirement
 				admin.verifyReportsByActivityAndReportHeader(activity);
 
-	    }
+	    } 
 	    
 	    @Then("user click on ecube logo icon")
 	    public void User_click_on_ecube_logo_icon() throws InterruptedException {

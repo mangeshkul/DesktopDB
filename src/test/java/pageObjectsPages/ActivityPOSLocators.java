@@ -21,6 +21,7 @@ import utility.DataPaths;
 import utility.JsonLogWriter;
 import utility.JsonReader;
 import utility.ModuleConfig;
+import utility.ScenarioContext;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -640,6 +641,30 @@ public class ActivityPOSLocators {
 //		}
    
     }
+    
+    public void selectedActivityForUser() {
+
+        String clubName = ModuleConfig.clubName;
+        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+
+        if (activities == null || activities.isEmpty()) {
+            throw new RuntimeException("No activities configured for club: " + clubName);
+        }
+
+        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+
+        servicesName = activities.get(scenarioIndex % activities.size());
+
+        System.out.println("Scenario Index: " + scenarioIndex);
+        System.out.println("Selected Activity: " + servicesName);
+
+        WebElement activityName = driver.findElement(By.name(servicesName));
+        common.click(activityName);
+    }
+
+
+
+    
     
     //  Here we have to select and verify the services 
     public void selectAndVerifyServicesAsPerActivity() {
