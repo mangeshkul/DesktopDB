@@ -63,6 +63,7 @@ public class CommonFunctions {
 	  ele.click();
 	    }
 	  
+	  // Write the Amount into JSON file for verify in Reports section
 	  public void writeNetAmountValueIntoJson(Double amount, String jsonPAth) throws StreamWriteException, DatabindException, IOException 
 	  {
 		  ObjectMapper mapper = new ObjectMapper();
@@ -71,6 +72,8 @@ public class CommonFunctions {
 		  data.put("NetAmount", amount);
 		  mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
 	  }
+	  
+	  // get  the Amount into JSON file for verify in Reports section
 	  public double getAmount(WebElement element) {
 
 		    String value = element.getText();
@@ -81,7 +84,21 @@ public class CommonFunctions {
 		   }
 		   return Double.parseDouble(value);
 		}
+ 
+	  // Write Activity value
+	  public void writeActivityValueIntoJson(String activity, String jsonPath)
+		        throws IOException {
 
+		    ObjectMapper mapper = new ObjectMapper();
+
+		    Map<String, String> data = new HashMap<>();
+		    data.put("selectedActivity", activity);
+
+		    mapper.writerWithDefaultPrettyPrinter()
+		          .writeValue(new File(jsonPath), data);
+		}
+
+	  
 
     public void click(WebElement element) {
     	element.click();

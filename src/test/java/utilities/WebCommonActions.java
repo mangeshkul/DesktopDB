@@ -1,8 +1,10 @@
 package utilities;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -190,6 +192,20 @@ public class WebCommonActions {
 				throw new AssertionError(ele + "This element is not displayed");
 			}
 	    }
+	    
+	    public String readValueFromJson(String jsonFilePath, String key)
+	            throws IOException, org.json.simple.parser.ParseException {
+
+	        JSONParser parser = new JSONParser();
+	        Object obj = parser.parse(new FileReader(jsonFilePath));
+
+	        JSONObject jsonObject = (JSONObject) obj; // ✅ correct cast
+
+	        Object value = jsonObject.get(key);
+	        return value == null ? null : String.valueOf(value);
+	    }
+
+
 	    
 	    
 

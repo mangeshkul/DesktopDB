@@ -1,6 +1,7 @@
 package pageObjectsPages;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -611,60 +612,76 @@ public class ActivityPOSLocators {
     }
 
     
-
     
-    // This method we select the Activity from Activity POS on Dashboard Page 
-    public void selectActivityForUser(String activity) 
-    {
-    	servicesName = activity;
-    	WebElement activityName = driver.findElement(By.name(activity));
-    	common.click(activityName);
-    	
-    	// Switch case for future activity-specific handling
-    	
-//    	switch (activity.toLowerCase()) {
-//		case "gate entry":
-//			common.click(activityName);
-//			break;
-//	case "gym":
-//		common.click(activityName);
-//			break;
-//	case "health club gents":
-//		common.click(activityName);
-//		break;
-//	case "tennis sports":
-//		common.click(activityName);
-//		break;
+    
+//    public void selectedActivityForUser() {
 //
-//		default:
-//			break;
-//		}
-   
-    }
+//        String clubName = ModuleConfig.clubName;
+//        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+//
+//        if (activities == null || activities.isEmpty()) {
+//            throw new RuntimeException("No activities configured for club: " + clubName);
+//        }
+//
+//        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+//
+//        servicesName = activities.get(scenarioIndex % activities.size());
+//
+//        System.out.println("Scenario Index: " + scenarioIndex);
+//        System.out.println("Selected Activity: " + servicesName);
+//
+//        WebElement activityName = driver.findElement(By.name(servicesName));
+//        common.click(activityName);
+//    }
     
-    public void selectedActivityForUser() {
+     
+    // Select activity as per scenario name on the basis of token base 
+    public void selectedActivityForUser() throws StreamWriteException, DatabindException, IOException {
 
-        String clubName = ModuleConfig.clubName;
-        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+    	String clubName = ModuleConfig.clubName;
+    	List<String> activities = activityConfig.getActivitiesForClub(clubName);
 
-        if (activities == null || activities.isEmpty()) {
-            throw new RuntimeException("No activities configured for club: " + clubName);
-        }
+    	if (activities == null || activities.isEmpty()) {
+    	    throw new RuntimeException("No activities configured for club: " + clubName);
+    	}
 
-        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+    	String scenarioName = ScenarioContext.getScenarioName();
+    	String matchedActivity = null;
 
-        servicesName = activities.get(scenarioIndex % activities.size());
+    	// 🔹 TOKEN-BASED MATCHING (works for all activities)
+    	String scenarioLower = scenarioName.toLowerCase();
 
-        System.out.println("Scenario Index: " + scenarioIndex);
-        System.out.println("Selected Activity: " + servicesName);
+    	for (String activity : activities) {
 
-        WebElement activityName = driver.findElement(By.name(servicesName));
-        common.click(activityName);
-    }
+    	    String activityLower = activity.toLowerCase();
 
+    	    boolean matchFound = Arrays.stream(scenarioLower.split("\\s+"))
+    	            .filter(word -> word.length() > 2)   // ignore small words: for, and, the
+    	            .anyMatch(activityLower::contains);
 
+    	    if (matchFound) {
+    	        matchedActivity = activity;
+    	        break;
+    	    }
+    	}
 
-    
+    	// 🔹 Fallback to existing index logic (NO BREAKING CHANGE)
+    	if (matchedActivity == null) {
+    	    int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+    	    matchedActivity = activities.get(scenarioIndex % activities.size());
+    	}
+
+    	servicesName = matchedActivity;
+
+    	System.out.println("Scenario Name    : " + scenarioName);
+    	System.out.println("Selected Activity: " + servicesName);
+    	
+    	// store Selected activity to json file
+    	common.writeActivityValueIntoJson(servicesName,DataPaths.Activity_DATA);
+    	WebElement activityName = driver.findElement(By.name(servicesName));
+    	common.click(activityName);
+    	}
+
     
     //  Here we have to select and verify the services 
     public void selectAndVerifyServicesAsPerActivity() {
@@ -685,6 +702,8 @@ public class ActivityPOSLocators {
                 throw new RuntimeException("❌ Unsupported club: " + club);
         }
     }
+    
+    
     
     private void handleHealthClubService(String serviceName,String club) 
     {

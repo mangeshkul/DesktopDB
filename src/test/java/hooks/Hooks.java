@@ -22,6 +22,7 @@ import com.sun.jna.platform.WindowUtils;
 
 import utilities.DriverManager;
 import utility.ModuleConfig;
+import utility.ScenarioContext;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -105,7 +106,10 @@ public class Hooks {
 
     
     @Before
-    public void launchWindowsApp() throws Exception {
+    public void launchWindowsApp(Scenario scenario) throws Exception {
+    	
+    	ScenarioContext.setScenarioName(scenario.getName());
+    	
         if (DriverManager.getWindowsDriver() != null) {
             return;
         }
@@ -129,7 +133,18 @@ public class Hooks {
         DriverManager.setWindowsDriver(driver);
 
         System.out.println("✅ Windows POS launched");
+        
     }
+    
+    
+   
+
+    
+        public void beforeScenario(Scenario scenario) {
+            ScenarioContext.setScenarioName(scenario.getName());
+        }
+    
+
     
     private void waitForWindowsToLaunch(int timeoutSeconds) {
         WebDriverWait wait = new WebDriverWait(driver,timeoutSeconds);

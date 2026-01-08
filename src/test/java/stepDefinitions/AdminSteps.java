@@ -97,13 +97,13 @@ public class AdminSteps {
 	    	admin.verifyReportHeading();
 	    }
 	    
-	    @Then("user verifies the report, service, and sub-service details against the Activity {string}")
-	    public void user_verifies_the_report_service_and_sub_service_details_against_the_activity(String activity) throws InterruptedException, IOException, ParseException {
+	    @Then("user verifies the report, service, and sub-service details against the Activity")
+	    public void user_verifies_the_report_service_and_sub_service_details_against_the_activity() throws InterruptedException, IOException, ParseException, java.text.ParseException {
 	    	// check all the list and select as per requirement
-				admin.verifyReportsByActivityAndReportHeader(activity);
+				admin.verifyReportsByActivityAndReportHeader();
 
 	    } 
-	    
+	     
 	    @Then("user click on ecube logo icon")
 	    public void User_click_on_ecube_logo_icon() throws InterruptedException {
 	    	// user click on on ecube logo

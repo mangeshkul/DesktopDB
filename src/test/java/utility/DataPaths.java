@@ -14,4 +14,7 @@ public class DataPaths {
     public static final String CLUB_DATA =
             System.getProperty("user.dir") + "/src/test/resources/activities.json";
     
+    
+    public static final String Activity_DATA =
+            System.getProperty("user.dir") + "/src/test/java/DataManagment/getActivities.json";
 }

@@ -685,36 +685,39 @@ public class AdminWeb {
 		}
 	 
 	 
+	
+	 
+//	 public void verifyReportsByActivityAndReportHeader()
+//		        throws IOException, ParseException {
+//		 
+//		 // Get the Activity from 
+//		 String clubName = ModuleConfig.clubName;
+//	        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+//	        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+//
+//	        String activity = activities.get(scenarioIndex % activities.size());
+//
+//		    switch (ModuleConfig.clubName.toLowerCase()) {
+//
+//		        case "nsci":
+//		            verifyNSCIReportsByActivity(activity);
+//		            break;
+//
+//		        case "calicut":
+//		            verifyCalicutReportsByActivity(activity);
+//		            break;
+//
+//		        default:
+//		            throw new IllegalArgumentException("❌ Unsupported Club: " + ModuleConfig.clubName.toLowerCase());
+//		    }
+//		}
+
 	// Club-wise and activity-wise report validation.
-	 
 	 public void verifyReportsByActivityAndReportHeader()
-		        throws IOException, ParseException {
+		        throws IOException, ParseException, java.text.ParseException {
 		 
-		 // Get the Activity from 
-		 String clubName = ModuleConfig.clubName;
-	        List<String> activities = activityConfig.getActivitiesForClub(clubName);
-	        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
-
-	        String activity = activities.get(scenarioIndex % activities.size());
-
-		    switch (ModuleConfig.clubName.toLowerCase()) {
-
-		        case "nsci":
-		            verifyNSCIReportsByActivity(activity);
-		            break;
-
-		        case "calicut":
-		            verifyCalicutReportsByActivity(activity);
-		            break;
-
-		        default:
-		            throw new IllegalArgumentException("❌ Unsupported Club: " + ModuleConfig.clubName.toLowerCase());
-		    }
-		}
-
-	 
-	 public void verifyReportsByActivityAndReportHeader(String activity)
-		        throws IOException, ParseException {
+		 String activity =webAction.readValueFromJson(DataPaths.Activity_DATA, "selectedActivity");
+		 System.out.println("getting name is" + activity);
 		    switch (ModuleConfig.clubName.toLowerCase()) {
 
 		        case "nsci":

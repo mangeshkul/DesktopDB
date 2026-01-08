@@ -58,7 +58,7 @@ public class ActivityPOSSteps {
 
     @Given("Activity POS application is launched")
     public void launchActivityPOS() throws Exception {
-    	hooks.launchWindowsApp();
+    	// Launch Desktop application from Hooks 
     }
 
     @Given("user logs in to Activity POS")
@@ -133,17 +133,12 @@ public class ActivityPOSSteps {
      
     }  
     
-    @Then("user select the activity {string} on Dashboard page")
-    public void User_select_activity_on_Dashboard(String activityName) throws IOException {
-    	// user select the required activity 
-    	locators.selectActivityForUser(activityName);
-    }
     
     @Then("user select the activity on Dashboard page")
     public void user_select_the_activity_on_Dashboard_page() throws IOException {
     	// user select the required activity 
     	locators.selectedActivityForUser();
-    }
+    } 
     
     @Then("user select and verify the services as per the activity selection")
     public void user_select_the_services_for_the_activity() throws IOException {
