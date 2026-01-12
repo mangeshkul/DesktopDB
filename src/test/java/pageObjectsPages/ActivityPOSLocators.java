@@ -493,9 +493,28 @@ public class ActivityPOSLocators {
     	return driver.findElements(otherServicesForHealth);
     }
     
-    public void selectServiceNameasPerActivity(String serviceName,String club) {
-    	driver.findElement(By.name(serviceName)).click();
+    public void selectServiceNameasPerActivity(String serviceName, String club) {
+
+        try {
+            // First attempt: click using Name)
+            driver.findElement(By.name(serviceName)).click();
+
+        } catch (Exception e1) {
+            try {
+                // Second attempt: robust XPath for WPF TextBlock
+                driver.findElement(
+                    By.xpath("//TextBlock[contains(@Name,'" + serviceName + "')]")
+                ).click();
+
+            } catch (Exception e2) {
+                // Last fallback: click parent button if TextBlock is not clickable
+                driver.findElement(
+                    By.xpath("//TextBlock[contains(@Name,'" + serviceName + "')]/ancestor::Button")
+                ).click();
+            }
+        }
     }
+
     
     public void VerifyServiceName(String addedService,String club) {
     	WebElement service =driver.findElement(By.xpath("//*[contains(@Name, '"+addedService+"')]"));
@@ -657,7 +676,9 @@ public class ActivityPOSLocators {
 
     	    boolean matchFound = Arrays.stream(scenarioLower.split("\\s+"))
     	            .filter(word -> word.length() > 2)   // ignore small words: for, and, the
-    	            .anyMatch(activityLower::contains);
+    	            .anyMatch(word ->
+    	            activityLower.equalsIgnoreCase(word) ||
+    	            activityLower.toLowerCase().contains(word.toLowerCase()));
 
     	    if (matchFound) {
     	        matchedActivity = activity;
@@ -691,11 +712,15 @@ public class ActivityPOSLocators {
         switch (club.toLowerCase()) {
 
             case "nsci":
-                selectAndVerifyServicesAsPerActivity(servicesName, club);
+            	selectAndVerifyNSCIServicesAsPerActivity(servicesName, club);
                 break;
 
             case "karnavati":
-                selectAndVerifyServicesAsPerActivity(servicesName, club);
+            	selectAndVerifyKarnavatiServicesAsPerActivity(servicesName, club);
+                break;
+                
+            case "calicut":
+                selectAndVerifyCalicutServicesAsPerActivity(servicesName, club);
                 break;
 
             default:
@@ -705,7 +730,7 @@ public class ActivityPOSLocators {
     
     
     
-    private void handleHealthClubService(String serviceName,String club) 
+    private void handleHealthClubGentsService(String serviceName,String club) 
     {
     	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
     	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
@@ -723,12 +748,85 @@ public class ActivityPOSLocators {
     	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
     }
     
-    private void selectAndVerifyServicesAsPerActivity(String servicesName, String club) {
+    
+    
+    private void selectAndVerifyNSCIServicesAsPerActivity(String servicesName, String club) {
 
         switch (servicesName.toLowerCase()) {
 
             case "health club gents":
-                handleHealthClubService(servicesName,club);
+            	handleHealthClubGentsService(servicesName,club);
+                break;
+
+            case "badminton sports":
+            	handleBadmintonClubService(servicesName, club);
+                break;
+
+            case "gate entry":
+                handleGateEntryService(servicesName, club);
+                break;
+
+            default:
+                throw new RuntimeException("❌ Unsupported service: " + servicesName);
+        }
+    }
+    
+    private void handleHealthClubLadiesService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+     
+    
+    //select service for pickleball 
+    
+    private void handlepickleballService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+    
+  //select service for Gym 
+    private void handleGymService(String serviceName,String club) 
+    {
+    	this.selectServiceNameasPerActivity(activityConfig.selectServicesForActivity(servicesName,club), club);
+    	this.VerifyServiceName(activityConfig.selectServicesForActivity(servicesName,club),club);
+    }
+    // For calicut Services
+    private void selectAndVerifyCalicutServicesAsPerActivity(String servicesName, String club) {
+
+        switch (servicesName.toLowerCase()) {
+
+            case "health club ladies":
+            	handleHealthClubLadiesService(servicesName,club);
+                break;
+
+            case "badminton sports":
+            	handleBadmintonClubService(servicesName, club);
+                break;
+
+            case "gate entry":
+                handleGateEntryService(servicesName, club);
+                break;
+                
+            case "pickleball":
+            	handlepickleballService(servicesName, club);
+                break;
+
+            case "gym":
+            	handleGymService(servicesName, club);
+                break;
+            default:
+                throw new RuntimeException("❌ Unsupported service: " + servicesName);
+        }
+    }
+    
+    private void selectAndVerifyKarnavatiServicesAsPerActivity(String servicesName, String club) {
+
+        switch (servicesName.toLowerCase()) {
+
+            case "health club gents":
+            	handleHealthClubGentsService(servicesName,club);
                 break;
 
             case "badminton sports":

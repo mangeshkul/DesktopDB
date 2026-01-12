@@ -66,7 +66,7 @@ public class ActivityPOSSteps {
     	// User can log in as per club name 
     	
     	  loginPage.loginBasedOnClub();
-    }
+    } 
 
     @Then("user enters member code and submit it")
     public void user_enters_member_code() {
@@ -119,8 +119,7 @@ public class ActivityPOSSteps {
     public void user_verifies_for_submember() {
     	// user verifies member submember is check
     	locators.selectAllSubMembersExceptSelf();
-    	
-    
+
     }
     
     

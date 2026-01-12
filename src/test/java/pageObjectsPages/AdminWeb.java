@@ -341,6 +341,8 @@ public class AdminWeb {
 	            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
 	            	    )
 	            	);
+	            webAction.scrollIntoView(debitCells);
+	            webAction.locateElement(debitCells);
 	            double debitValue = Double.parseDouble(debitCells.getText());
 	             
 	            Assert.assertEquals(debitAmount,debitValue,0.01,"Debit amount mismatch. Expected: " + debitAmount+ " but found: " + debitValue
@@ -399,9 +401,16 @@ public class AdminWeb {
 		            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
 		            	    )
 		            	);
+		            webAction.scrollIntoView(debitCells);
+		            webAction.locateElement(debitCells);
+		          
 		            double debitValue = Double.parseDouble(debitCells.getText());
-		             
-		            Assert.assertEquals(debitAmount,debitValue,0.01,"Debit amount mismatch. Expected: " + debitAmount+ " but found: " + debitValue
+		            System.out.println("cell value"+ debitValue);
+		            Assert.assertEquals(
+		                    debitValue,      // actual (UI)
+		                    debitAmount,     // expected (JSON)
+		                    0.01,
+		                    "Debit amount mismatch. Expected: " + debitAmount + " but found: " + debitValue
 		            );
 		            }
 		    }
@@ -669,14 +678,24 @@ public class AdminWeb {
 		        	VerifyCalicutMemberStatementReportForGateEntry(reportlistName, activity);
 		            break;
 
-		        case "health club gents":
+		        case "health club ladies":
 
-		        	VerifyMemberStatementReportForHealthReports(reportlistName,activity);
+		        	VerifyMemberStatementReportForLadiesClub(reportlistName,activity);
 		            break;
 
 		        case "badminton sports":
 
 		        	VerifyMemberStatementReportForBadminton(reportlistName,activity);
+		            break;
+		            
+		        case "pickleball":
+
+		        	VerifyMemberStatementReportForPickleball(reportlistName,activity);
+		            break;
+		            
+		        case "gym":
+
+		        	VerifyMemberStatementReportForPickleball(reportlistName,activity);
 		            break;
 
 		        default:
@@ -794,6 +813,26 @@ public class AdminWeb {
 		}
 	 
 	 
+	 private void VerifyMemberStatementReportForLadiesClub(String reportlistName,String activity) throws IOException, ParseException {
+
+		    switch (reportlistName.toLowerCase()) {
+
+		        case "member statements":
+		        	verifyCalicutMemberStatementDetailsByActivity(activity);
+		            break;
+
+		        case "service sales detail":
+		        	
+		        	verifyServiceSalesDetailByActivity(activity);
+		            break;
+		            
+		        default:
+		            throw new IllegalArgumentException(
+		                "❌ Unsupported Report Header for Gate Entry: " + reportlistName
+		            );
+		    }
+		}
+	 
 	 private void VerifyMemberStatementReportForBadminton(String reportlistName,String activity) throws IOException, ParseException {
 
 		    switch (reportlistName.toLowerCase()) {
@@ -813,6 +852,28 @@ public class AdminWeb {
 		            );
 		    }
 		}
+	 
+	 private void VerifyMemberStatementReportForPickleball(String reportlistName,String activity) throws IOException, ParseException {
+
+		    switch (reportlistName.toLowerCase()) {
+
+		        case "member statements":
+		        	verifyCalicutMemberStatementDetailsByActivity(activity);
+		            break;
+
+		        case "service sales detail":
+		        	
+		        	verifyServiceSalesDetailByActivity(activity);
+		            break;
+		            
+		        default:
+		            throw new IllegalArgumentException(
+		                "❌ Unsupported Report Header for Gate Entry: " + reportlistName
+		            );
+		    }
+		}
+	 
+	 
 	 public void verifyNSCIMemberStatementDetailsByActivity(String activity) throws IOException, ParseException 
 	 {
 		 String serviceName=getServiceName(activity);

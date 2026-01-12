@@ -82,7 +82,10 @@ public class CommonFunctions {
 		   {
 			   value = element.getAttribute("Name");
 		   }
+		   value = value.replaceAll("[^0-9.]", "");
+		   System.out.println("name is " + value);
 		   return Double.parseDouble(value);
+		   
 		}
  
 	  // Write Activity value

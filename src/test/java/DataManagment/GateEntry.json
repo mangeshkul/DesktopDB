@@ -1,10 +1,10 @@
 {
-  "Debit": "35.4000",
-  "BillNo": "88",
+  "Debit": "600.0000",
+  "BillNo": "11",
   "Credit": "0.0000",
-  "Description": "Gate Entry",
-  "MasterId": "287",
+  "Description": "Gym",
+  "MasterId": "356",
   "BillCode": "null",
-  "DebitAmount": "30.0000",
-  "Date": "2026-01-08 00:00:00.0"
+  "DebitAmount": "600.0000",
+  "Date": "2026-01-12 00:00:00.0"
 }

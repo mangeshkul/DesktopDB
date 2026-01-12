@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/features",
-    tags = "@ecubePoSgate",
+    tags = "@ecubePoSGym",
     glue = {"stepDefinitions","hooks","utilities","pageObjectsPages"},
     plugin = {
         "pretty",

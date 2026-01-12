@@ -52,19 +52,19 @@
         "subservice": "Gate Entry Member"
       },
       {
-        "name": "Health Club ladies",
-        "service": "Karnavati Badminton",
-        "subservice": "Karnavati Badminton"
+        "name": "Health Club Ladies",
+        "service": "Zumba Monthly",
+        "subservice": "Zumba Daily"
       },
       {
-        "name": "Badminton Sports",
-        "service": "Karnavati Gym Activity",
-        "subservice": "Karnavati Gym Activity"
+        "name": "Pickleball",
+        "service": "Pickleball - Sub",
+        "subservice": "Member Charges"
       },
 	     {
 	      "name": "Gym",
-	      "service": "Gym Activity",
-	       "subservice": "Gym Activity"
+	      "service": "TestMangesh",
+	       "subservice": ""
 	        }
     ]
   }

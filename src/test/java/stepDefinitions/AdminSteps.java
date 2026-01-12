@@ -95,8 +95,8 @@ public class AdminSteps {
 	    	// check all the list and select as per requirement
 	    	common.switchToChildWindow(); 	
 	    	admin.verifyReportHeading();
-	    }
-	    
+	    } 
+	     
 	    @Then("user verifies the report, service, and sub-service details against the Activity")
 	    public void user_verifies_the_report_service_and_sub_service_details_against_the_activity() throws InterruptedException, IOException, ParseException, java.text.ParseException {
 	    	// check all the list and select as per requirement

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6285160d-1d68-46c3-aeab-8f876a48f32b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/AmountData.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/AmountData.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/GateEntry.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/GateEntry.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/LogDataEntry.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/LogDataEntry.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/getActivities.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/getActivities.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pageObjectsPages/ActivityPOSLocators.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pageObjectsPages/ActivityPOSLocators.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pageObjectsPages/AdminWeb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pageObjectsPages/AdminWeb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/runners/TestRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/runners/TestRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/ActivityPOSSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/ActivityPOSSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/AdminSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/AdminSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/utilities/CommonFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utilities/CommonFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/utility/ActivityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utility/ActivityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/activities.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/activities.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/data.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/data.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/activity.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/activity.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/eCubeUIpageObjetcs/ResPOS/ResPosLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eCubeUIpageObjetcs/ResPOS/ResPosLocators.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ActivityPOSLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ActivityPOSLocators.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForActivityPOS.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForActivityPOS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForResPOS.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForResPOS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/LoginPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/LoginPage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ResPOSLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ResPOSLocators.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output-extent/PdfReport/EcubePOS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/test-output-extent/PdfReport/EcubePOS.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output-extent/SparkReport/EcubePOS.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output-extent/SparkReport/EcubePOS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/Default suite/Default test.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/Default test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/Default suite/Default test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/Default test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/Default suite/testng-failed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/testng-failed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/emailable-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/emailable-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/junitreports/TEST-runners.TestRunner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/junitreports/TEST-runners.TestRunner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/old/Default suite/methods-alphabetical.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/old/Default suite/methods-alphabetical.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/old/Default suite/methods.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/old/Default suite/methods.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/testng-failed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/testng-failed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-output/testng-results.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/testng-results.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="3820tUbD078AiI22KnA44xYI0Cj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "feature/healthClubMember",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/EcubeDesktop/eCubeDesktopAppAutomation",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="eCubeDesktopAppAutomation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="eCubeDesktopAppAutomation" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6285160d-1d68-46c3-aeab-8f876a48f32b" name="Changes" comment="" />
+      <created>1767982572754</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1767982572754</updated>
+      <workItem from="1767982573901" duration="241000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

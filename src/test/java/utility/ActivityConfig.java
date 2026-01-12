@@ -96,8 +96,9 @@ public class ActivityConfig {
 //    }
     
     public String selectServicesForActivity(String activity, String club) {
+    	
         JSONArray activities = activityJson
-                .getJSONObject(club)
+                .getJSONObject(club.toUpperCase())
                 .getJSONArray("activities");
 
         for (int i = 0; i < activities.length(); i++) {
