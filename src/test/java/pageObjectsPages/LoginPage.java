@@ -12,10 +12,6 @@ import org.openqa.selenium.support.PageFactory;
 public class LoginPage {
     private WindowsDriver driver;
 
-    // Locators
-//    private By usernameField = By.xpath("//*[contains(@HelpText, 'Username')]");
-//    private By passwordField = By.className("PasswordBox");
-//    private By loginButton = By.name("LOGIN");
     
     @FindBy(xpath = "//*[contains(@HelpText, 'Username')]")private 
     WebElement usernameField;

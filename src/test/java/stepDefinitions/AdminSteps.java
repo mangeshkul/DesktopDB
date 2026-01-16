@@ -62,7 +62,7 @@ public class AdminSteps {
 	    public void User_Navigate_to_the_report_section() {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	admin.navigateToReportSection(wait, ModuleConfig.reportSection);
-	    }
+	    } 
 	    
 	    @Then("user select the Report Header {string}")
 	    public void User_Navigate_to_the_report_Header(String reportHeader) {
@@ -101,7 +101,6 @@ public class AdminSteps {
 	    public void user_verifies_the_report_service_and_sub_service_details_against_the_activity() throws InterruptedException, IOException, ParseException, java.text.ParseException {
 	    	// check all the list and select as per requirement
 				admin.verifyReportsByActivityAndReportHeader();
-
 	    } 
 	     
 	    @Then("user click on ecube logo icon")

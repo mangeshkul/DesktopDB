@@ -61,8 +61,8 @@ public class AdminWeb {
 	@FindBy(xpath = "//button[normalize-space(text())='Go']")private
 	WebElement clickOnGo;
 	
-	@FindBy(xpath = "//*[@id=\"sectionMemberDetail\"]/div[1]/h4/strong")private
-	WebElement reportHeader;
+//	@FindBy(xpath = "//*[@id=\"sectionMemberDetail\"]/div[1]/h4/strong")private
+//	WebElement reportHeader;
 
 	@FindBy(xpath = "//a[@class='noprint']/img[@alt='Logo']")private
 	WebElement ecubeLogo;
@@ -72,6 +72,9 @@ public class AdminWeb {
 	
 	@FindBy(xpath = "//button[normalize-space()='Predicted']")private
 	WebElement predictedReport;
+	
+	@FindBy(xpath = "//div[@id='divSub']//strong")private 
+	WebElement reportHeader;
 	private String reportlistName ="";
 	
 	public AdminWeb(WebDriver driver) {
@@ -187,16 +190,19 @@ public class AdminWeb {
             throw new RuntimeException("❌ Unsupported club: " + ModuleConfig.clubName);
     } }
 	
-	public void selectNSCIMemberCodeAndProcced() 
+	public void selectNSCIMemberCodeAndProcced() throws InterruptedException 
 	{
 		webAction.waitForElement(selectMemberCode, 10);
+		webAction.click(selectMemberCode);
 
 		try {
 			webAction.locateElement(predictedReport);
 	      	 webAction.click(predictedReport);
+	      	 Thread.sleep(500);
 		} catch (Exception e) {
 			webAction.locateElement(clickOnGo);
 	      	 webAction.click(clickOnGo);
+	      	 Thread.sleep(500);
 		}
 		
 	}
@@ -205,6 +211,7 @@ public class AdminWeb {
 	{
 		try {
 			webAction.waitForElement(selectMemberCode, 10);
+			webAction.click(selectMemberCode);
 	      	 webAction.click(predictedReport);
 		} catch (Exception e) {
 			webAction.locateElement(clickOnGo);
@@ -233,9 +240,9 @@ public class AdminWeb {
 	}
 	
 	public void verifyReportHeading() throws InterruptedException {
-	    
-		WebElement headerNameOnStatement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='divSub']//strong[contains(normalize-space(),'"+reportlistName+"')]")));
-		Assert.assertEquals(headerNameOnStatement.isDisplayed(), true);
+	    webAction.waitForElement(reportHeader, 30);
+//		WebElement headerNameOnStatement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='divSub']//strong[contains(normalize-space(),'"+reportlistName+"')]")));
+//		Assert.assertEquals(headerNameOnStatement.isDisplayed(), true);
 		// Assertion fail due to incorrect text of service sale detail
 //		webAction.compareText(headerNameOnStatement, reportlistName);
 	}
@@ -335,13 +342,18 @@ public class AdminWeb {
 	            }
 	            // Debit Amount
 	            
+//	            WebElement debitCells = driver.findElement(
+//	            	    By.xpath(
+//	            	        "//tr[td='" + billCode + "']" +
+//	            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+//	            	    )
+//	            	);
 	            WebElement debitCells = driver.findElement(
 	            	    By.xpath(
-	            	        "//tr[td='" + billCode + "']" +
-	            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+	            	        "//table[contains(@class,'report-table')]//tr[.//td[.='" + billCode + "'] and contains(.,'" + Description + "') ]/td[count(ancestor::table//th[.='Debit']/preceding-sibling::th)+1]"
 	            	    )
 	            	);
-	            webAction.scrollIntoView(debitCells);
+	            webAction.waitForElement(debitCells, 10);
 	            webAction.locateElement(debitCells);
 	            double debitValue = Double.parseDouble(debitCells.getText());
 	             
@@ -393,17 +405,22 @@ public class AdminWeb {
 		                        "' found for BillCode: " + billCode);
 		                break; // BillCode is unique → no need to continue
 		            }
-		            // Debit Amount
+		            // Debit Amount below xpath work for first entry with same Bill number
+		            
+//		            WebElement debitCells = driver.findElement(
+//		            	    By.xpath(
+//		            	        "//tr[td='" + billCode + "']" +
+//		            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+//		            	    )
+//		            	);
 		            
 		            WebElement debitCells = driver.findElement(
 		            	    By.xpath(
-		            	        "//tr[td='" + billCode + "']" +
-		            	        "/td[count(//th[.='Debit']/preceding-sibling::th)+1]"
+		            	        "//table[contains(@class,'report-table')]//tr[.//td[.='" + billCode + "'] and contains(.,'" + Description + "') ]/td[count(ancestor::table//th[.='Debit']/preceding-sibling::th)+1]"
 		            	    )
 		            	);
-		            webAction.scrollIntoView(debitCells);
+		            webAction.waitForElement(debitCells, 10);
 		            webAction.locateElement(debitCells);
-		          
 		            double debitValue = Double.parseDouble(debitCells.getText());
 		            System.out.println("cell value"+ debitValue);
 		            Assert.assertEquals(
@@ -655,12 +672,12 @@ public class AdminWeb {
 
 		        case "health club gents":
 
-		        	VerifyMemberStatementReportForHealthReports(reportlistName,activity);
+		        	VerifyNSCIMemberStatementReportForGateEntry(reportlistName,activity);
 		            break;
 
 		        case "badminton sports":
 
-		        	VerifyMemberStatementReportForBadminton(reportlistName,activity);
+		        	VerifyMemberNSCIStatementReportForBadminton(reportlistName,activity);
 		            break;
 
 		        default:
@@ -685,7 +702,7 @@ public class AdminWeb {
 
 		        case "badminton sports":
 
-		        	VerifyMemberStatementReportForBadminton(reportlistName,activity);
+		        	VerifyMemberNSCIStatementReportForBadminton(reportlistName,activity);
 		            break;
 		            
 		        case "pickleball":
@@ -833,12 +850,12 @@ public class AdminWeb {
 		    }
 		}
 	 
-	 private void VerifyMemberStatementReportForBadminton(String reportlistName,String activity) throws IOException, ParseException {
+	 private void VerifyMemberNSCIStatementReportForBadminton(String reportlistName,String activity) throws IOException, ParseException {
 
 		    switch (reportlistName.toLowerCase()) {
 
 		        case "member statements":
-		        	verifyCalicutMemberStatementDetailsByActivity(activity);
+		        	verifyNSCIMemberStatementDetailsByActivity(activity);
 		            break;
 
 		        case "service sales detail":

@@ -88,7 +88,7 @@ public class ActivityPOSSteps {
     @Then("user select the club service for Gate Entry")
     public void User_select_the_club_services() {
     	// select the club services
-    	try {
+    	try { 
     	    locators.selectService();
     	    System.out.println("Selected service successfully.");
     	} catch (NoSuchElementException e) {
@@ -131,12 +131,12 @@ public class ActivityPOSSteps {
     	
      
     }  
-    
+     
     
     @Then("user select the activity on Dashboard page")
     public void user_select_the_activity_on_Dashboard_page() throws IOException {
     	// user select the required activity 
-    	locators.selectedActivityForUser();
+    	locators.selectActivityForUser();
     } 
     
     @Then("user select and verify the services as per the activity selection")

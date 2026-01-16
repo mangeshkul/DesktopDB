@@ -10,7 +10,6 @@ Feature: Activity POS Tests
   @ecubePoS
   Scenario Outline: Verify Gate entry for Member, Sub-Member(s) and Guest(s) their total Amount and Reports.
     And user select the activity on Dashboard page
-    And user enters member code and submit it
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select the club service for Gate Entry
     And user verifies and gets the net amount
@@ -33,7 +32,7 @@ Feature: Activity POS Tests
     Then user verifies the report, service, and sub-service details against the Activity
 
   @ecubePoS
-  Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports for Helath Club
+  Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select the club service for Gate Entry
     And user click on Proceed button with user details and completes the Gate Entry and Verifies it
@@ -61,7 +60,7 @@ Feature: Activity POS Tests
     Then user verifies the report, service, and sub-service details against the Activity
 
   @ecubePoS
-  Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports for Pickleball
+  Scenario Outline: Verify any Amenity Access for Member, Sub-Member(s) and Guest(s) their total Amount and Reports
     And user adds a new guest, enters the guest name, and verifies the name successfully
     And user select the club service for Gate Entry
     And user click on Proceed button with user details and completes the Gate Entry and Verifies it
@@ -89,14 +88,14 @@ Feature: Activity POS Tests
     Then user verifies the report, service, and sub-service details against the Activity
 
   @ecubePoS
-  Scenario Outline: Verify any Gym for Member, Sub-Member(s) with Discount, their total Amount and Reports.
+  Scenario Outline: Verify any amenities for Member, Sub-Member(s) with Discount, their total Amount and Reports.
     And user selects an available sub member
-    #And user select the club service for Gate Entry
+    And user select the club service for Gate Entry
     And user click on Proceed button with user details and completes the Gate Entry and Verifies it
     And user select the activity on Dashboard page
     And user enters member code and submit it
     And user selects an available sub member
-    #And user select and verify the services as per the activity selection
+    And user select and verify the services as per the activity selection
     And user verifies and gets the net amount
     Then user click on Proceed button with user details and completes the Gate Entry and Verifies it
     Then user fetch the member data from database

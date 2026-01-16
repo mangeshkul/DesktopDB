@@ -188,6 +188,7 @@ public class Hooks {
                 byte[] src = ((TakesScreenshot) driver)
                         .getScreenshotAs(OutputType.BYTES);
                 scenario.attach(src, "image/png", scenario.getName());
+                driver.closeApp();
                
             }
   
@@ -195,7 +196,7 @@ public class Hooks {
         byte[] src = ((TakesScreenshot) webDriver)
                 .getScreenshotAs(OutputType.BYTES);
         scenario.attach(src, "image/png", "Web - " + scenario.getName());
-        
+        driver.closeApp();
     }
         } catch (Exception e) {
             e.printStackTrace();

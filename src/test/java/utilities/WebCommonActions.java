@@ -3,6 +3,8 @@ package utilities;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
@@ -153,32 +155,58 @@ public class WebCommonActions {
 	    public void switchToChildWindow() {
 
 	        String parentWindow = driver.getWindowHandle();
-
-	        WebDriverWait wait = new WebDriverWait(driver, 30);
+	        WebDriverWait wait = new WebDriverWait(driver, (30));
 
 	        // 1️⃣ Wait until a new window appears
-	        wait.until(driver -> driver.getWindowHandles().size() > 1);
+	        wait.until(d -> d.getWindowHandles().size() > 1);
 
-	        // 2️⃣ Switch to child window
-	        for (String window : driver.getWindowHandles()) {
-	            if (!window.equals(parentWindow)) {
-	                driver.switchTo().window(window);
-	                break;
+	        // 2️⃣ Identify child window
+	        String childWindow = driver.getWindowHandles()
+	                .stream()
+	                .filter(w -> !w.equals(parentWindow))
+	                .findFirst()
+	                .orElseThrow(() -> new RuntimeException("Child window not found"));
+
+	        // 3️⃣ Switch to child window
+	        driver.switchTo().window(childWindow);
+
+	        // 4️⃣ Wait until URL is valid (not about:blank / redirecting)
+	        wait.until(d -> {
+	            String url = d.getCurrentUrl();
+	            return url != null
+	                    && !url.equalsIgnoreCase("about:blank")
+	                    && !url.trim().isEmpty();
+	        });
+
+	        // 5️⃣ Wait for DOM ready (HTML loaded)
+	        wait.until(d ->
+	                "complete".equals(
+	                        ((JavascriptExecutor) d)
+	                                .executeScript("return document.readyState")
+	                                .toString()
+	                )
+	        );
+
+	        // 6️⃣ EXTRA SAFETY: Wait until body is attached (prevents "node not found")
+	        wait.until(d ->
+	                ((JavascriptExecutor) d)
+	                        .executeScript("return document.body != null")
+	                        .equals(true)
+	        );
+
+	        // 7️⃣ OPTIONAL BUT RECOMMENDED: wait for JS to finish (if jQuery present)
+	        wait.until(d -> {
+	            try {
+	                return (Boolean) ((JavascriptExecutor) d)
+	                        .executeScript(
+	                                "return window.jQuery ? jQuery.active === 0 : true"
+	                        );
+	            } catch (Exception e) {
+	                return true;
 	            }
-	        }
-
-	        // 3️⃣ Wait until page is NOT blank
-	        wait.until(driver ->
-	                !driver.getCurrentUrl().equals("about:blank")
-	        );
-
-	        // 4️⃣ Wait for DOM ready
-	        wait.until(driver ->
-	                ((JavascriptExecutor) driver)
-	                        .executeScript("return document.readyState")
-	                        .equals("complete")
-	        );
+	        });
 	    }
+
 
 	    
 	    public void locateElement(WebElement ele) 

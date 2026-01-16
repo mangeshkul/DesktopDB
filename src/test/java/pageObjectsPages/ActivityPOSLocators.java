@@ -633,29 +633,29 @@ public class ActivityPOSLocators {
     
     
     
-//    public void selectedActivityForUser() {
-//
-//        String clubName = ModuleConfig.clubName;
-//        List<String> activities = activityConfig.getActivitiesForClub(clubName);
-//
-//        if (activities == null || activities.isEmpty()) {
-//            throw new RuntimeException("No activities configured for club: " + clubName);
-//        }
-//
-//        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
-//
-//        servicesName = activities.get(scenarioIndex % activities.size());
-//
-//        System.out.println("Scenario Index: " + scenarioIndex);
-//        System.out.println("Selected Activity: " + servicesName);
-//
-//        WebElement activityName = driver.findElement(By.name(servicesName));
-//        common.click(activityName);
-//    }
+    public void selectActivityForUser() throws IOException {
+
+        String clubName = ModuleConfig.clubName;
+        List<String> activities = activityConfig.getActivitiesForClub(clubName);
+
+        if (activities == null || activities.isEmpty()) {
+            throw new RuntimeException("No activities configured for club: " + clubName);
+        }
+
+        int scenarioIndex = ScenarioContext.getNextScenarioIndex();
+
+        servicesName = activities.get(scenarioIndex % activities.size());
+
+        System.out.println("Scenario Index: " + scenarioIndex);
+        System.out.println("Selected Activity: " + servicesName);
+        common.writeActivityValueIntoJson(servicesName,DataPaths.Activity_DATA);
+        WebElement activityName = driver.findElement(By.name(servicesName));
+        common.click(activityName);
+    }
     
      
     // Select activity as per scenario name on the basis of token base 
-    public void selectedActivityForUser() throws StreamWriteException, DatabindException, IOException {
+    public void selectedActivityForUserAsActivityName() throws StreamWriteException, DatabindException, IOException {
 
     	String clubName = ModuleConfig.clubName;
     	List<String> activities = activityConfig.getActivitiesForClub(clubName);
