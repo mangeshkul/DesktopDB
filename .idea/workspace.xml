@@ -5,38 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6285160d-1d68-46c3-aeab-8f876a48f32b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/AmountData.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/AmountData.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/GateEntry.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/GateEntry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/LogDataEntry.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/LogDataEntry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DataManagment/getActivities.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataManagment/getActivities.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pageObjectsPages/ActivityPOSLocators.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pageObjectsPages/ActivityPOSLocators.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pageObjectsPages/AdminWeb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pageObjectsPages/AdminWeb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/runners/TestRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/runners/TestRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/ActivityPOSSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/ActivityPOSSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/AdminSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/AdminSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/utilities/CommonFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utilities/CommonFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/utility/ActivityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utility/ActivityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/activities.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/activities.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/data.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/data.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/activity.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/activity.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eCubeUIpageObjetcs/ResPOS/ResPosLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eCubeUIpageObjetcs/ResPOS/ResPosLocators.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ActivityPOSLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ActivityPOSLocators.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForActivityPOS.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForActivityPOS.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForResPOS.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/CommonMethodsForResPOS.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/LoginPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/LoginPage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ResPOSLocators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/pageObjectsPages/ResPOSLocators.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output-extent/PdfReport/EcubePOS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/test-output-extent/PdfReport/EcubePOS.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output-extent/SparkReport/EcubePOS.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output-extent/SparkReport/EcubePOS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/Default suite/Default test.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/Default test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/Default suite/Default test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/Default test.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/Default suite/testng-failed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/Default suite/testng-failed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/emailable-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/emailable-report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/junitreports/TEST-runners.TestRunner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/junitreports/TEST-runners.TestRunner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/old/Default suite/methods-alphabetical.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/old/Default suite/methods-alphabetical.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/old/Default suite/methods.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/old/Default suite/methods.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/testng-failed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/testng-failed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-output/testng-results.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test-output/testng-results.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/utilities/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utilities/DatabaseHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,9 +17,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3820tUbD078AiI22KnA44xYI0Cj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -63,6 +34,7 @@
     "git-widget-placeholder": "feature/healthClubMember",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/EcubeDesktop/eCubeDesktopAppAutomation",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -95,6 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1767982572754</updated>
       <workItem from="1767982573901" duration="241000" />
+      <workItem from="1768799703546" duration="1743000" />
     </task>
     <servers />
   </component>

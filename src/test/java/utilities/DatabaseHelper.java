@@ -27,13 +27,6 @@ public class DatabaseHelper {
 	
 	private WindowsDriver driver;
 
-//	String url = "jdbc:sqlserver://RYSUN-MSSQL-02.rysun.com;" + "instanceName=SQL2016;" + "databaseName=NSCI_QA;"
-//			+ "encrypt=true;" + "trustServerCertificate=true;";
-//	
-//
-//	private String user = "kishor";
-//	private String pass = "xraxjsSL9P1z";
-
 	// Constructor
 	public DatabaseHelper(WindowsDriver driver) {
 		this.driver = driver;
@@ -47,10 +40,6 @@ public class DatabaseHelper {
 		return reader.readLine();
 	}
 
-	/*
-	 * public void launchApplication(String exePath) throws Exception { new
-	 * ProcessBuilder(exePath).start(); Thread.sleep(8000); printAllWindows(); }
-	 */
 
 	public void launchApplication(String exePath) throws Exception {
 

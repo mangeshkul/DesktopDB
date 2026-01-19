@@ -140,33 +140,12 @@ public class CommonFunctions {
         return driver;
     }
 
-//    public WebDriver launchBrowser() {
-//        if (driver == null) {
-//            WebDriverManager.chromedriver().setup();
-//            ChromeOptions options = new ChromeOptions();
-//            options.addArguments("start-maximized");
-//            options.addArguments("--disable-notifications");
-//            options.addArguments("--remote-allow-origins=*");
-//            driver = new ChromeDriver(options);
-//         
-//            openURL("");
-//            
-//        }
-//        return driver;
-//    }
     
     public void enterText(WebElement ele,String name) 
     {
     	ele.sendKeys(name);
     }
     
-//    public void openURL(String url) {
-//    	driver = new ChromeDriver();
-//    	 if (driver == null) {
-//             throw new RuntimeException("❌ Chrome WebDriver is NULL. Call launchBrowser() first.");
-//         }
-//         driver.get(url);
-//    }
     
     protected WebElement find(By locator) {
         return new WebDriverWait(driver, 10)

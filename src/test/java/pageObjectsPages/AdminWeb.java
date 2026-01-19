@@ -198,11 +198,11 @@ public class AdminWeb {
 		try {
 			webAction.locateElement(predictedReport);
 	      	 webAction.click(predictedReport);
-	      	 Thread.sleep(500);
+	      	
 		} catch (Exception e) {
 			webAction.locateElement(clickOnGo);
 	      	 webAction.click(clickOnGo);
-	      	 Thread.sleep(500);
+	      	 
 		}
 		
 	}
