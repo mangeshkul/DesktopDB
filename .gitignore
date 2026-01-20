@@ -6,6 +6,8 @@ target/
 # IDE folders
 .idea/
 .settings/
+.metadata/
+
 
 # Screenshot images (no need to push)
 screenshots/
