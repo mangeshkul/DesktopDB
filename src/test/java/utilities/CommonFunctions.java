@@ -31,8 +31,8 @@ import utility.ConfigReader;
 public class CommonFunctions {
 	 protected WindowsDriver driver;
 	    protected WebDriverWait wait;
-    // This class assumes your framework has a Driver factory or uses existing WinAppDriver/Driver instantiation.
-    // Adjust getDriver() to point to your driver implementation.
+    // This class assumes your framework has a Driver factory or uses existing WinAppDriver/WebDriver instantiation.
+  
 	
 	  public CommonFunctions(WindowsDriver driver) {
 		  if (driver == null) {

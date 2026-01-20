@@ -43,7 +43,10 @@ public class Hooks {
 
     public static WindowsDriver driver;
     public static WebDriver webDriver;
-
+    public static final String WIN_APP_DRIVER_URL = "http://127.0.0.1:4723";
+    public static final String WINDOWS_PLATFORM_NAME = "Windows";
+    public static final String WINDOWS_DEVICE_NAME = "WindowsPC";
+    public static final String APP_TOP_LEVEL_WINDOW = "appTopLevelWindow";
     // =========================
     // CONFIG LOAD
     // =========================
@@ -79,7 +82,7 @@ public class Hooks {
     public void launchApplication(String exePath) throws Exception {
         File exe = new File(exePath);
         if (!exe.exists()) {
-            throw new RuntimeException("❌ EXE Not found: " + exePath);
+            throw new RuntimeException("EXE Not found: " + exePath);
         }
 
         ProcessBuilder pb = new ProcessBuilder(exe.getAbsolutePath());
@@ -122,17 +125,17 @@ public class Hooks {
         }
 
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("appTopLevelWindow", "0x" + windowHandle);
-        caps.setCapability("platformName", "Windows");
-        caps.setCapability("deviceName", "WindowsPC");
+        caps.setCapability(APP_TOP_LEVEL_WINDOW, "0x" + windowHandle);
+        caps.setCapability("platformName", WINDOWS_PLATFORM_NAME);
+        caps.setCapability("deviceName", WINDOWS_DEVICE_NAME);
 
         driver = new WindowsDriver(
-                new URL("http://127.0.0.1:4723"), caps);
+                new URL(WIN_APP_DRIVER_URL), caps);
 
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         DriverManager.setWindowsDriver(driver);
 
-        System.out.println("✅ Windows POS launched");
+        System.out.println("Windows POS launched");
         
     }
     
@@ -151,7 +154,7 @@ public class Hooks {
         wait.until(driver -> driver.getWindowHandles().size() > 0);
     }
     // =========================
-    // 🔹 WEB DRIVER LAUNCH
+    //  WEB DRIVER LAUNCH
     // =========================
     
     public WebDriver launchBrowser() {
@@ -168,10 +171,10 @@ public class Hooks {
 
             driver = new ChromeDriver(options);
 
-            // ✅ REGISTER DRIVER
+            // REGISTER DRIVER
             DriverManager.setWebDriver(driver);
 
-            System.out.println("✅ Web browser launched successfully");
+            System.out.println("Web browser launched successfully");
         }
 
         return driver;
@@ -206,16 +209,7 @@ public class Hooks {
         }
     }
 
- @BeforeSuite
- public void setDynamicPdfReportName() {
-     String clubName = ModuleConfig.clubName; // e.g. CALICUT
-     String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-     String pdfPath = "test-output-extent/PdfReport/EcubePOS_"
-             + clubName + "_" + timestamp + ".pdf";
-
-     System.setProperty("extent.reporter.pdf.out", pdfPath);
- }
 
   
     }

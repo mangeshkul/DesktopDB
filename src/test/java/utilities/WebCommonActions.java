@@ -157,20 +157,20 @@ public class WebCommonActions {
 	        String parentWindow = driver.getWindowHandle();
 	        WebDriverWait wait = new WebDriverWait(driver, (30));
 
-	        // 1️⃣ Wait until a new window appears
+	        // Wait until a new window appears
 	        wait.until(d -> d.getWindowHandles().size() > 1);
 
-	        // 2️⃣ Identify child window
+	        // Identify child window
 	        String childWindow = driver.getWindowHandles()
 	                .stream()
 	                .filter(w -> !w.equals(parentWindow))
 	                .findFirst()
 	                .orElseThrow(() -> new RuntimeException("Child window not found"));
 
-	        // 3️⃣ Switch to child window
+	        // Switch to child window
 	        driver.switchTo().window(childWindow);
 
-	        // 4️⃣ Wait until URL is valid (not about:blank / redirecting)
+	        //  Wait until URL is valid (not about:blank / redirecting)
 	        wait.until(d -> {
 	            String url = d.getCurrentUrl();
 	            return url != null
@@ -178,7 +178,7 @@ public class WebCommonActions {
 	                    && !url.trim().isEmpty();
 	        });
 
-	        // 5️⃣ Wait for DOM ready (HTML loaded)
+	        // Wait for DOM ready (HTML loaded)
 	        wait.until(d ->
 	                "complete".equals(
 	                        ((JavascriptExecutor) d)
@@ -187,14 +187,14 @@ public class WebCommonActions {
 	                )
 	        );
 
-	        // 6️⃣ EXTRA SAFETY: Wait until body is attached (prevents "node not found")
+	        // Wait until body is attached (prevents "node not found")
 	        wait.until(d ->
 	                ((JavascriptExecutor) d)
 	                        .executeScript("return document.body != null")
 	                        .equals(true)
 	        );
 
-	        // 7️⃣ OPTIONAL BUT RECOMMENDED: wait for JS to finish (if jQuery present)
+	        // wait for JS to finish (if jQuery present)
 	        wait.until(d -> {
 	            try {
 	                return (Boolean) ((JavascriptExecutor) d)
@@ -219,6 +219,11 @@ public class WebCommonActions {
 	    	else {
 				throw new AssertionError(ele + "This element is not displayed");
 			}
+	    }
+	    
+	    public void clearText(WebElement ele) 
+	    {
+	    	ele.clear();
 	    }
 	    
 	    public String readValueFromJson(String jsonFilePath, String key)

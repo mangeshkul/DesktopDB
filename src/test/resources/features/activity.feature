@@ -7,7 +7,7 @@ Feature: Activity POS Tests
     When user logs in to Activity POS
     And user enters member code and submit it
 
-  @ecubePoS
+  @ecubePoS1
   Scenario Outline: Verify Gate entry for Member, Sub-Member(s) and Guest(s) their total Amount and Reports.
     And user select the activity on Dashboard page
     And user adds a new guest, enters the guest name, and verifies the name successfully

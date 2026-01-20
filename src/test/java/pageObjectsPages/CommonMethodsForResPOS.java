@@ -136,7 +136,6 @@ public class CommonMethodsForResPOS {
 			}
 
 			writer.write("}");
-			//System.out.println("✅ JSON written to: " + filePath);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -410,7 +410,6 @@ public class ActivityPOSLocators {
     {
     	// user enter the member code as per club wise
     	 switch  (ModuleConfig.clubName.toLowerCase()) {
-
          case "nsci":
         	 common.waitForElement(codeEntryField, 5);
          	codeEntryField.sendKeys(ModuleConfig.ecubeMemberCode1);

@@ -167,6 +167,7 @@ public class AdminWeb {
         case "nsci":
         	webAction.waitForElement(enterMemberCode,30);
         	webAction.locateElement(enterMemberCode);
+        	webAction.clearText(enterMemberCode);
        	 enterMemberCode.sendKeys(ModuleConfig.ecubeMemberCode1);
        	this.selectNSCIMemberCodeAndProcced();
        	 
@@ -240,11 +241,9 @@ public class AdminWeb {
 	}
 	
 	public void verifyReportHeading() throws InterruptedException {
-	    webAction.waitForElement(reportHeader, 30);
-//		WebElement headerNameOnStatement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='divSub']//strong[contains(normalize-space(),'"+reportlistName+"')]")));
-//		Assert.assertEquals(headerNameOnStatement.isDisplayed(), true);
-		// Assertion fail due to incorrect text of service sale detail
-//		webAction.compareText(headerNameOnStatement, reportlistName);
+	    
+		WebElement headerNameOnStatement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='divSub']//strong[contains(normalize-space(),'"+reportlistName+"')]")));
+		Assert.assertEquals(headerNameOnStatement.isDisplayed(), true);
 	}
 	
 
@@ -297,7 +296,7 @@ public class AdminWeb {
 //	}
 
 	
-	// // verify service, Amount, Bill Code number for NSCI
+	// verify service, Amount, Bill Code number for NSCI
 	public void verifyNSCIMemberStatementReport(String jsonFilePath,String serviceName1) throws IOException, ParseException {
 
 	    Map<String, String> billData = readBillDataFromJSON(jsonFilePath);
@@ -611,7 +610,7 @@ public class AdminWeb {
             try {
 				return activityConfig.getSubService(club, activity);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
             
@@ -619,7 +618,7 @@ public class AdminWeb {
             try {
 				return activityConfig.getSubService(club, activity);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
             
@@ -916,7 +915,7 @@ public class AdminWeb {
 
 		    verifyServiceSalesDetailReport(
 		            DataPaths.GATE_ENTRY_JSON,
-		            activity,        // ✅ correct
+		            activity,       
 		            subService1,
 		            subService2
 		    );

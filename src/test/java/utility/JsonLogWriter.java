@@ -29,15 +29,15 @@ public class JsonLogWriter {
             );
         }
 
-        // 2️⃣ Add new record
+        //  Add new record
         records.add(newRecord);
 
-        // 3️⃣ Keep only last 4 records
+        // Keep only last 4 records
         if (records.size() > 4) {
             records = records.subList(records.size() - 4, records.size());
         }
 
-        // 4️⃣ Write back to JSON
+        // Write back to JSON
         mapper.writeValue(file, records);
     }
 }

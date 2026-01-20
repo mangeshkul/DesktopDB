@@ -63,14 +63,14 @@ public class ModuleConfig {
     
     
     /**
-     * Optional: Get all available modules from data.properties
+     * Get all available modules from data.properties
      * Useful if you want to loop through all modules in future pipeline runs.
      * Example in data.properties: modules=ActivityPOS,HealthClub,Badminton
      *
      * @return List of module names
      */
-    public static List<String> getAllModules() {
-        String modules = ConfigReader.get("modules"); // comma-separated module names
+    public static List<String> getClubName() {
+        String modules = ConfigReader.get("clubName"); // comma-separated module names
         if (modules != null && !modules.isEmpty()) {
             return Arrays.asList(modules.split(","));
         } else {

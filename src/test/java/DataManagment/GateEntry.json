@@ -1,10 +1,10 @@
 {
   "Debit": "133.2800",
-  "BillNo": "77393",
+  "BillNo": "77401",
   "Credit": "0.0000",
   "Description": "Gate Entry",
-  "MasterId": "322040",
-  "BillCode": "GTEN/2526/7051",
+  "MasterId": "322063",
+  "BillCode": "GTEN/2526/7059",
   "DebitAmount": "119.0000",
-  "Date": "2026-01-19 00:00:00.0"
+  "Date": "2026-01-20 00:00:00.0"
 }

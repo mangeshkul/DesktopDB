@@ -38,7 +38,7 @@ public class DriverManager {
 
     // =========================
     // CREATE CHROME DRIVER
-    // (optional helper)
+   
     // =========================
     public static void initChromeDriver() {
         if (webDriver.get() == null) {

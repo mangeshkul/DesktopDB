@@ -39,7 +39,7 @@ public class ActivityPOSSteps {
 
     public ActivityPOSSteps() {
     	this.driver = DriverManager.getWindowsDriver();
-       // 🔥 driver from Hooks
+    
        if(driver==null) 
        {
     	   throw new IllegalStateException("Windows Driver is not initialized");
