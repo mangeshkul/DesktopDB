@@ -31,9 +31,10 @@ public class ModuleConfig {
     public static void loadModule() 
     {
     	clubName = ConfigReader.get("clubName");
-    	 
+    	 // when run test case from command then use below getClubName()
+//    	clubName = getClubName();
     	 if (clubName == null || clubName.isEmpty()) {
-             throw new RuntimeException("Active module is not defined! Provide -Dmodule=ModuleName or set in data.properties");
+             throw new RuntimeException("Active module is not defined! Provide -Dclub=ClubName or set in data.properties");
          }
 
 
@@ -69,14 +70,18 @@ public class ModuleConfig {
      *
      * @return List of module names
      */
-    public static List<String> getClubName() {
-        String modules = ConfigReader.get("clubName"); // comma-separated module names
-        if (modules != null && !modules.isEmpty()) {
-            return Arrays.asList(modules.split(","));
-        } else {
-            throw new RuntimeException("❌ No modules defined in data.properties for 'modules' key!");
+    public static String getClubName() {
+        String clubName = System.getProperty("clubName");
+
+        if (clubName == null || clubName.trim().isEmpty()) {
+            throw new RuntimeException(
+                "clubName not provided. Use: mvn clean test -DclubName=NSCI"
+            );
         }
+        return clubName;
     }
+
+
 
 	
 }

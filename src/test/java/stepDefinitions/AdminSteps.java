@@ -62,7 +62,7 @@ public class AdminSteps {
 	    public void User_Navigate_to_the_report_section() {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	admin.navigateToReportSection(wait, ModuleConfig.reportSection);
-	    } 
+	    }  
 	    
 	    @Then("user select the Report Header {string}")
 	    public void User_Navigate_to_the_report_Header(String reportHeader) {

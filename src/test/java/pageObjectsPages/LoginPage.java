@@ -39,8 +39,13 @@ public class LoginPage {
     //  User should be log in as per Club 
     
     public void loginBasedOnClub() {
+    	
+    	
        switch  (ModuleConfig.clubName.toLowerCase()) {
-
+       
+    // when run test case from command then use below switch 
+//       switch  ( ModuleConfig.getClubName().toLowerCase()) {
+      
             case "nsci":
             	 login(ModuleConfig.ecubeActivityPosUserName, ModuleConfig.ecubeActivityPosPassword);
                 break;

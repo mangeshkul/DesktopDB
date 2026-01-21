@@ -7,6 +7,9 @@ target/
 .idea/
 .settings/
 .metadata/
+# Test reports
+test-output/
+test-output-extent/
 
 
 # Screenshot images (no need to push)

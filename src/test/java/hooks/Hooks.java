@@ -52,6 +52,7 @@ public class Hooks {
     // =========================
     @Before(order = 0)
     public void initConfig() {
+    	createReportFolders();
         ModuleConfig.loadModule();
         System.out.println("Running for Active Module -> " + ModuleConfig.clubName);
     }
@@ -95,7 +96,7 @@ public class Hooks {
     }
 
     // =========================
-    // 🔹 WINDOWS DRIVER LAUNCH
+    //  WINDOWS DRIVER LAUNCH
     // =========================
 
    
@@ -209,7 +210,11 @@ public class Hooks {
         }
     }
 
-
+ public static void createReportFolders() {
+     new File("test-output").mkdirs();
+     new File("test-output-extent/PdfReport").mkdirs();
+     new File("test-output-extent/SparkReport/screenshots").mkdirs();
+ }
 
   
     }

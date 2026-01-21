@@ -1,10 +1,10 @@
 {
-  "Debit": "133.2800",
-  "BillNo": "77401",
+  "Debit": "6700.0000",
+  "BillNo": "14",
   "Credit": "0.0000",
-  "Description": "Gate Entry",
-  "MasterId": "322063",
-  "BillCode": "GTEN/2526/7059",
-  "DebitAmount": "119.0000",
-  "Date": "2026-01-20 00:00:00.0"
+  "Description": "Health Club Ladies",
+  "MasterId": "426",
+  "BillCode": "null",
+  "DebitAmount": "6700.0000",
+  "Date": "2026-01-21 00:00:00.0"
 }

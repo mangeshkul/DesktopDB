@@ -1,37 +1,37 @@
 [ {
-  "Debit" : "133.2800",
-  "BillNo" : "77398",
+  "Debit" : "491.3166",
+  "BillNo" : "11399",
   "Credit" : "0.0000",
-  "Description" : "Gate Entry",
-  "MasterId" : "322048",
-  "BillCode" : "GTEN/2526/7056",
-  "DebitAmount" : "119.0000",
-  "Date" : "2026-01-19 00:00:00.0"
-}, {
-  "Debit" : "133.2800",
-  "BillNo" : "77399",
-  "Credit" : "0.0000",
-  "Description" : "Gate Entry",
-  "MasterId" : "322049",
-  "BillCode" : "GTEN/2526/7057",
-  "DebitAmount" : "119.0000",
-  "Date" : "2026-01-19 00:00:00.0"
-}, {
-  "Debit" : "133.2800",
-  "BillNo" : "77400",
-  "Credit" : "0.0000",
-  "Description" : "Gate Entry",
-  "MasterId" : "322050",
-  "BillCode" : "GTEN/2526/7058",
-  "DebitAmount" : "119.0000",
-  "Date" : "2026-01-19 00:00:00.0"
-}, {
-  "Debit" : "133.2800",
-  "BillNo" : "77401",
-  "Credit" : "0.0000",
-  "Description" : "Gate Entry",
-  "MasterId" : "322063",
-  "BillCode" : "GTEN/2526/7059",
-  "DebitAmount" : "119.0000",
+  "Description" : "Health Club Gents",
+  "MasterId" : "322103",
+  "BillCode" : null,
+  "DebitAmount" : "416.3700",
   "Date" : "2026-01-20 00:00:00.0"
+}, {
+  "Debit" : "6700.0000",
+  "BillNo" : "12",
+  "Credit" : "0.0000",
+  "Description" : "Health Club Ladies",
+  "MasterId" : "422",
+  "BillCode" : null,
+  "DebitAmount" : "6700.0000",
+  "Date" : "2026-01-21 00:00:00.0"
+}, {
+  "Debit" : "6700.0000",
+  "BillNo" : "13",
+  "Credit" : "0.0000",
+  "Description" : "Health Club Ladies",
+  "MasterId" : "424",
+  "BillCode" : null,
+  "DebitAmount" : "6700.0000",
+  "Date" : "2026-01-21 00:00:00.0"
+}, {
+  "Debit" : "6700.0000",
+  "BillNo" : "14",
+  "Credit" : "0.0000",
+  "Description" : "Health Club Ladies",
+  "MasterId" : "426",
+  "BillCode" : null,
+  "DebitAmount" : "6700.0000",
+  "Date" : "2026-01-21 00:00:00.0"
 } ]

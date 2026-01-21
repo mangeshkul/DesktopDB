@@ -137,7 +137,7 @@ public class ActivityPOSSteps {
     public void user_select_the_activity_on_Dashboard_page() throws IOException {
     	// user select the required activity 
     	locators.selectActivityForUser();
-    } 
+    }  
     
     @Then("user select and verify the services as per the activity selection")
     public void user_select_the_services_for_the_activity() throws IOException {
