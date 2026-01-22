@@ -1,7 +1,20 @@
-<<<<<<< HEAD
-
 # ===== Credentials =====
 src/test/resources/envCreds.properties
-=======
->>>>>>> origin/Dev
-/target/
+
+# ===== Build output =====
+target/
+# IDE folders
+.idea/
+.settings/
+.metadata/
+# Test reports
+test-output/
+test-output-extent/
+
+
+# Screenshot images (no need to push)
+screenshots/
+ScreenShots/
+*.png
+*.jpg
+*.jpeg

@@ -27,13 +27,6 @@ public class DatabaseHelper {
 	
 	private WindowsDriver driver;
 
-//	String url = "jdbc:sqlserver://RYSUN-MSSQL-02.rysun.com;" + "instanceName=SQL2016;" + "databaseName=NSCI_QA;"
-//			+ "encrypt=true;" + "trustServerCertificate=true;";
-//	
-//
-//	private String user = "kishor";
-//	private String pass = "xraxjsSL9P1z";
-
 	// Constructor
 	public DatabaseHelper(WindowsDriver driver) {
 		this.driver = driver;
@@ -47,10 +40,6 @@ public class DatabaseHelper {
 		return reader.readLine();
 	}
 
-	/*
-	 * public void launchApplication(String exePath) throws Exception { new
-	 * ProcessBuilder(exePath).start(); Thread.sleep(8000); printAllWindows(); }
-	 */
 
 	public void launchApplication(String exePath) throws Exception {
 
@@ -147,6 +136,48 @@ public class DatabaseHelper {
 		return guestData;
 	}
 	
+	
+	public Map<String, String> getCalicutDataFromDataBase(String mCodeWithPrefix) {
+
+		Map<String, String> guestData = new HashMap<>();
+
+		String query = "SELECT TOP 1 CD.MasterId, TM.BillNo, CI.BillCode, CI.InvoiceNo, CD.Date, CD.MemberId, "
+				+ "CD.Debit, CD.Credit, CD.DebitAmount, CD.Description " + "FROM CRMTransactionMaster TM WITH (NOLOCK) "
+				+ "INNER JOIN CRMMember CM WITH (NOLOCK) ON TM.MemberId = CM.id "
+				+ "INNER JOIN CRMTransactionDetail TD ON TM.Id = TD.MasterId "
+				+ "    AND TD.IsDeleted = 0 AND TM.IsDeleted = 0 "
+				+ "LEFT JOIN CRMMemberDebitCredit CD ON CD.MasterId = TM.Id AND CD.IsDeleted = 0 "
+				+ "LEFT JOIN CRMMemberInvoice CI ON CI.Id = CD.InvoiceId " + "WHERE CM.MCodeWithPrefix = ? "
+				+ "ORDER BY CD.MasterId DESC;";
+
+		try (Connection conn = DriverManager.getConnection(ModuleConfig.dbUrl, ModuleConfig.dbUsername, ModuleConfig.dbPassword);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, mCodeWithPrefix);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+
+				if (rs.next()) {
+					guestData.put("MasterId", rs.getString("MasterId"));
+					guestData.put("BillNo", rs.getString("BillNo"));
+					guestData.put("Date", rs.getString("Date"));
+					guestData.put("BillCode", rs.getString("BillCode"));
+					guestData.put("Debit", rs.getString("Debit"));
+					guestData.put("Credit", rs.getString("Credit"));
+					guestData.put("DebitAmount", rs.getString("DebitAmount"));
+					guestData.put("Description", rs.getString("Description"));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return guestData;
+	}
+	
+	
+	
 	public Map<String, String> getKarnavatiDataFromDataBase(String mCodeWithPrefix) {
 
 	    Map<String, String> guestData = new HashMap<>();
@@ -241,11 +272,11 @@ public class DatabaseHelper {
 			}
 
 			writer.write("}");
-			System.out.println("✅ JSON written to: " + filePath);
+			System.out.println("JSON written to: " + filePath);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("❌ Failed to write JSON!");
+			System.out.println("Failed to write JSON!");
 		}
 	}
 	
@@ -260,6 +291,7 @@ public class DatabaseHelper {
 	    }
 	    return null;
 	}
+	
 
 
 

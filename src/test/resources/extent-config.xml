@@ -14,10 +14,10 @@
         <protocol>https</protocol>
         
         <!-- title of the document -->
-        <documentTitle>Demo Report</documentTitle>
+        <documentTitle>Ecube POS Automation Report</documentTitle>
         
         <!-- report name - displayed at top-nav -->
-        <reportName>Demo Automation Report</reportName>
+        <reportName>Ecube POS Automation Report</reportName>
         
         <!-- location of charts in the test view -->
         <!-- top, bottom -->

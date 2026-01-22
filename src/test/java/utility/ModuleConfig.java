@@ -13,7 +13,7 @@ public class ModuleConfig {
     public static String ecubeActivityPosUserName;
     public static String ecubeActivityPosPassword;
     public static String ecubeMemberCode1;
-    public static String ecubeMemberCode2;
+    public static String memberCodeforHealth;
     public static String ecubeMemberCode3;
     public static String ecubeMemberCode4;
     public static String ecubeGuestName;
@@ -31,9 +31,10 @@ public class ModuleConfig {
     public static void loadModule() 
     {
     	clubName = ConfigReader.get("clubName");
-    	 
+    	 // when run test case from command then use below getClubName()
+//    	clubName = getClubName();
     	 if (clubName == null || clubName.isEmpty()) {
-             throw new RuntimeException("Active module is not defined! Provide -Dmodule=ModuleName or set in data.properties");
+             throw new RuntimeException("Active module is not defined! Provide -Dclub=ClubName or set in data.properties");
          }
 
 
@@ -44,7 +45,7 @@ public class ModuleConfig {
          ecubeActivityPosUserName = ConfigReader.get(clubName + ".activityPosUserName");
          ecubeActivityPosPassword = ConfigReader.get(clubName + ".activityPosPassword");
          ecubeMemberCode1 = ConfigReader.get(clubName + ".memberCode1");
-         ecubeMemberCode2 = ConfigReader.get(clubName + ".memberCode2");
+         memberCodeforHealth = ConfigReader.get(clubName + ".memberCode2");
          ecubeMemberCode3 = ConfigReader.get(clubName + ".memberCode3");
          ecubeMemberCode4 = ConfigReader.get(clubName + ".memberCode4");
          ecubeGuestName       = ConfigReader.get(clubName + ".clubGuestName");
@@ -63,20 +64,24 @@ public class ModuleConfig {
     
     
     /**
-     * Optional: Get all available modules from data.properties
+     * Get all available modules from data.properties
      * Useful if you want to loop through all modules in future pipeline runs.
      * Example in data.properties: modules=ActivityPOS,HealthClub,Badminton
      *
      * @return List of module names
      */
-    public static List<String> getAllModules() {
-        String modules = ConfigReader.get("modules"); // comma-separated module names
-        if (modules != null && !modules.isEmpty()) {
-            return Arrays.asList(modules.split(","));
-        } else {
-            throw new RuntimeException("❌ No modules defined in data.properties for 'modules' key!");
+    public static String getClubName() {
+        String clubName = System.getProperty("clubName");
+
+        if (clubName == null || clubName.trim().isEmpty()) {
+            throw new RuntimeException(
+                "clubName not provided. Use: mvn clean test -DclubName=NSCI"
+            );
         }
+        return clubName;
     }
+
+
 
 	
 }

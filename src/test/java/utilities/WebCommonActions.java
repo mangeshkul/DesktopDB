@@ -1,7 +1,12 @@
 package utilities;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -32,6 +37,12 @@ public class WebCommonActions {
 		                .until(ExpectedConditions.visibilityOf(element));
 		    }
 		  
+		  public List<WebElement> waitForElements(By locator, int timeout) {
+			    return new WebDriverWait(driver, (timeout))
+			            .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+			}
+
+		  
 		  public void waitForPageLoad() {
 
 			    WebDriverWait wait = new WebDriverWait(driver, 20);
@@ -43,6 +54,21 @@ public class WebCommonActions {
 			    );
 			}
 		  
+		  public void waitForNewTabAndSwitch(int timeoutInSeconds) {
+			    WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+
+			    String currentWindow = driver.getWindowHandle();
+
+			    wait.until(d -> driver.getWindowHandles().size() > 1);
+
+			    for (String window : driver.getWindowHandles()) {
+			        if (!window.equals(currentWindow)) {
+			            driver.switchTo().window(window);
+			            break;
+			        }
+			    }
+			}
+
 
 	    private long getDefaultTimeout() {
 			// TODO Auto-generated method stub
@@ -71,6 +97,11 @@ public class WebCommonActions {
 	        waitForElement(element, 10).sendKeys(text);
 	    }
 	    
+	    public WebElement waitForElementToBeClickable(WebElement element, int timeout) {
+	        return new WebDriverWait(driver, (timeout))
+	                .until(ExpectedConditions.elementToBeClickable(element));
+	    }
+	    
 	    public boolean compareText(WebElement el, String expected) {
 	        Assert.assertEquals(el.getText(), expected,
 	                "Expected: " + expected + " | Actual: " + el.getText());
@@ -89,17 +120,19 @@ public class WebCommonActions {
 
 	    public WebDriver launchBrowser() {
 	        if (driver == null) {
+
 	            WebDriverManager.chromedriver().setup();
+
 	            ChromeOptions options = new ChromeOptions();
-	            options.addArguments("start-maximized");
+	            options.addArguments("--start-maximized");
 	            options.addArguments("--disable-notifications");
-	            options.addArguments("--remote-allow-origins=*");
 	            driver = new ChromeDriver(options);
-	       
-	            
+
+	           
 	        }
 	        return driver;
 	    }
+
 	    
 	    public void enterText(WebElement ele,String name) 
 	    {
@@ -122,37 +155,63 @@ public class WebCommonActions {
 	    public void switchToChildWindow() {
 
 	        String parentWindow = driver.getWindowHandle();
+	        WebDriverWait wait = new WebDriverWait(driver, (30));
 
-	        WebDriverWait wait = new WebDriverWait(driver, 30);
+	        // Wait until a new window appears
+	        wait.until(d -> d.getWindowHandles().size() > 1);
 
-	        // 1️⃣ Wait until a new window appears
-	        wait.until(driver -> driver.getWindowHandles().size() > 1);
+	        // Identify child window
+	        String childWindow = driver.getWindowHandles()
+	                .stream()
+	                .filter(w -> !w.equals(parentWindow))
+	                .findFirst()
+	                .orElseThrow(() -> new RuntimeException("Child window not found"));
 
-	        // 2️⃣ Switch to child window
-	        for (String window : driver.getWindowHandles()) {
-	            if (!window.equals(parentWindow)) {
-	                driver.switchTo().window(window);
-	                break;
+	        // Switch to child window
+	        driver.switchTo().window(childWindow);
+
+	        //  Wait until URL is valid (not about:blank / redirecting)
+	        wait.until(d -> {
+	            String url = d.getCurrentUrl();
+	            return url != null
+	                    && !url.equalsIgnoreCase("about:blank")
+	                    && !url.trim().isEmpty();
+	        });
+
+	        // Wait for DOM ready (HTML loaded)
+	        wait.until(d ->
+	                "complete".equals(
+	                        ((JavascriptExecutor) d)
+	                                .executeScript("return document.readyState")
+	                                .toString()
+	                )
+	        );
+
+	        // Wait until body is attached (prevents "node not found")
+	        wait.until(d ->
+	                ((JavascriptExecutor) d)
+	                        .executeScript("return document.body != null")
+	                        .equals(true)
+	        );
+
+	        // wait for JS to finish (if jQuery present)
+	        wait.until(d -> {
+	            try {
+	                return (Boolean) ((JavascriptExecutor) d)
+	                        .executeScript(
+	                                "return window.jQuery ? jQuery.active === 0 : true"
+	                        );
+	            } catch (Exception e) {
+	                return true;
 	            }
-	        }
-
-	        // 3️⃣ Wait until page is NOT blank
-	        wait.until(driver ->
-	                !driver.getCurrentUrl().equals("about:blank")
-	        );
-
-	        // 4️⃣ Wait for DOM ready
-	        wait.until(driver ->
-	                ((JavascriptExecutor) driver)
-	                        .executeScript("return document.readyState")
-	                        .equals("complete")
-	        );
+	        });
 	    }
+
 
 	    
 	    public void locateElement(WebElement ele) 
 	    {
-	    	waitForElement(ele,10);
+	    	waitForElement(ele,5);
 	    	if(ele.isDisplayed()) {
 	    	JavascriptExecutor js = (JavascriptExecutor) driver;
 	        js.executeScript("arguments[0].style.border='3px solid red'; arguments[0].style.backgroundColor='yellow';", ele);
@@ -161,6 +220,25 @@ public class WebCommonActions {
 				throw new AssertionError(ele + "This element is not displayed");
 			}
 	    }
+	    
+	    public void clearText(WebElement ele) 
+	    {
+	    	ele.clear();
+	    }
+	    
+	    public String readValueFromJson(String jsonFilePath, String key)
+	            throws IOException, org.json.simple.parser.ParseException {
+
+	        JSONParser parser = new JSONParser();
+	        Object obj = parser.parse(new FileReader(jsonFilePath));
+
+	        JSONObject jsonObject = (JSONObject) obj; // ✅ correct cast
+
+	        Object value = jsonObject.get(key);
+	        return value == null ? null : String.valueOf(value);
+	    }
+
+
 	    
 	    
 

@@ -5,15 +5,16 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/features",
-    tags="@test",
+    tags = "@ecubePoShealth",
     glue = {"stepDefinitions","hooks","utilities","pageObjectsPages"},
-    		plugin = {
-    			    "pretty",
-    			    "html:target/cucumber-reports.html",
-    			    "json:target/cucumber.json",
-    			    "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
-    			},
+    plugin = {
+        "pretty",
+        "json:target/cucumber.json",
+        "rerun:target/failed_scenarios.txt",
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+    },
     monochrome = true
 )
-public class TestRunner extends AbstractTestNGCucumberTests  {
+public class TestRunner extends AbstractTestNGCucumberTests {
+    // TestNG runner for Cucumber
 }
