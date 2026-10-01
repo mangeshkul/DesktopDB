@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "src/test/resources/features",
-    tags = "@ecubePoShealth",
+    tags = "@ActivityPOS",
     glue = {"stepDefinitions","hooks","utilities","pageObjectsPages"},
     plugin = {
         "pretty",

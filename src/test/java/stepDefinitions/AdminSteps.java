@@ -69,7 +69,7 @@ public class AdminSteps {
 	    	// User can verify the report as per DB on WebAdmin portal 
 	    	admin.navigateToReportHeader(wait,reportHeader);
 	    	
-	    
+	     
 	    }
 	     
 	    @Then("user select the report list {string}")

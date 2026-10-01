@@ -113,26 +113,34 @@ public class ActivityPOSLocators {
     @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]")private
     WebElement subMemberPan;
     
-    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom//CheckBox")
-    private List<WebElement> subMemberCheckBoxes;
+    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom//CheckBox")private 
+    List<WebElement> subMemberCheckBoxes;
     
-    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom[contains(@ClassName,'UserBox')]")
-    private List<WebElement> memberContainers;
+    @FindBy(xpath = "//Pane[contains(@ClassName,'ScrollViewer')]//Custom[contains(@ClassName,'UserBox')]")private 
+    List<WebElement> memberContainers;
     
-    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")
-    private List<WebElement> memberCheckBoxes;
+    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")private
+    List<WebElement> memberCheckBoxes;
 
-    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")
-    private WebElement sonCheckBox;
+    @FindBy(xpath = "//CheckBox[@AutomationId='UserCheck']")private 
+    WebElement sonCheckBox;
 
-    @FindBy(xpath = "//Text[@AutomationId='txtMemberCode']")
-    private WebElement memberCodeText;
+    @FindBy(xpath = "//Text[@AutomationId='txtMemberCode']")private 
+    WebElement memberCodeText;
     
     @FindBy(xpath   = "//*[@AutomationId='HeaderText']")private
     WebElement headerEntryText;
     
-    @FindBy(className = "SubServiceButton")
-    private List<WebElement> serviceList;
+    @FindBy(className = "SubServiceButton")private 
+    List<WebElement> serviceList;
+    
+    @FindBy(name ="Movie")private
+    WebElement movieIcon;
+    
+    @FindBy(xpath = "//*[@ClassName='MovieBox']//RadioButton/following-sibling::Text[1]")private
+    List<WebElement> availableMovie;
+    
+    
 
 //    By.xpath("//*[@AutomationId='HeaderText']")
 
@@ -631,6 +639,12 @@ public class ActivityPOSLocators {
 
     
     
+    public void VerifyAndSelectMovie() 
+    {
+    	
+    	common.isElementDisplayed(movieIcon);
+    	common.click(movieIcon);
+    }
     
     public void selectActivityForUser() throws IOException {
 

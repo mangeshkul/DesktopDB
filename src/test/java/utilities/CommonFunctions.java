@@ -39,7 +39,8 @@ public class CommonFunctions {
 	            throw new IllegalStateException("❌ WindowsDriver is NULL");
 	        }
 	        this.driver = driver;
-	        this.wait = new WebDriverWait(driver, 15);}
+	        this.wait = new WebDriverWait(driver, 15);
+	        }
    
 	
 	  public WebElement waitForElement(WebElement element, int timeout) {

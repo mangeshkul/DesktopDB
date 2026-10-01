@@ -1,3 +1,4 @@
+@ResPOS
 Feature: Res POS Tests
 
   Scenario: Open Res POS and perform basic flow

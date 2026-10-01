@@ -16,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -120,6 +121,7 @@ public class WebCommonActions {
 
 	    public WebDriver launchBrowser() {
 	        if (driver == null) {
+	        	
 
 	            WebDriverManager.chromedriver().setup();
 
@@ -238,7 +240,11 @@ public class WebCommonActions {
 	        return value == null ? null : String.valueOf(value);
 	    }
 
-
+  public void softAssert() {
+	  SoftAssert  soft = new SoftAssert();
+	  soft.assertNotEquals(false, false);
+	  soft.assertAll();
+  }
 	    
 	    
 

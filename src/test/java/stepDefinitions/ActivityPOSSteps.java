@@ -35,7 +35,7 @@ public class ActivityPOSSteps {
     private AdminWeb admin;
     protected LoginPage loginPage;
     private WebDriverWait wait;
-    private Hooks hooks;
+    private Hooks hooks; 
 
     public ActivityPOSSteps() {
     	this.driver = DriverManager.getWindowsDriver();
@@ -138,6 +138,13 @@ public class ActivityPOSSteps {
     	// user select the required activity 
     	locators.selectActivityForUser();
     }  
+    
+    @Then("user click on movies icon")
+    public void user_click_on_movies_icon() throws IOException {
+    	// user select the required activity 
+    	locators.VerifyAndSelectMovie();
+    }  
+    
     
     @Then("user select and verify the services as per the activity selection")
     public void user_select_the_services_for_the_activity() throws IOException {
